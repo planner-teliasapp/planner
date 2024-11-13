@@ -32,11 +32,11 @@ export default function EntrarPage() {
   }
 
   return (
-    <div className='max-w-sm mx-auto space-y-8 flex flex-col w-full h-full justify-center items-center relative'>
-      <div className='flex flex-col justify-start items-start w-full'>
+    <div className='max-w-sm mx-auto space-y-8 flex flex-col w-full h-[80%] sm:h-full justify-center items-center relative'>
+      <div className='flex flex-col justify-start items-center sm:items-start w-full'>
         <h1 className='text-2xl font-bold'>Bem vindo ao Planner</h1>
         <p className='text-muted-foreground mt-2'>Selecione uma forma de entrar</p>
-        <div className='mt-4 flex flex-col w-full max-w-[244px] gap-2 mx-auto'>
+        <div className='mt-4 flex flex-col w-full sm:max-w-[244px] gap-2 mx-auto'>
           <GoogleButton />
           <GitHubButton />
         </div>

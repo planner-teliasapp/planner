@@ -14,14 +14,14 @@ export default function TarefasPage() {
     <TasksProvider>
       <div className='py-4 max-w-screen-xl mx-auto'>
         <H1>Gerenciador de Tarefas</H1>
-        <div className='grid grid-cols-8 gap-4 pt-6'>
-          <div className='col-span-2 flex flex-col gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-8 gap-4 pt-6'>
+          <div className='sm:col-span-2 flex flex-col gap-4'>
             <TaskProgressCard tasks={tasks} header='Progresso Geral' />
-            <div className='flex-1 bg-primary rounded-xl'></div>
+            <div className='hidden sm:block flex-1 bg-primary rounded-xl'></div>
           </div>
-          <TaskSection tasks={tasks} className="col-span-2" header='Para Hoje' hideAddButton maxItems={4} />
-          <TaskListSection lists={lists} className="col-span-2" />
-          <TaskSection tasks={tasks} className="col-span-8" />
+          <TaskSection tasks={tasks} className="sm:col-span-2" header='Para Hoje' hideAddButton maxItems={4} />
+          <TaskListSection lists={lists} className="sm:col-span-2" />
+          <TaskSection tasks={tasks} className="sm:col-span-8" />
         </div>
       </div>
     </TasksProvider>

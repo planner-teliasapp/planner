@@ -11,7 +11,7 @@ export default async function PublicLayout({ children }: PropsWithChildren) {
 
   return (
     <main className='flex flex-row max-w-screen-2xl w-full h-screen p-10'>
-      <div className='w-3/5 relative rounded-2xl'>
+      <div className='hidden sm:block w-3/5 relative rounded-2xl'>
         <Image
           src="/background/entrar-bg-image.webp"
           layout='fill'

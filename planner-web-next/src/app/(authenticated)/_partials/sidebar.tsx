@@ -11,9 +11,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 const items = [
   {
@@ -29,7 +30,14 @@ const items = [
 ]
 
 export default function AppSidebar() {
+  const { setOpenMobile } = useSidebar()
   const pathname = usePathname()
+  const router = useRouter()
+
+  function handleMenuClick(url: string) {
+    setOpenMobile(false)
+    router.push(url)
+  }
 
   return (
     <Sidebar collapsible='icon'>
@@ -40,11 +48,15 @@ export default function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname.startsWith(item.url)}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
+                  <SidebarMenuButton
+                    isActive={pathname.startsWith(item.url)}
+                    onClick={() => handleMenuClick(item.url)}
+                    className="py-6"
+                  >
+                    {/* <Link href={item.url}> */}
+                    <item.icon />
+                    <span className="text-base">{item.title}</span>
+                    {/* </Link> */}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
