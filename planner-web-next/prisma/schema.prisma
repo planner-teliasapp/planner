@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id     String     @id @default(cuid())
+  title  String
+  status TaskStatus @default(PENDING)
+  userId String     @map("user_id")
+
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  TaskList    TaskList? @relation(fields: [taskListId], references: [id], onUpdate: NoAction, onDelete: SetNull)
+  taskListId  String?   @map("task_list_id")
+
+  @@index([userId])
+  @@map("tasks")
+}
+
+enum TaskStatus {
+  PENDING
+  DONE
+  IN_PROGRESS
+  PAUSED
+  CANCELED
+}
+
+model TaskList {
+  id     String @id @default(cuid())
+  title  String
+  userId String @map("user_id")
+  Tasks  Task[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("task_lists")
+}
