@@ -1,6 +1,6 @@
 "use client"
 
-import { HouseIcon, ListChecksIcon } from "lucide-react"
+import { HouseIcon, ListChecksIcon, WalletIcon } from "lucide-react"
 
 import {
   Sidebar,
@@ -27,6 +27,11 @@ const items = [
     url: "/tarefas",
     icon: ListChecksIcon,
   },
+  {
+    title: "Orçamentos",
+    url: "/orcamentos",
+    icon: WalletIcon,
+  }
 ]
 
 export default function AppSidebar() {
