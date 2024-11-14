@@ -43,3 +43,61 @@ model TaskList {
   @@index([userId])
   @@map("task_lists")
 }
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  INVESTMENT
+  PENSION
+  WALLET
+}
+
+enum PaymentMethod {
+  DEBIT
+  CREDIT
+  PIX
+  TRANSFER
+}
+
+enum TransactionFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+model Transaction {
+  id                     String          @id @default(cuid())
+  userId                 String          @map("user_id")
+  description            String
+  amount                 Decimal         @db.Decimal(10, 2)
+  date                   DateTime
+  type                   TransactionType
+  paymentMethod          PaymentMethod   @map("payment_method")
+  recurringTransactionId String?         @map("recurring_transaction_id")
+
+  RecurringTransaction RecurringTransaction? @relation(fields: [recurringTransactionId], references: [id])
+
+  @@index([userId, recurringTransactionId, date])
+  @@map("transactions")
+}
+
+model RecurringTransaction {
+  id                  String               @id @default(cuid())
+  userId              String               @map("user_id")
+  description         String
+  referenceValue      Decimal              @map("reference_value") @db.Decimal(10, 2)
+  expectedDayOfMonth  Int?                 @map("expected_day_of_month")
+  expectedDayOfWeek   Int?                 @map("expected_day_of_week")
+  expectedMonthOfYear Int?                 @map("expected_month_of_year")
+  type                TransactionType
+  paymentMethod       PaymentMethod        @map("payment_method")
+  frequency           TransactionFrequency
+  startDate           DateTime             @map("start_date")
+  endDate             DateTime?            @map("end_date")
+
+  Transactions Transaction[]
+
+  @@index([userId, frequency, startDate, endDate])
+  @@map("recurring_transactions")
+}
