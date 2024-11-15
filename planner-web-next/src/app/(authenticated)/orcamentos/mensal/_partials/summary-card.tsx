@@ -13,24 +13,24 @@ import { ClassNameValue } from "tailwind-merge"
 
 interface Props {
   title: string
-  amount: number
+  amount?: number | undefined | null
   Icon?: LucideIcon
   useSecondaryBackground?: boolean
   amountTextClassName?: ClassNameValue
   className?: ClassNameValue
 }
 
-export default function SummaryCard({ title, amount, Icon, useSecondaryBackground, className, amountTextClassName }: Props) {
+export default function SummaryCard({ title, amount = 0, Icon, useSecondaryBackground, className, amountTextClassName }: Props) {
   const [progress, setProgress] = useState({
     previous: 0,
     current: 0
   })
 
   useEffect(() => {
-    setProgress(value => {
+    setProgress(curr => {
       return {
-        previous: value.current,
-        current: amount
+        previous: curr.current,
+        current: amount || 0
       }
     })
   }, [amount])
