@@ -11,6 +11,9 @@ import { cn } from "@/lib/utils"
 import { ClassNameValue } from "tailwind-merge"
 import TransactionSummaryItem from "./transactions-summary-item"
 import { Transaction } from "@/models/transaction"
+import { Button } from "@/components/ui/button"
+import { ExternalLinkIcon } from "lucide-react"
+import Link from "next/link"
 
 interface Props {
   transactions?: Transaction[]
@@ -20,8 +23,11 @@ interface Props {
 export default function TransactionSummary({ transactions = [], className }: Props) {
   return (
     <Card className={cn("h-full flex flex-col", className)}>
-      <CardHeader>
+      <CardHeader className="flex flex-row justify-between items-baseline">
         <CardTitle>Transações</CardTitle>
+        <Link href="/orcamentos/mensal/transacoes">
+          <ExternalLinkIcon />
+        </Link>
       </CardHeader>
       <CardContent className="flex-1">
         <ScrollArea className="h-[560px]">
