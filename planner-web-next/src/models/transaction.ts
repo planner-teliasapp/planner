@@ -61,9 +61,26 @@ export class Transaction implements ITransaction {
     })
   }
 
-  static fromStringArray(data: string): Transaction[] {
+  static fromString(data: string): Transaction {
+    const parsedData = JSON.parse(data) as ITransaction
+    return new Transaction(parsedData)
+  }
+
+  static fromStringArray(data: string, options?: { orderByData?: boolean }): Transaction[] {
     const parsedData = JSON.parse(data) as ITransaction[]
-    return parsedData.map(transaction => new Transaction(transaction))
+    const transactions = parsedData.map(transaction => new Transaction(transaction))
+
+    return transactions
+  }
+
+  static orderByDate(transactions: Transaction[], asc?: boolean): Transaction[] {
+    return transactions.sort((a, b) => {
+      if (asc) {
+        return new Date(a.date).getTime() - new Date(b.date).getTime()
+      }
+
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    })
   }
 
   static getSummary(transactions: Transaction[]): ITransactionSummary {
@@ -101,4 +118,12 @@ export class RecurringTransaction implements RecurringTransaction {
   constructor(data: RecurringTransaction) {
     Object.assign(this, data)
   }
+}
+
+export interface CreateTransactionDto {
+  description: string
+  amount: number
+  date: Date
+  type: TransactionType
+  paymentMethod: PaymentMethod
 }
