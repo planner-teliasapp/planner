@@ -22,8 +22,6 @@ import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useBudgets } from "@/hooks/use-budgets"
-import { useToast } from "@/hooks/use-toast"
 import { CreateTransactionDto } from "@/models/transaction"
 
 const formSchema = z.object({
@@ -60,26 +58,8 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
     },
   })
 
-  // const { createTransaction, isCreatingTransaction } = useBudgets()
-  // const { toast } = useToast()
-
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
     onSubmit && onSubmit(values)
-
-    // try {
-    //   await createTransaction(values)
-    //   toast({
-    //     title: "Transação registrada",
-    //     description: "A transação foi registrada com sucesso",
-    //   })
-    //   onSuccessfulSubmit && onSuccessfulSubmit()
-    // } catch (error) {
-    //   const { message } = error as Error
-    //   toast({
-    //     title: "Erro ao registrar transação",
-    //     description: message,
-    //   })
-    // }
   }
 
   return (

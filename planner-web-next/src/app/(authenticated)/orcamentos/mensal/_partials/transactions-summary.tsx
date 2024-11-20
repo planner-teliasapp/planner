@@ -11,11 +11,9 @@ import { cn } from "@/lib/utils"
 import { ClassNameValue } from "tailwind-merge"
 import TransactionSummaryItem from "./transactions-summary-item"
 import { Transaction } from "@/models/transaction"
-import { Button } from "@/components/ui/button"
 import { ExternalLinkIcon } from "lucide-react"
 import Link from "next/link"
 import TransactionSummaryItemSkeleton from "./transactions-summary-item-skeleton"
-import CreateTransactionButton from "../../_partials/create-transaction-button"
 
 interface Props {
   transactions?: Transaction[]

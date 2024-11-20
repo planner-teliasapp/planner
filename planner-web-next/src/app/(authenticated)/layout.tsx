@@ -5,7 +5,6 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import AppSidebar from "./_partials/sidebar"
 import AppHeader from "./_partials/header"
 
-
 export default async function AuthenticatedLayout({ children }: PropsWithChildren) {
   const { isAuthenticated } = getKindeServerSession()
   const isLoggedIn = await isAuthenticated()

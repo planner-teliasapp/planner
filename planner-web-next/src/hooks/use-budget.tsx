@@ -2,7 +2,6 @@ import { createTransactionsAction, deleteTransactionAction, getTransactionsActio
 import { CreateTransactionDto, ITransactionSummary, Transaction } from "@/models/transaction"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { da } from "date-fns/locale"
 
 interface Props {
   month: number

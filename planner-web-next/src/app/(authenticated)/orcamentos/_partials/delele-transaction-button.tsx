@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { useBudget } from "@/hooks/use-budget"
-import { useBudgets } from "@/hooks/use-budgets"
 import { useToast } from "@/hooks/use-toast"
 import { validatedMonth, validatedYear } from "@/lib/utils"
 import { Trash2Icon } from "lucide-react"
@@ -20,7 +19,7 @@ export default function DeleteTransactionButton({ transactionId, className }: Pr
   const year = validatedYear(searchParams.get("ano")) || new Date().getFullYear()
   const month = validatedMonth(searchParams.get("mes")) || new Date().getMonth() + 1
 
-  const { deleteTransaction, isDeletingTransaction } = useBudget({
+  const { deleteTransaction } = useBudget({
     year,
     month
   })

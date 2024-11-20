@@ -16,10 +16,8 @@ interface Props {
 }
 
 export default function OrcamentoMensalPage({ searchParams }: Props) {
-
   const year = validatedYear(searchParams.ano) || new Date().getFullYear()
   const month = validatedMonth(searchParams.mes) || new Date().getMonth() + 1
-
   const { transactions, isLoadingTransactions } = useBudget({ year, month })
 
   return (

@@ -47,6 +47,5 @@ export default function CreateTransactionButton({ onSubmit, isLoading }: Props) 
         <CreateTransactionForm onSubmit={handleSubmit} isLoading={isLoading} />
       </SheetContent>
     </Sheet>
-
   )
 }

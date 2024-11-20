@@ -2,7 +2,6 @@ import { DollarSignIcon } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function TransactionSummaryItemSkeleton() {
-
   return (
     <li className="w-full flex justify-between items-center">
       <div className="flex justify-start items-center gap-4">
