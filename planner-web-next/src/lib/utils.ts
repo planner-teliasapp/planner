@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function validatedYear(year: number | string | undefined): number | null {
+export function validatedYear(year: number | string | undefined | null): number | null {
   const parsedYear = Number(year)
   if (isNaN(parsedYear)) {
     return null
@@ -16,7 +16,7 @@ export function validatedYear(year: number | string | undefined): number | null 
   return parsedYear
 }
 
-export function validatedMonth(month: number | string | undefined): number | null {
+export function validatedMonth(month: number | string | undefined | null): number | null {
   const parsedMonth = Number(month)
   if (isNaN(parsedMonth)) {
     return null

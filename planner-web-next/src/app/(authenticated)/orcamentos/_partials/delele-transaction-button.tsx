@@ -1,10 +1,13 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useBudget } from "@/hooks/use-budget"
 import { useBudgets } from "@/hooks/use-budgets"
 import { useToast } from "@/hooks/use-toast"
+import { validatedMonth, validatedYear } from "@/lib/utils"
 import { Trash2Icon } from "lucide-react"
 import { ClassNameValue } from "tailwind-merge"
+import { useSearchParams } from "next/navigation"
 
 interface Props {
   transactionId: string
@@ -12,8 +15,15 @@ interface Props {
 }
 
 export default function DeleteTransactionButton({ transactionId, className }: Props) {
+  const searchParams = useSearchParams()
 
-  const { deleteTransaction, isDeletingTransaction } = useBudgets()
+  const year = validatedYear(searchParams.get("ano")) || new Date().getFullYear()
+  const month = validatedMonth(searchParams.get("mes")) || new Date().getMonth() + 1
+
+  const { deleteTransaction, isDeletingTransaction } = useBudget({
+    year,
+    month
+  })
   const { toast } = useToast()
 
   async function handleDelete() {

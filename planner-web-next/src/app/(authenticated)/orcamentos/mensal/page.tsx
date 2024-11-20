@@ -6,21 +6,21 @@ import SummaryCard from "./_partials/summary-card"
 import { DollarSignIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
 import SummaryChart from "./_partials/summary-chart"
 import TransactionSummary from "./_partials/transactions-summary"
-import { useBudgets } from "@/hooks/use-budgets"
+import { useBudget } from "@/hooks/use-budget"
 
 interface Props {
   searchParams: {
-    year?: string
-    month?: string
+    ano?: string
+    mes?: string
   }
 }
 
 export default function OrcamentoMensalPage({ searchParams }: Props) {
 
-  const year = validatedYear(searchParams.year) || new Date().getFullYear()
-  const month = validatedMonth(searchParams.month) || new Date().getMonth() + 1
+  const year = validatedYear(searchParams.ano) || new Date().getFullYear()
+  const month = validatedMonth(searchParams.mes) || new Date().getMonth() + 1
 
-  const { transactions } = useBudgets()
+  const { transactions } = useBudget({ year, month })
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>

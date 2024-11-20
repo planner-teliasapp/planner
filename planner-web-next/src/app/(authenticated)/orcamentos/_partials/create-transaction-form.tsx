@@ -24,6 +24,7 @@ import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useBudgets } from "@/hooks/use-budgets"
 import { useToast } from "@/hooks/use-toast"
+import { CreateTransactionDto } from "@/models/transaction"
 
 const formSchema = z.object({
   description: z.string().min(2).max(50),
@@ -43,10 +44,11 @@ const formSchema = z.object({
 })
 
 interface Props {
-  onSuccessfulSubmit?: () => void
+  onSubmit?: (data: CreateTransactionDto) => void
+  isLoading?: boolean
 }
 
-export default function CreateTransactionForm({ onSuccessfulSubmit }: Props) {
+export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,29 +60,31 @@ export default function CreateTransactionForm({ onSuccessfulSubmit }: Props) {
     },
   })
 
-  const { createTransaction, isCreatingTransaction } = useBudgets()
-  const { toast } = useToast()
+  // const { createTransaction, isCreatingTransaction } = useBudgets()
+  // const { toast } = useToast()
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      await createTransaction(values)
-      toast({
-        title: "Transação registrada",
-        description: "A transação foi registrada com sucesso",
-      })
-      onSuccessfulSubmit && onSuccessfulSubmit()
-    } catch (error) {
-      const { message } = error as Error
-      toast({
-        title: "Erro ao registrar transação",
-        description: message,
-      })
-    }
+  async function onFormSubmit(values: z.infer<typeof formSchema>) {
+    onSubmit && onSubmit(values)
+
+    // try {
+    //   await createTransaction(values)
+    //   toast({
+    //     title: "Transação registrada",
+    //     description: "A transação foi registrada com sucesso",
+    //   })
+    //   onSuccessfulSubmit && onSuccessfulSubmit()
+    // } catch (error) {
+    //   const { message } = error as Error
+    //   toast({
+    //     title: "Erro ao registrar transação",
+    //     description: message,
+    //   })
+    // }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onFormSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="description"
@@ -198,7 +202,7 @@ export default function CreateTransactionForm({ onSuccessfulSubmit }: Props) {
           )}
         />
 
-        <Button className="w-full" type="submit" isLoading={isCreatingTransaction}>Adicionar</Button>
+        <Button className="w-full" type="submit" isLoading={isLoading}>Adicionar</Button>
       </form>
     </Form>
   )

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -12,10 +11,26 @@ import {
 import { PlusIcon } from "lucide-react"
 import CreateTransactionForm from "./create-transaction-form"
 import { useState } from "react"
+import { CreateTransactionDto } from "@/models/transaction"
 
+interface Props {
+  onSubmit: (data: CreateTransactionDto) => void
+  isLoading?: boolean
+}
 
-export default function CreateTransactionButton() {
+export default function CreateTransactionButton({ onSubmit, isLoading }: Props) {
   const [isOpen, setIsOpen] = useState(false)
+
+  async function handleSubmit(data: CreateTransactionDto) {
+    if (onSubmit) {
+      try {
+        await onSubmit(data)
+        setIsOpen(false)
+      } catch (error) {
+
+      }
+    }
+  }
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -29,7 +44,7 @@ export default function CreateTransactionButton() {
         <SheetHeader>
           <SheetTitle>Adicionar nova transação</SheetTitle>
         </SheetHeader>
-        <CreateTransactionForm onSuccessfulSubmit={() => setIsOpen(false)} />
+        <CreateTransactionForm onSubmit={handleSubmit} isLoading={isLoading} />
       </SheetContent>
     </Sheet>
 
