@@ -1,3 +1,4 @@
+import { deleteTransactionAction } from "@/actions/budgets"
 import { createTransactionsAction } from "@/actions/budgets/create-transaction"
 import { getTransactionsAction } from "@/actions/budgets/get-transactions"
 import { CreateTransactionDto, ITransactionSummary, Transaction } from "@/models/transaction"
@@ -45,14 +46,36 @@ export const useBudgets = () => {
     }
   })
 
+  const { mutateAsync: deleteTransaction, isPending: isDeletingTransaction } = useMutation({
+    mutationKey: ["deleteTransaction"],
+    mutationFn: async (transactionId: string) => {
+
+      await deleteTransactionAction(transactionId)
+
+      queryClient.setQueryData(["transactions"], (data: { items: Transaction[]; summary: ITransactionSummary }) => {
+        return {
+          items: Transaction.orderByDate(removeDeletedTransactionFromTransactions(data.items, transactionId)),
+          summary: Transaction.getSummary(removeDeletedTransactionFromTransactions(data.items, transactionId))
+        }
+      })
+
+    }
+  })
+
   return {
     transactions,
     isLoadingTransactions,
     createTransaction,
-    isCreatingTransaction
+    isCreatingTransaction,
+    deleteTransaction,
+    isDeletingTransaction
   }
 }
 
 function addCreatedTransactionToTransactions(transactions: Transaction[], transaction: Transaction): Transaction[] {
   return [...transactions, transaction]
+}
+
+function removeDeletedTransactionFromTransactions(transactions: Transaction[], transactionId: string): Transaction[] {
+  return transactions.filter(transaction => transaction.id !== transactionId)
 }
