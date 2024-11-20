@@ -19,7 +19,7 @@ export default function OrcamentoMensalTransacoesPage({ searchParams }: Props) {
   const year = validatedYear(searchParams.ano) || new Date().getFullYear()
   const month = validatedMonth(searchParams.mes) || new Date().getMonth() + 1
 
-  const { transactions, createTransaction, isCreatingTransaction } = useBudget({ year, month })
+  const { transactions, isLoadingTransactions, createTransaction, isCreatingTransaction } = useBudget({ year, month })
   const { toast } = useToast()
 
   async function onSubmit(data: CreateTransactionDto) {
@@ -48,7 +48,7 @@ export default function OrcamentoMensalTransacoesPage({ searchParams }: Props) {
         <CreateTransactionButton onSubmit={onSubmit} isLoading={isCreatingTransaction} />
       </div>
       <div className='pt-6'>
-        <TransactionsTable transactions={transactions?.items} />
+        <TransactionsTable transactions={transactions?.items} isLoading={isLoadingTransactions} />
       </div>
     </div>
   )

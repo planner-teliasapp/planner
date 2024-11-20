@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -17,22 +16,23 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { useMemo } from "react"
-import { TrendingUp } from "lucide-react"
 import { ClassNameValue } from "tailwind-merge"
 import { cn, convertIntToMonth } from "@/lib/utils"
 import { ITransactionSummary } from "@/models/transaction"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Props {
   summary?: ITransactionSummary
   year: number
   month: number
+  isLoading?: boolean
   className?: ClassNameValue
 }
 
-export default function SummaryChart({ summary, year, month, className }: Props) {
+export default function SummaryChart({ summary, year, month, className, isLoading }: Props) {
 
   const chartData = [
+    { label: "balance", value: summary?.balance, fill: "var(--color-balance)" },
     { label: "expenses", value: summary?.expense, fill: "var(--color-expenses)" },
     { label: "investments", value: summary?.invested, fill: "var(--color-investments)" },
     { label: "wallets", value: summary?.wallet, fill: "var(--color-wallets)" }
@@ -53,7 +53,12 @@ export default function SummaryChart({ summary, year, month, className }: Props)
     wallets: {
       label: "Caixinhas",
       color: "hsl(var(--chart-3))",
+    },
+    balance: {
+      label: "Saldo",
+      color: "hsl(var(--chart-4))",
     }
+
   } satisfies ChartConfig
 
   return (
@@ -62,55 +67,59 @@ export default function SummaryChart({ summary, year, month, className }: Props)
         <CardTitle>Orçamento Mensal</CardTitle>
         <CardDescription>{convertIntToMonth(month)} de {year}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="value"
-              nameKey="label"
-              innerRadius={60}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
+      <CardContent className="flex-1 pb-0 justify-center items-center">
+        {isLoading ? (
+          <Skeleton className="mx-auto aspect-square max-h-[250px] mt-4" />
+        ) : (
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[250px]"
+          >
+            <PieChart>
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="label"
+                innerRadius={60}
+                strokeWidth={5}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-2xl font-bold"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          {summary?.income.toFixed(2)}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Receitas
-                        </tspan>
-                      </text>
-                    )
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-foreground text-2xl font-bold"
+                          >
+                            {summary?.income.toFixed(2)}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            Receitas
+                          </tspan>
+                        </text>
+                      )
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   )

@@ -14,13 +14,16 @@ import { Transaction } from "@/models/transaction"
 import { Button } from "@/components/ui/button"
 import { ExternalLinkIcon } from "lucide-react"
 import Link from "next/link"
+import TransactionSummaryItemSkeleton from "./transactions-summary-item-skeleton"
+import CreateTransactionButton from "../../_partials/create-transaction-button"
 
 interface Props {
   transactions?: Transaction[]
+  isLoading?: boolean
   className?: ClassNameValue
 }
 
-export default function TransactionSummary({ transactions = [], className }: Props) {
+export default function TransactionSummary({ transactions = [], className, isLoading }: Props) {
   return (
     <Card className={cn("h-full flex flex-col", className)}>
       <CardHeader className="flex flex-row justify-between items-baseline">
@@ -30,14 +33,29 @@ export default function TransactionSummary({ transactions = [], className }: Pro
         </Link>
       </CardHeader>
       <CardContent className="flex-1">
-        <ScrollArea className="h-[560px]">
+        {isLoading ? (
           <ul className="w-full flex flex-col gap-2 sm:gap-4 pr-4">
-            {transactions.map((transaction) => (
-              <TransactionSummaryItem key={transaction.id} transaction={transaction} />
-            ))}
-
+            <TransactionSummaryItemSkeleton />
+            <TransactionSummaryItemSkeleton />
+            <TransactionSummaryItemSkeleton />
+            <TransactionSummaryItemSkeleton />
+            <TransactionSummaryItemSkeleton />
           </ul>
-        </ScrollArea>
+        ) : (
+          <ScrollArea className="h-[560px]">
+            {transactions.length == 0 ? (
+              <div className="flex flex-col items-center justify-center h-full">
+                <p className="text-muted-foreground">Nenhuma transação registrada.</p>
+              </div>
+            ) : (
+              <ul className="w-full flex flex-col gap-2 sm:gap-4 pr-4">
+                {transactions.map((transaction) => (
+                  <TransactionSummaryItem key={transaction.id} transaction={transaction} />
+                ))}
+              </ul>
+            )}
+          </ScrollArea>
+        )}
       </CardContent>
     </Card>
   )
