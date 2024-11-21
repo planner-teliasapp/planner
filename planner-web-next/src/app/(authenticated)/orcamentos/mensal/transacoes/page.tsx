@@ -7,6 +7,9 @@ import CreateTransactionButton from "../../_partials/create-transaction-button"
 import { useBudget } from "@/hooks/use-budget"
 import { CreateTransactionDto } from "@/models/transaction"
 import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { ChevronLeftIcon } from "lucide-react"
 
 interface Props {
   searchParams: {
@@ -21,6 +24,7 @@ export default function OrcamentoMensalTransacoesPage({ searchParams }: Props) {
 
   const { transactions, isLoadingTransactions, createTransaction, isCreatingTransaction } = useBudget({ year, month })
   const { toast } = useToast()
+  const router = useRouter()
 
   async function onSubmit(data: CreateTransactionDto) {
     try {
@@ -44,7 +48,10 @@ export default function OrcamentoMensalTransacoesPage({ searchParams }: Props) {
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
-        <H1 className="text-center sm:text-start w-full">Transações de {convertIntToMonth(month)} de {year}</H1>
+        <div className="w-full flex justify-start items-center sm:gap-2">
+          <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
+          <H1 className="text-start w-full">Transações de {convertIntToMonth(month)} de {year}</H1>
+        </div>
         <CreateTransactionButton onSubmit={onSubmit} isLoading={isCreatingTransaction} />
       </div>
       <div className='pt-6'>

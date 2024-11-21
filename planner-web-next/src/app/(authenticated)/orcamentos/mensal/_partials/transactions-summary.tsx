@@ -17,16 +17,17 @@ import TransactionSummaryItemSkeleton from "./transactions-summary-item-skeleton
 
 interface Props {
   transactions?: Transaction[]
+  searchParams: string
   isLoading?: boolean
   className?: ClassNameValue
 }
 
-export default function TransactionSummary({ transactions = [], className, isLoading }: Props) {
+export default function TransactionSummary({ transactions = [], searchParams, className, isLoading }: Props) {
   return (
     <Card className={cn("h-full flex flex-col", className)}>
       <CardHeader className="flex flex-row justify-between items-baseline">
         <CardTitle>Transações</CardTitle>
-        <Link href="/orcamentos/mensal/transacoes">
+        <Link href={`/orcamentos/mensal/transacoes${searchParams}`}>
           <ExternalLinkIcon />
         </Link>
       </CardHeader>
