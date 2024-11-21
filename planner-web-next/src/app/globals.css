@@ -35,6 +35,7 @@ body {
     --chart-3: 197 37% 24%; /* #5E7C8D */
     --chart-4: 43 74% 66%; /* #FF9B4F */
     --chart-5: 27 87% 67%; /* #FF6F32 */
+    --chart-6: 220 70% 50%; /* #5A92FF */
     --sidebar-background: 0 0% 98%; /* #F7F7F7 */
     --sidebar-foreground: 240 5.3% 26.1%; /* #4A4A66 */
     --sidebar-primary: 240 5.9% 10%; /* #1A1A1A */
@@ -65,11 +66,11 @@ body {
     --border: 240 3.7% 15.9%; /* #262C38 */
     --input: 240 3.7% 15.9%; /* #262C38 */
     --ring: 142.4 71.8% 29.2%; /* #6D9D35 */
-    --chart-1: 220 70% 50%; /* #5A92FF */
-    --chart-2: 160 60% 45%; /* #5A9A72 */
-    --chart-3: 30 80% 55%; /* #D77C3E */
-    --chart-4: 280 65% 60%; /* #9E6CBF */
-    --chart-5: 340 75% 55%; /* #F362A3 */
+    /* --chart-1: 220 70% 50%; #5A92FF */
+    /* --chart-2: 160 60% 45%; #5A9A72 */
+    /* --chart-3: 30 80% 55%; #D77C3E */
+    /* --chart-4: 280 65% 60%; #9E6CBF */
+    /* --chart-5: 340 75% 55%; #F362A3 */
     --sidebar-background: 240 5.9% 10%; /* #1A1A1A */
     --sidebar-foreground: 240 4.8% 95.9%; /* #D9D9E2 */
     --sidebar-primary: 224.3 76.3% 48%; /* #4D8FB0 */

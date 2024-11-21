@@ -16,13 +16,14 @@ interface Props {
   title: string
   amount?: number | undefined | null
   Icon?: LucideIcon
+  iconClassName?: ClassNameValue
   useSecondaryBackground?: boolean
   amountTextClassName?: ClassNameValue
   isLoading?: boolean
   className?: ClassNameValue
 }
 
-export default function SummaryCard({ title, amount = 0, Icon, useSecondaryBackground, className, amountTextClassName, isLoading }: Props) {
+export default function SummaryCard({ title, amount = 0, Icon, useSecondaryBackground, className, amountTextClassName, iconClassName, isLoading }: Props) {
   const [progress, setProgress] = useState({
     previous: 0,
     current: 0
@@ -42,7 +43,7 @@ export default function SummaryCard({ title, amount = 0, Icon, useSecondaryBackg
       <CardHeader className="flex flex-row justify-start items-center gap-4 pb-2">
         {Icon && (
           <div className="bg-muted p-2 rounded-md">
-            <Icon size={24} />
+            <Icon size={24} className={cn("", iconClassName)} />
           </div>
         )}
         <h2 className="text-muted-foreground text-sm">{title}</h2>

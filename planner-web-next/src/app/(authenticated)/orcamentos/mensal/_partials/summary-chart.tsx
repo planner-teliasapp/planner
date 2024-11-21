@@ -15,9 +15,12 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent
 } from "@/components/ui/chart"
+
 import { ClassNameValue } from "tailwind-merge"
-import { cn, convertIntToMonth } from "@/lib/utils"
+import { cn, convertIntToMonth, formatCurrency } from "@/lib/utils"
 import { ITransactionSummary } from "@/models/transaction"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -44,19 +47,19 @@ export default function SummaryChart({ summary, year, month, className, isLoadin
     },
     expenses: {
       label: "Despesas",
-      color: "hsl(var(--chart-1))",
+      color: "hsl(var(--destructive))",
     },
     investments: {
       label: "Investimentos",
-      color: "hsl(var(--chart-2))",
+      color: "hsl(var(--chart-6))",
     },
     wallets: {
       label: "Caixinhas",
-      color: "hsl(var(--chart-3))",
+      color: "hsl(var(--chart-4))",
     },
     balance: {
       label: "Saldo",
-      color: "hsl(var(--chart-4))",
+      color: "hsl(var(--muted-foreground))",
     }
 
   } satisfies ChartConfig
@@ -80,6 +83,7 @@ export default function SummaryChart({ summary, year, month, className, isLoadin
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
+              <ChartLegend content={<ChartLegendContent />} />
               <Pie
                 data={chartData}
                 dataKey="value"
@@ -100,9 +104,9 @@ export default function SummaryChart({ summary, year, month, className, isLoadin
                           <tspan
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className="fill-foreground text-2xl font-bold"
+                            className="fill-foreground text-xl font-bold"
                           >
-                            {summary?.income.toFixed(2)}
+                            {formatCurrency(summary?.income)}
                           </tspan>
                           <tspan
                             x={viewBox.cx}
