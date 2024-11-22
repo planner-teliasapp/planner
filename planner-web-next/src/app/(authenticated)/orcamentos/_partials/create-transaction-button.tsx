@@ -12,13 +12,16 @@ import { PlusIcon } from "lucide-react"
 import CreateTransactionForm from "./create-transaction-form"
 import { useState } from "react"
 import { CreateTransactionDto } from "@/models/transaction"
+import { ClassNameValue } from "tailwind-merge"
+import { cn } from "@/lib/utils"
 
 interface Props {
   onSubmit: (data: CreateTransactionDto) => void
   isLoading?: boolean
+  className?: ClassNameValue
 }
 
-export default function CreateTransactionButton({ onSubmit, isLoading }: Props) {
+export default function CreateTransactionButton({ onSubmit, isLoading, className }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   async function handleSubmit(data: CreateTransactionDto) {
@@ -35,7 +38,7 @@ export default function CreateTransactionButton({ onSubmit, isLoading }: Props) 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button className="w-full sm:w-fit">
+        <Button className={cn("w-full sm:w-fit", className)}>
           <span>Adicionar</span>
           <PlusIcon />
         </Button>

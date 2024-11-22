@@ -41,7 +41,7 @@ export default function TransactionSummary({ transactions = [], searchParams, cl
             <TransactionSummaryItemSkeleton />
           </ul>
         ) : (
-          <ScrollArea className="h-[560px]">
+          <ScrollArea className="h-[520px]">
             {transactions.length == 0 ? (
               <div className="flex flex-col items-center justify-center h-full">
                 <p className="text-muted-foreground">Nenhuma transação registrada.</p>
