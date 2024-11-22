@@ -3,7 +3,7 @@
 import { H1 } from "@/components/ui/typography"
 import { convertIntToMonth, validatedMonth, validatedYear } from "@/lib/utils"
 import SummaryCard from "./_partials/summary-card"
-import { ChevronLeftIcon, DollarSignIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
+import { ChevronLeftIcon, CreditCardIcon, DollarSignIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
 import SummaryChart from "./_partials/summary-chart"
 import TransactionSummary from "./_partials/transactions-summary"
 import { useBudget } from "@/hooks/use-budget"
@@ -37,7 +37,9 @@ export default function OrcamentoMensalPage({ searchParams }: Props) {
         <SummaryCard title="Investido" amount={transactions?.summary.invested} className="sm:col-span-2" Icon={PiggyBankIcon} iconClassName="text-chart-6" useSecondaryBackground isLoading={isLoadingTransactions} />
         <SummaryCard title="Caixinhas" amount={transactions?.summary.wallet} className="sm:col-span-2" Icon={WalletIcon} iconClassName="text-chart-4" useSecondaryBackground isLoading={isLoadingTransactions} />
         <SummaryChart year={year} month={month} summary={transactions?.summary} className="sm:col-span-5" isLoading={isLoadingTransactions} />
-        <div className="hidden sm:block col-span-3 bg-primary"></div>
+        <div className="col-span-3">
+          <SummaryCard title="Cartão de Crédito" amount={transactions?.summary.creditCard} Icon={CreditCardIcon} isLoading={isLoadingTransactions} iconClassName="text-destructive" />
+        </div>
 
         <TransactionSummary
           transactions={transactions?.items}
