@@ -23,13 +23,11 @@ export const useTasks = () => {
         throw new Error("User not found")
       }
 
-      await createTaskAction(data, user.id)
+      const result = await createTaskAction(data, user.id)
+      const task = Task.fromString(result)
 
-      queryClient.invalidateQueries({
-        queryKey: ["tasks"]
-      })
-      queryClient.invalidateQueries({
-        queryKey: ["taskLists"]
+      queryClient.setQueryData(["tasks"], (data: Task[]) => {
+        return addCreatedTaskToTasks(data, task)
       })
     }
   })
@@ -57,10 +55,6 @@ export const useTasks = () => {
 
       queryClient.setQueryData(["tasks"], (data: Task[]) => {
         return replaceTask(data, new Task(parsedTask))
-      })
-
-      queryClient.invalidateQueries({
-        queryKey: ["taskLists"]
       })
     }
   })
@@ -164,6 +158,10 @@ export const useTasks = () => {
     addTaskToList,
     deleteList
   }
+}
+
+function addCreatedTaskToTasks(tasks: Task[], task: Task): Task[] {
+  return [...tasks, task]
 }
 
 function replaceTask(data: Task[], task: Task): Task[] {

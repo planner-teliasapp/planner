@@ -59,6 +59,11 @@ export class Task implements ITask {
       updatedAt: data.updatedAt,
     })
   }
+
+  static fromString(data: string): Task {
+    const parsedData = JSON.parse(data) as ITask
+    return new Task(parsedData)
+  }
 }
 
 export interface CreateTaskDto {
