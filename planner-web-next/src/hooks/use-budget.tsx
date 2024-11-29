@@ -47,9 +47,10 @@ export const useBudget = ({ month, year }: Props) => {
             summary: Transaction.getSummary(addCreatedTransactionToTransactions(data.items, transaction))
           }
         })
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["transactions"] })
       }
 
-      queryClient.invalidateQueries({ queryKey: ["transactions"] })
     }
   })
 
@@ -66,7 +67,7 @@ export const useBudget = ({ month, year }: Props) => {
         }
       })
 
-      queryClient.invalidateQueries({ queryKey: ["transactions"] })
+      // queryClient.invalidateQueries({ queryKey: ["transactions"] })
     }
   })
 
