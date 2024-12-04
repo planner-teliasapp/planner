@@ -5,6 +5,56 @@ const prismaClient = new PrismaClient()
 const userId = process.env.DATABASE_SEED_USER_ID || ""
 const currentDate = new Date()
 
+const tasks = [
+  {
+    title: "Estudar para a certificação",
+    userId
+  },
+  {
+    title: "Fazer o desafio de programação",
+    userId
+  },
+  {
+    title: "Estudar para a faculdade",
+    userId
+  },
+  {
+    title: "Fazer exercícios",
+    userId
+  },
+  {
+    title: "Estudar inglês",
+    userId
+  },
+  {
+    title: "Fazer teste",
+    userId
+  },
+  {
+    title: "Fazer compras",
+    userId
+  },
+  {
+    title: "Revisar o conteúdo",
+    userId
+  }
+]
+
+const taskLists = [
+  {
+    title: "Estudos",
+    userId,
+  },
+  {
+    title: "Compras",
+    userId,
+  },
+  {
+    title: "Trabalho",
+    userId,
+  }
+]
+
 const transactions = [
   {
     amount: 5678.45,
@@ -118,6 +168,8 @@ async function seed() {
   }
 
   await prismaClient.transaction.createMany({ data: transactions })
+  await prismaClient.task.createMany({ data: tasks })
+  await prismaClient.taskList.createMany({ data: taskLists })
 }
 
 seed()

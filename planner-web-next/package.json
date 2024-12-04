@@ -9,6 +9,7 @@
     "lint": "npx eslint ./src --fix",
     "docker": "docker compose up",
     "migrate": "prisma migrate dev",
+    "reset": "prisma migrate reset --force",
     "prepare": "npx prisma migrate deploy && npx prisma generate",
     "studio": "npx prisma studio",
     "seed": "npx prisma db seed"
