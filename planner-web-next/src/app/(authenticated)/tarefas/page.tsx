@@ -6,11 +6,11 @@ import TaskSection from "./partials/task-section"
 import TaskListSection from "./partials/task-list-section"
 import TasksProvider from "@/contexts/task-context"
 import { useTasks } from "@/hooks/use-tasks"
-import { use, useMemo } from "react"
+import { useMemo } from "react"
 import { TaskList } from "@/models/task-list"
 
 export default function TarefasPage() {
-  const { tasks } = useTasks()
+  const { tasks, isLoadingTasks } = useTasks()
 
   const lists = useMemo(() => {
     if (!tasks) return []
@@ -27,9 +27,9 @@ export default function TarefasPage() {
             <TaskProgressCard tasks={tasks} header='Progresso Geral' />
             <div className='hidden sm:block flex-1 bg-primary rounded-xl'></div>
           </div>
-          <TaskSection tasks={tasks} className="sm:col-span-2" header='Para Hoje' hideAddButton maxItems={4} />
-          <TaskListSection lists={lists} className="sm:col-span-2" />
-          <TaskSection tasks={tasks} className="sm:col-span-8" />
+          <TaskSection tasks={tasks} className="sm:col-span-2" header='Para Hoje' hideAddButton maxItems={4} isLoading={isLoadingTasks} />
+          <TaskListSection lists={lists} className="sm:col-span-2" isLoading={isLoadingTasks} />
+          <TaskSection tasks={tasks} className="sm:col-span-8" isLoading={isLoadingTasks} />
         </div>
       </div>
     </TasksProvider>

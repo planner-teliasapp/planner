@@ -20,6 +20,7 @@ import { ClassNameValue } from "tailwind-merge"
 import { cn } from "@/lib/utils"
 import { TaskStatus } from "@prisma/client"
 import { Task } from "@/models/task"
+import TaskCardSkeleton from "./task-card-skeleton"
 
 interface Props {
   tasks: Task[] | undefined | null
@@ -29,9 +30,10 @@ interface Props {
   hideAddButton?: boolean
   hideCounter?: boolean
   maxItems?: number
+  isLoading?: boolean
 }
 
-export default function TaskSection({ tasks, header = "Minhas Tarefas", className, listId, hideAddButton, hideCounter, maxItems }: Props) {
+export default function TaskSection({ tasks, header = "Minhas Tarefas", className, listId, hideAddButton, hideCounter, maxItems, isLoading }: Props) {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
@@ -68,14 +70,22 @@ export default function TaskSection({ tasks, header = "Minhas Tarefas", classNam
       <CardContent>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 
-          <ul className=''>
-            {tasks?.map((task, index) => {
-              if (maxItems && index >= maxItems) return null
-              return (
-                <TaskCard task={task} setTask={setSelectedTask} key={task.id} />
-              )
-            })}
-          </ul>
+          {isLoading ? (
+            <ul className=''>
+              <TaskCardSkeleton />
+              <TaskCardSkeleton />
+              <TaskCardSkeleton />
+            </ul>
+          ) : (
+            <ul className=''>
+              {tasks?.map((task, index) => {
+                if (maxItems && index >= maxItems) return null
+                return (
+                  <TaskCard task={task} setTask={setSelectedTask} key={task.id} />
+                )
+              })}
+            </ul>
+          )}
           {tasks?.length === 0 && (
             <p className='text-muted-foreground text-center'>Nenhuma tarefa cadastrada</p>
           )}

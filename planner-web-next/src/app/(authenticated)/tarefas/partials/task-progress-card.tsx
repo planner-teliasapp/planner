@@ -9,6 +9,7 @@ import { format } from "date-fns"
 import CountUp from "react-countup"
 import { TaskStatus } from "@prisma/client"
 import { Task } from "@/models/task"
+import { ptBR } from "date-fns/locale"
 
 interface Props {
   header?: string
@@ -43,7 +44,7 @@ export default function TaskProgressCard({ header = "Progresso", tasks, classNam
         <p className='mt-2 text-xl text-muted-foreground'>
           <CountUp start={progress.previous} end={progress.current} duration={1} decimals={0} className='text-foreground font-medium text-6xl' />%</p>
         <span className='mt-1 text-sm text-muted-foreground'>de {tasks?.length} tarefas</span>
-        <p className='mt-6 text-muted-foreground'><strong className='font-semibold text-primary text-lg'>{format(today, "d")}</strong>{format(today, " MMM 'de' yyyy")}</p>
+        <p className='mt-6 text-muted-foreground'><strong className='font-semibold text-primary text-lg'>{format(today, "d")}</strong>{format(today, " MMM 'de' yyyy", { locale: ptBR })}</p>
       </CardContent>
     </Card>
   )

@@ -27,20 +27,6 @@ export default function TaskCard({ task, setTask }: Props) {
   })
 
   const { updateTask, deleteTask } = useTasks()
-
-  // const task = new Task({
-  //   id: "1",
-  //   title: "Tarefa de exemplo",
-  //   status: TaskStatus.PENDING,
-  //   listId: "list-1",
-  //   listTitle: "Lista de exemplo",
-  //   completedAt: null,
-  //   createdAt: new Date(),
-  //   updatedAt: new Date(),
-  // })
-
-  // console.log(task2)
-
   async function handleCheckedChange() {
     task.toggleStatus()
     await updateTask({ ...task })
