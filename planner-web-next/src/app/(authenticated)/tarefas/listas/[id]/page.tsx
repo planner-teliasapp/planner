@@ -4,7 +4,7 @@ import { H1 } from "@/components/ui/typography"
 import { useTasks } from "@/hooks/use-tasks"
 import { TaskList } from "@/models/task-list"
 import { notFound } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import TaskSection from "../../partials/task-section"
 
 interface Props {
@@ -15,7 +15,13 @@ interface Props {
 
 export default function TaskListIdPage({ params }: Props) {
   const [list, setList] = useState<TaskList | null | undefined>(null)
-  const { lists } = useTasks()
+  const { tasks } = useTasks()
+
+  const lists = useMemo(() => {
+    if (!tasks) return []
+
+    return TaskList.fromTasks(tasks)
+  }, [tasks])
 
   useEffect(() => {
     if (!params.id) notFound()

@@ -6,9 +6,17 @@ import TaskSection from "./partials/task-section"
 import TaskListSection from "./partials/task-list-section"
 import TasksProvider from "@/contexts/task-context"
 import { useTasks } from "@/hooks/use-tasks"
+import { use, useMemo } from "react"
+import { TaskList } from "@/models/task-list"
 
 export default function TarefasPage() {
-  const { tasks, lists } = useTasks()
+  const { tasks } = useTasks()
+
+  const lists = useMemo(() => {
+    if (!tasks) return []
+
+    return TaskList.fromTasks(tasks)
+  }, [tasks])
 
   return (
     <TasksProvider>
