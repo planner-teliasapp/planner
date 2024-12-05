@@ -171,4 +171,5 @@ export interface CreateTransactionDto {
   date: Date
   type: TransactionType
   paymentMethod: PaymentMethod
+  recurringTransactionId?: string
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
 import { PaymentMethod, TransactionType } from "@prisma/client"
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import CreatableSelect from "react-select/creatable"
-import Select2 from "react-select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
@@ -26,10 +26,9 @@ import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CreateTransactionDto } from "@/models/transaction"
 import { useBudgets } from "@/hooks/use-budgets"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 
 const formSchema = z.object({
-  // description: z.string().min(2).max(50),
   description: z.object({
     label: z.string().min(2).max(50),
     value: z.string().min(2).max(50),
@@ -81,16 +80,26 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
     }))
   }, [recurringTransactions])
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-  ]
-
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
-    // onSubmit && onSubmit(values)
-    console.log(values)
+    onSubmit && onSubmit({
+      ...values,
+      description: values.description.label,
+      recurringTransactionId: values.description.__isNew__ ? undefined : values.description.value,
+    })
   }
+
+  useEffect(() => {
+    if (form.getValues("description.__isNew__")) return
+    const recurringTransaction = recurringTransactions?.items.find(
+      (transaction) => transaction.id === form.getValues("description.value")
+    )
+    if (!recurringTransaction) return
+
+    form.setValue("amount", recurringTransaction.referenceValue)
+    form.setValue("type", recurringTransaction.type)
+    form.setValue("paymentMethod", recurringTransaction.paymentMethod)
+
+  }, [recurringTransactions?.items, form.watch().description])
 
   return (
     <Form {...form}>
@@ -103,6 +112,7 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
               <FormLabel>Descrição</FormLabel>
               <FormControl>
                 <CreatableSelect
+                  isLoading={isLoadingRecurringTransactions}
                   autoFocus
                   isClearable
                   options={recurringTransactionsOptions}
@@ -206,7 +216,7 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue defaultValue={TransactionType.EXPENSE} />
@@ -231,7 +241,7 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Método de Pagamento</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue defaultValue={PaymentMethod.TRANSFER} />
