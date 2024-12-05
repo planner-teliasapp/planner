@@ -1,5 +1,6 @@
 import { createTransactionsAction, deleteTransactionAction, getTransactionsAction } from "@/actions/budgets"
-import { CreateTransactionDto, ITransactionSummary, Transaction } from "@/models/transaction"
+import { getRecurringTransactionsAction } from "@/actions/budgets/get-recurring-transactions"
+import { CreateTransactionDto, ITransactionSummary, RecurringTransaction, Transaction } from "@/models/transaction"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -60,13 +61,32 @@ export const useBudgets = () => {
     }
   })
 
+  const { data: recurringTransactions, isPending: isLoadingRecurringTransactions } = useQuery({
+    queryKey: ["recurringTransactions"],
+    queryFn: async () => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      const data = await getRecurringTransactionsAction(user.id)
+      const items = RecurringTransaction.fromStringArray(data)
+
+      return {
+        items
+      }
+    },
+    staleTime: 60_000 * 10
+  })
+
   return {
     transactions,
     isLoadingTransactions,
     createTransaction,
     isCreatingTransaction,
     deleteTransaction,
-    isDeletingTransaction
+    isDeletingTransaction,
+    recurringTransactions,
+    isLoadingRecurringTransactions
   }
 }
 

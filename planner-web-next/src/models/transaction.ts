@@ -10,7 +10,7 @@ export interface ITransaction {
   paymentMethod: PaymentMethod
 }
 
-export interface RecurringTransaction {
+export interface IRecurringTransaction {
   id: string
   userId: string
   description: string
@@ -18,11 +18,11 @@ export interface RecurringTransaction {
   type: TransactionType
   paymentMethod: PaymentMethod
   frequency: TransactionFrequency
-  expectedDayOfMonth: number
-  expectedDayOfWeek: number
-  expectedMonthOfYear: number
+  expectedDayOfMonth?: number | null
+  expectedDayOfWeek?: number | null
+  expectedMonthOfYear?: number | null
   startDate: Date
-  endDate: Date
+  endDate?: Date | null
   transactions: ITransaction[]
 }
 
@@ -104,7 +104,7 @@ export class Transaction implements ITransaction {
   }
 }
 
-export class RecurringTransaction implements RecurringTransaction {
+export class RecurringTransaction implements IRecurringTransaction {
   public id: string
   public userId: string
   public description: string
@@ -112,15 +112,56 @@ export class RecurringTransaction implements RecurringTransaction {
   public type: TransactionType
   public paymentMethod: PaymentMethod
   public frequency: TransactionFrequency
-  public expectedDayOfMonth: number
-  public expectedDayOfWeek: number
-  public expectedMonthOfYear: number
+  public expectedDayOfMonth?: number | null
+  public expectedDayOfWeek?: number | null
+  public expectedMonthOfYear?: number | null
   public startDate: Date
-  public endDate: Date
+  public endDate?: Date | null
   public transactions: ITransaction[]
 
   constructor(data: RecurringTransaction) {
     Object.assign(this, data)
+
+    this.startDate = new Date(data.startDate)
+    this.endDate = data.endDate ? new Date(data.endDate) : null
+  }
+
+  static fromPrisma(data: Prisma.RecurringTransactionGetPayload<{}>): RecurringTransaction {
+    return new RecurringTransaction({
+      id: data.id,
+      userId: data.userId,
+      description: data.description,
+      referenceValue: Number(data.referenceValue),
+      type: data.type,
+      paymentMethod: data.paymentMethod,
+      frequency: data.frequency,
+      expectedDayOfMonth: data.expectedDayOfMonth,
+      expectedDayOfWeek: data.expectedDayOfWeek,
+      expectedMonthOfYear: data.expectedMonthOfYear,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      transactions: []
+    })
+  }
+
+  static fromStringArray(data: string): RecurringTransaction[] {
+    const parsedData = JSON.parse(data) as IRecurringTransaction[]
+    const transactions = parsedData.map(transaction => new RecurringTransaction(transaction))
+
+    return transactions
+  }
+
+  static getFromSpecificDate(transactions: RecurringTransaction[], date: Date): RecurringTransaction[] {
+    const rTransactions: RecurringTransaction[] = []
+
+    return transactions.filter(transaction =>
+      //Esta entre a data de inicio e fim
+      transaction.startDate <= date && (!transaction.endDate || transaction.endDate >= date)
+      //A frequencia é mensal ou anual e está no mes correto
+      && (transaction.frequency === TransactionFrequency.MONTHLY || (transaction.frequency === TransactionFrequency.YEARLY && transaction.expectedMonthOfYear === date.getMonth()))
+    )
+
+    return rTransactions
   }
 }
 
