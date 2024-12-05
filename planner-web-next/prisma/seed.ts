@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client")
-const { setDate } = require("date-fns")
+const { setDate, add, endOfMonth, startOfMonth, sub } = require("date-fns")
 
 const prismaClient = new PrismaClient()
 const userId = process.env.DATABASE_SEED_USER_ID || ""
@@ -52,6 +52,109 @@ const taskLists = [
   {
     title: "Trabalho",
     userId,
+  }
+]
+
+const recurringTransactions = [
+  {
+    userId,
+    description: "Salário Recorrente",
+    referenceValue: 1999.99,
+    expectedDayOfMonth: 5,
+    type: "INCOME",
+    paymentMethod: "TRANSFER",
+    frequency: "MONTHLY",
+    startDate: startOfMonth(sub(currentDate, {
+      months: 3
+    }))
+  },
+  {
+    userId,
+    description: "Aluguel Recorrente",
+    referenceValue: 789.12,
+    expectedDayOfMonth: 9,
+    type: "EXPENSE",
+    paymentMethod: "TRANSFER",
+    frequency: "MONTHLY",
+    startDate: startOfMonth(sub(currentDate, {
+      months: 7
+    }))
+  },
+  {
+    userId,
+    description: "Assinatura Recorrente 1",
+    referenceValue: 49.99,
+    expectedDayOfMonth: 7,
+    type: "EXPENSE",
+    paymentMethod: "CREDIT",
+    frequency: "MONTHLY",
+    startDate: startOfMonth(sub(currentDate, {
+      months: 1
+    }))
+  },
+  {
+    userId,
+    description: "Assinatura Recorrente 2",
+    referenceValue: 35.00,
+    expectedDayOfMonth: 1,
+    type: "EXPENSE",
+    paymentMethod: "CREDIT",
+    frequency: "MONTHLY",
+    startDate: startOfMonth(sub(currentDate, {
+      months: 2
+    })),
+    endDate: startOfMonth(add(currentDate, {
+      years: 1
+    }))
+  },
+  {
+    userId,
+    description: "Investimento Recorrente",
+    referenceValue: 1000,
+    expectedDayOfMonth: 22,
+    type: "INVESTMENT",
+    paymentMethod: "TRANSFER",
+    frequency: "MONTHLY",
+    startDate: startOfMonth(sub(currentDate, {
+      months: 1
+    }))
+  },
+  {
+    userId,
+    description: "Previdência Recorrente",
+    referenceValue: 299.99,
+    expectedDayOfMonth: 25,
+    type: "PENSION",
+    paymentMethod: "PIX",
+    frequency: "MONTHLY",
+    startDate: startOfMonth(sub(currentDate, {
+      months: 8
+    }))
+  },
+  {
+    userId,
+    description: "Caixinha Recorrente",
+    referenceValue: 199.99,
+    expectedDayOfMonth: 25,
+    type: "WALLET",
+    paymentMethod: "PIX",
+    frequency: "MONTHLY",
+    startDate: startOfMonth(sub(currentDate, {
+      months: 2
+    }))
+  },
+  {
+    userId,
+    description: "Imposto Anual",
+    referenceValue: 199.99,
+    expectedDayOfMonth: 25,
+    expectedMonthOfYear: 0,
+    type: "EXPENSE",
+    paymentMethod: "PIX",
+    frequency: "YEARLY",
+    startDate: startOfMonth(sub(currentDate, {
+      years: 4
+    }))
   }
 ]
 
@@ -167,9 +270,10 @@ async function seed() {
     throw new Error("DATABASE_SEED_USER_ID is not defined")
   }
 
-  await prismaClient.transaction.createMany({ data: transactions })
   await prismaClient.task.createMany({ data: tasks })
   await prismaClient.taskList.createMany({ data: taskLists })
+  await prismaClient.transaction.createMany({ data: transactions })
+  await prismaClient.recurringTransaction.createMany({ data: recurringTransactions })
 }
 
 seed()

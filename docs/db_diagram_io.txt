@@ -1,0 +1,81 @@
+Enum task_statuses{
+  PENDING
+  DONE
+  IN_PROGRESS
+  PAUSED
+  CANCELED
+}
+
+Table tasks {
+  id cuid [primary key]
+  user_id uuid [not null]
+  title varchar [not null]
+  status task_statuses [default: "PENDING"]
+  task_list_id cuid [null]
+
+  completed_at timestamp [default: null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table task_lists {
+  id cuid [primary key]
+  user_id uuid [not null]
+  title string [not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+
+Ref: tasks.task_list_id > task_lists.id
+
+Enum transaction_type {
+  INCOME
+  EXPENSE
+  INVESTMENT
+  PENSION
+  WALLET
+}
+
+Enum payment_method {
+  WALLET
+  CREDIT
+  PIX
+  TRANSFER
+}
+
+Enum transaction_frequencies {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+Table transactions {
+  id cuid [primary key]
+  user_id uuid [not null]
+  description string [not null]
+  amount decimal [not null]
+  date timestamp [not null]
+  type transaction_type [not null]
+  payment_method payment_method [not null]
+  recurring_transaction_id cuid [null]
+}
+
+Table recurring_transactions {
+  id cuid [primary key]
+  user_id uuid [not null]
+  description string [not null]
+  reference_value decimal [not null]
+  expected_day_of_month int [null]
+  expected_day_of_week int [null]
+  expected_month_of_year int [null]
+  expected_month int [null]
+  type transaction_type [not null]
+  payment_method payment_method [not null]
+  frequency transaction_frequencies [not null]
+  start_date timestamp [not null]
+  end_date timestamp [null]
+}
+
+Ref: transactions.recurring_transaction_id > recurring_transactions.id
