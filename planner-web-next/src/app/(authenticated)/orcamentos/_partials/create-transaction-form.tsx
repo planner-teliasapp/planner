@@ -15,6 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import CreatableSelect from "react-select/creatable"
+import Select2 from "react-select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
@@ -23,9 +25,16 @@ import { Calendar } from "@/components/ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CreateTransactionDto } from "@/models/transaction"
+import { useBudgets } from "@/hooks/use-budgets"
+import { useMemo } from "react"
 
 const formSchema = z.object({
-  description: z.string().min(2).max(50),
+  // description: z.string().min(2).max(50),
+  description: z.object({
+    label: z.string().min(2).max(50),
+    value: z.string().min(2).max(50),
+    __isNew__: z.boolean().optional().default(false),
+  }),
   amount: z.union([
     z.string().refine((value) => parseFloat(value) > 0, {
       message: "O valor deve ser maior que 0",
@@ -50,7 +59,11 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: "",
+      description: {
+        label: "",
+        value: "",
+        __isNew__: false,
+      },
       amount: 0,
       date: new Date(),
       type: TransactionType.EXPENSE,
@@ -58,8 +71,25 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
     },
   })
 
+  const { recurringTransactions, isLoadingRecurringTransactions } = useBudgets()
+
+  const recurringTransactionsOptions = useMemo(() => {
+    return recurringTransactions?.items.map((transaction) => ({
+      label: transaction.description,
+      value: transaction.id,
+      __isNew__: false,
+    }))
+  }, [recurringTransactions])
+
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" }
+  ]
+
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
-    onSubmit && onSubmit(values)
+    // onSubmit && onSubmit(values)
+    console.log(values)
   }
 
   return (
@@ -72,7 +102,47 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
             <FormItem>
               <FormLabel>Descrição</FormLabel>
               <FormControl>
-                <Input autoFocus {...field} />
+                <CreatableSelect
+                  autoFocus
+                  isClearable
+                  options={recurringTransactionsOptions}
+                  formatCreateLabel={(inputValue) => `Criar "${inputValue}"`}
+                  placeholder=""
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      backgroundColor: "hsl(var(--background))",
+                      borderColor: "hsl(var(--border))",
+                      color: "hsl(var(--foreground))",
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: state.isSelected ? "hsl(var(--primary))" : state.isFocused ? "hsl(var(--accent))" : "hsl(var(--popover))",
+                      color: state.isSelected ? "hsl(var(--primary-foreground))" : state.isFocused ? "hsl(var(--accent-foreground))" : "hsl(var(--popover-foreground))",
+                      fontSize: "0.875rem"
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color: "hsl(var(--foreground))",
+                      fontSize: "0.875rem"
+                    }),
+                    input: (provided) => ({
+                      ...provided,
+                      color: "hsl(var(--foreground))",
+                      fontSize: "0.875rem"
+                    }),
+                    clearIndicator: (provided) => ({
+                      ...provided,
+                      color: "hsl(var(--muted-foreground))",
+                    }),
+                    dropdownIndicator: (provided) => ({
+                      ...provided,
+                      color: "hsl(var(--muted-foreground))",
+                      strokeWidth: 1,
+                    }),
+                  }}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
