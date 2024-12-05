@@ -144,6 +144,11 @@ export class RecurringTransaction implements IRecurringTransaction {
     })
   }
 
+  static fromString(data: string): RecurringTransaction {
+    const parsedData = JSON.parse(data) as IRecurringTransaction
+    return new RecurringTransaction(parsedData)
+  }
+
   static fromStringArray(data: string): RecurringTransaction[] {
     const parsedData = JSON.parse(data) as IRecurringTransaction[]
     const transactions = parsedData.map(transaction => new RecurringTransaction(transaction))
@@ -152,16 +157,12 @@ export class RecurringTransaction implements IRecurringTransaction {
   }
 
   static getFromSpecificDate(transactions: RecurringTransaction[], date: Date): RecurringTransaction[] {
-    const rTransactions: RecurringTransaction[] = []
-
     return transactions.filter(transaction =>
-      //Esta entre a data de inicio e fim
+      //Está entre a data de inicio e fim
       transaction.startDate <= date && (!transaction.endDate || transaction.endDate >= date)
       //A frequencia é mensal ou anual e está no mes correto
       && (transaction.frequency === TransactionFrequency.MONTHLY || (transaction.frequency === TransactionFrequency.YEARLY && transaction.expectedMonthOfYear === date.getMonth()))
     )
-
-    return rTransactions
   }
 }
 
@@ -172,4 +173,17 @@ export interface CreateTransactionDto {
   type: TransactionType
   paymentMethod: PaymentMethod
   recurringTransactionId?: string
+}
+
+export interface CreateRecurringTransactionDto {
+  description: string
+  referenceValue: number
+  type: TransactionType
+  paymentMethod: PaymentMethod
+  startDate: Date
+  endDate?: Date
+  frequency: TransactionFrequency
+  expectedDayOfMonth?: number
+  expectedDayOfWeek?: number
+  expectedMonthOfYear?: number
 }

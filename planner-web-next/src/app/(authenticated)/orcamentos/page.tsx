@@ -7,10 +7,11 @@ import { format } from "date-fns"
 import { Loader2Icon } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import CreateRecurringTransactionButton from "./_partials/create-recurring-transaction-button"
 
 export default function OrcamentosPage() {
   const [date, setDate] = useState(new Date())
-  const { recurringTransactions, isLoadingRecurringTransactions } = useBudgets()
+  const { recurringTransactions, isLoadingRecurringTransactions, createRecurringTransaction } = useBudgets()
 
   function setInputDate(value: string) {
     const [year, month] = value.split("-")
@@ -42,6 +43,7 @@ export default function OrcamentosPage() {
         </Link>
       </section>
       <section>
+        <CreateRecurringTransactionButton onSubmit={(data) => createRecurringTransaction(data)} isLoading={false} />
         {isLoadingRecurringTransactions ? (
           <Loader2Icon className='w-8 h-8 animate-spin' />
         ) : (

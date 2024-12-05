@@ -1,6 +1,7 @@
 import { createTransactionsAction, deleteTransactionAction, getTransactionsAction } from "@/actions/budgets"
+import { createRecurringTransactionsAction } from "@/actions/budgets/create-recurring-transaction"
 import { getRecurringTransactionsAction } from "@/actions/budgets/get-recurring-transactions"
-import { CreateTransactionDto, ITransactionSummary, RecurringTransaction, Transaction } from "@/models/transaction"
+import { CreateRecurringTransactionDto, CreateTransactionDto, ITransactionSummary, RecurringTransaction, Transaction } from "@/models/transaction"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -78,6 +79,24 @@ export const useBudgets = () => {
     staleTime: 60_000 * 10
   })
 
+  const { mutateAsync: createRecurringTransaction, isPending: isCreatingRecurringTransaction } = useMutation({
+    mutationKey: ["createRecurringTransaction"],
+    mutationFn: async (data: CreateRecurringTransactionDto) => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      const result = await createRecurringTransactionsAction(data, user.id)
+      const transaction = RecurringTransaction.fromString(result)
+
+      queryClient.setQueryData(["recurringTransactions"], (data: { items: RecurringTransaction[] }) => {
+        return {
+          items: addCreatedRecurringTransactionToTransactions(data.items, transaction)
+        }
+      })
+    }
+  })
+
   return {
     transactions,
     isLoadingTransactions,
@@ -86,11 +105,17 @@ export const useBudgets = () => {
     deleteTransaction,
     isDeletingTransaction,
     recurringTransactions,
-    isLoadingRecurringTransactions
+    isLoadingRecurringTransactions,
+    createRecurringTransaction,
+    isCreatingRecurringTransaction
   }
 }
 
 function addCreatedTransactionToTransactions(transactions: Transaction[], transaction: Transaction): Transaction[] {
+  return [...transactions, transaction]
+}
+
+function addCreatedRecurringTransactionToTransactions(transactions: RecurringTransaction[], transaction: RecurringTransaction): RecurringTransaction[] {
   return [...transactions, transaction]
 }
 
