@@ -26,6 +26,7 @@ import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CreateRecurringTransactionDto, CreateTransactionDto } from "@/models/transaction"
 import { months, weekdays } from "@/lib/constants"
+import { ClassNameValue } from "tailwind-merge"
 
 const formSchema = z.object({
   description: z.string().min(2).max(255),
@@ -77,9 +78,10 @@ const formSchema = z.object({
 interface Props {
   onSubmit?: (data: CreateRecurringTransactionDto) => void
   isLoading?: boolean
+  className?: ClassNameValue
 }
 
-export default function CreateRecurringTransactionForm({ onSubmit, isLoading }: Props) {
+export default function CreateRecurringTransactionForm({ onSubmit, isLoading, className }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -99,7 +101,7 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading }: 
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onFormSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onFormSubmit)} className={cn("space-y-4", className)}>
         <FormField
           control={form.control}
           name="description"

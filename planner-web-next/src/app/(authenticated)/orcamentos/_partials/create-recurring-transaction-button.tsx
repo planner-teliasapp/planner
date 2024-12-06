@@ -14,6 +14,7 @@ import { CreateRecurringTransactionDto, CreateTransactionDto } from "@/models/tr
 import { ClassNameValue } from "tailwind-merge"
 import { cn } from "@/lib/utils"
 import CreateRecurringTransactionForm from "./create-recurring-transaction-form"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 interface Props {
   onSubmit: (data: CreateRecurringTransactionDto) => void
@@ -47,7 +48,9 @@ export default function CreateRecurringTransactionButton({ onSubmit, isLoading, 
         <SheetHeader>
           <SheetTitle className="text-center">Adicionar nova transação recorrente</SheetTitle>
         </SheetHeader>
-        <CreateRecurringTransactionForm onSubmit={handleSubmit} isLoading={isLoading} />
+        <ScrollArea className="h-[90%] pr-2">
+          <CreateRecurringTransactionForm onSubmit={handleSubmit} isLoading={isLoading} className="px-2" />
+        </ScrollArea>
       </SheetContent>
     </Sheet>
   )
