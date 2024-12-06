@@ -9,7 +9,7 @@ export async function getRecurringTransactionsAction(userId: string, year?: numb
       userId,
     },
     orderBy: {
-      type: "desc"
+      description: "asc"
     }
   })
 

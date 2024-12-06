@@ -88,10 +88,7 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading }: 
       type: TransactionType.EXPENSE,
       paymentMethod: PaymentMethod.TRANSFER,
       startDate: new Date(),
-      frequency: TransactionFrequency.MONTHLY,
-      expectedDayOfMonth: 15,
-      expectedDayOfWeek: 0,
-      expectedMonthOfYear: 0,
+      frequency: TransactionFrequency.MONTHLY
     },
   })
 

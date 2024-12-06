@@ -1,7 +1,6 @@
 "use client"
 
 import { buttonVariants } from "@/components/ui/button"
-import { useBudgets } from "@/hooks/use-budgets"
 import { RecurringTransaction } from "@/models/transaction"
 import { format } from "date-fns"
 import { Loader2Icon } from "lucide-react"
@@ -11,7 +10,6 @@ import CreateRecurringTransactionButton from "./_partials/create-recurring-trans
 
 export default function OrcamentosPage() {
   const [date, setDate] = useState(new Date())
-  const { recurringTransactions, isLoadingRecurringTransactions, createRecurringTransaction } = useBudgets()
 
   function setInputDate(value: string) {
     const [year, month] = value.split("-")
@@ -41,33 +39,14 @@ export default function OrcamentosPage() {
         >
           Continuar
         </Link>
-      </section>
-      <section>
-        <CreateRecurringTransactionButton onSubmit={(data) => createRecurringTransaction(data)} isLoading={false} />
-        {isLoadingRecurringTransactions ? (
-          <Loader2Icon className='w-8 h-8 animate-spin' />
-        ) : (
-          <div>
-            <h2>Todas</h2>
-            {recurringTransactions?.items.map((transaction) => (
-              <div key={transaction.id} className="mt-2">
-                <h3>{transaction.description}</h3>
-                <h4>{transaction.referenceValue}</h4>
-                <h4>startDate = {transaction.startDate.toLocaleDateString()}</h4>
-                <h4>day = {transaction.expectedDayOfMonth} month = {transaction.expectedMonthOfYear} freq = {transaction.frequency}</h4>
-              </div>
-            ))}
-            <h2 className="mt-8">Data = {data.toLocaleDateString()} </h2>
-            {RecurringTransaction.getFromSpecificDate(recurringTransactions?.items || [], data).map((transaction) => (
-              <div key={transaction.id} className="mt-2">
-                <h3>{transaction.description}</h3>
-                <h4>{transaction.referenceValue}</h4>
-                <h4>startDate = {transaction.startDate.toLocaleDateString()}</h4>
-                <h4>day = {transaction.expectedDayOfMonth} month = {transaction.expectedMonthOfYear} freq = {transaction.frequency}</h4>
-              </div>
-            ))}
-          </div>
-        )}
+        <Link
+          href={"orcamentos/recorrentes"}
+          className={buttonVariants({
+            className: "mt-4",
+          })}
+        >
+          Transações recorrentes
+        </Link>
       </section>
     </div>
   )

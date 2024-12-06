@@ -1,4 +1,4 @@
-import { PaymentMethod, TransactionType } from "@prisma/client"
+import { PaymentMethod, TransactionFrequency, TransactionType } from "@prisma/client"
 import { DollarSignIcon, LucideIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
 
 export function transactionColorMapper(type: TransactionType | string) {
@@ -85,7 +85,7 @@ type PaymentMethodMapper = {
   label: string
 }
 
-export const PaymentMethodMapper: Record<PaymentMethod, PaymentMethodMapper> = {
+export const paymentMethodMapper: Record<PaymentMethod, PaymentMethodMapper> = {
   [PaymentMethod.CREDIT]: {
     label: "Cartão de crédito"
   },
@@ -98,4 +98,24 @@ export const PaymentMethodMapper: Record<PaymentMethod, PaymentMethodMapper> = {
   [PaymentMethod.TRANSFER]: {
     label: "Transferência"
   }
+}
+
+type PaymentFrequencyMapper = {
+  label: string
+}
+
+export const paymentFrequencyMapper: Record<TransactionFrequency, PaymentFrequencyMapper> = {
+  [TransactionFrequency.DAILY]: {
+    label: "Diário"
+  },
+  [TransactionFrequency.WEEKLY]: {
+    label: "Semanal"
+  },
+  [TransactionFrequency.MONTHLY]: {
+    label: "Mensal"
+  },
+  [TransactionFrequency.YEARLY]: {
+    label: "Anual"
+  }
+
 }

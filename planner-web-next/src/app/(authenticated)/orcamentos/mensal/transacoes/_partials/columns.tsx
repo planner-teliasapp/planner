@@ -4,7 +4,7 @@ import { Transaction } from "@/models/transaction"
 import { ColumnDef } from "@tanstack/react-table"
 import DeleteTransactionButton from "../../../_partials/delele-transaction-button"
 import { cn, formatCurrency } from "@/lib/utils"
-import { PaymentMethodMapper, transactionMapper } from "../../../_utils"
+import { paymentMethodMapper, transactionMapper } from "../../../_utils"
 import { PaymentMethod, TransactionType } from "@prisma/client"
 
 export const columns: ColumnDef<Transaction>[] = [
@@ -30,7 +30,7 @@ export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "paymentMethod",
     header: "Método de pagamento",
-    cell: (row) => PaymentMethodMapper[row.getValue() as PaymentMethod].label,
+    cell: (row) => paymentMethodMapper[row.getValue() as PaymentMethod].label,
   },
   {
     accessorKey: "date",

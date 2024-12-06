@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { months, weekdays } from "./constants"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -47,22 +48,11 @@ export function convertHumanIntToMonth(month: number): string {
 }
 
 export function convertIntToMonth(month: number): string {
-  const months = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro"
-  ]
+  return months[month].label
+}
 
-  return months[month]
+export function convertIntToWeekday(weekday: number): string {
+  return weekdays[weekday].label
 }
 
 export function formatCurrency(value: number = 0) {
