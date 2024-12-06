@@ -25,8 +25,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CreateRecurringTransactionDto, CreateTransactionDto } from "@/models/transaction"
-import { useBudgets } from "@/hooks/use-budgets"
-import { useEffect, useMemo } from "react"
+import { months, weekdays } from "@/lib/constants"
 
 const formSchema = z.object({
   description: z.string().min(2).max(255),
@@ -57,8 +56,22 @@ const formSchema = z.object({
       .transform((value) => parseInt(value)),
     z.number().min(1).max(28),
   ]).optional(),
-  expectedDayOfWeek: z.number().min(0).max(6).optional(),
-  expectedMonthOfYear: z.number().min(0).max(11).optional(),
+  expectedDayOfWeek: z.union([
+    z.number().min(0).max(6),
+    z.string()
+      .refine((value) => parseInt(value) >= 0 && parseInt(value) <= 6, {
+        message: "O valor deve estar entre 0 e 6",
+      })
+      .transform((value) => parseInt(value)),
+  ]).optional(),
+  expectedMonthOfYear: z.union([
+    z.number().min(0).max(11),
+    z.string()
+      .refine((value) => parseInt(value) >= 0 && parseInt(value) <= 11, {
+        message: "O valor deve estar entre 0 e 11",
+      })
+      .transform((value) => parseInt(value)),
+  ]).optional(),
 })
 
 interface Props {
@@ -77,12 +90,13 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading }: 
       startDate: new Date(),
       frequency: TransactionFrequency.MONTHLY,
       expectedDayOfMonth: 15,
+      expectedDayOfWeek: 0,
+      expectedMonthOfYear: 0,
     },
   })
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
     onSubmit && onSubmit(values)
-
     // console.log(values)
   }
 
@@ -261,36 +275,75 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading }: 
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="expectedDayOfMonth"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Dia do Mês</FormLabel>
-              <FormControl>
-                <Input
-                  type="number" {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="expectedMonthOfYear"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Mês do Ano</FormLabel>
-              <FormControl>
-                <Input
-                  type="number" {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {form.watch("frequency") === TransactionFrequency.WEEKLY && (
+          <FormField
+            control={form.control}
+            name="expectedDayOfWeek"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Dia da Semana</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value?.toString()} value={field.value?.toString()}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={0} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {weekdays.map((weekday) => (
+                        <SelectItem key={weekday.value} value={weekday.value.toString()}>{weekday.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {form.watch("frequency") === TransactionFrequency.MONTHLY && (
+          <FormField
+            control={form.control}
+            name="expectedDayOfMonth"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Dia do Mês</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number" {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {form.watch("frequency") === TransactionFrequency.YEARLY && (
+          <FormField
+            control={form.control}
+            name="expectedMonthOfYear"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mês do Ano</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value?.toString()} value={field.value?.toString()}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={0} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {months.map((month) => (
+                        <SelectItem key={month.value} value={month.value.toString()}>{month.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <Button className="w-full" type="submit" isLoading={isLoading}>Adicionar</Button>
       </form>
     </Form>

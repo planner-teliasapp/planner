@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/chart"
 
 import { ClassNameValue } from "tailwind-merge"
-import { cn, convertIntToMonth, formatCurrency } from "@/lib/utils"
+import { cn, convertHumanIntToMonth, formatCurrency } from "@/lib/utils"
 import { ITransactionSummary } from "@/models/transaction"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -68,7 +68,7 @@ export default function SummaryChart({ summary, year, month, className, isLoadin
     <Card className={cn("flex flex-col w-full", className)}>
       <CardHeader className="items-center pb-0">
         <CardTitle>Orçamento Mensal</CardTitle>
-        <CardDescription>{convertIntToMonth(month)} de {year}</CardDescription>
+        <CardDescription>{convertHumanIntToMonth(month)} de {year}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0 justify-center items-center">
         {isLoading ? (

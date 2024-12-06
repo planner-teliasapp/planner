@@ -27,7 +27,7 @@ export function validatedMonth(month: number | string | undefined | null): numbe
   return parsedMonth
 }
 
-export function convertIntToMonth(month: number): string {
+export function convertHumanIntToMonth(month: number): string {
   const months = [
     "Janeiro",
     "Fevereiro",
@@ -44,6 +44,25 @@ export function convertIntToMonth(month: number): string {
   ]
 
   return months[month - 1]
+}
+
+export function convertIntToMonth(month: number): string {
+  const months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+  ]
+
+  return months[month]
 }
 
 export function formatCurrency(value: number = 0) {

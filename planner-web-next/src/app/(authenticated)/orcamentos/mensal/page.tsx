@@ -1,7 +1,7 @@
 "use client"
 
 import { H1 } from "@/components/ui/typography"
-import { convertIntToMonth, validatedMonth, validatedYear } from "@/lib/utils"
+import { convertHumanIntToMonth, validatedMonth, validatedYear } from "@/lib/utils"
 import SummaryCard from "./_partials/summary-card"
 import { ChevronLeftIcon, CreditCardIcon, DollarSignIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
 import SummaryChart from "./_partials/summary-chart"
@@ -50,7 +50,7 @@ export default function OrcamentoMensalPage({ searchParams }: Props) {
     <div className='py-4 max-w-screen-2xl mx-auto'>
       <div className="w-full flex justify-start items-center sm:gap-2">
         <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
-        <H1>Orçamento {convertIntToMonth(month)} de {year}</H1>
+        <H1>Orçamento {convertHumanIntToMonth(month)} de {year}</H1>
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-12 gap-4 pt-6'>
         <SummaryCard title="Saldo" amount={transactions?.summary.balance} className="sm:col-span-4" Icon={DollarSignIcon} amountTextClassName="sm:text-4xl" isLoading={isLoadingTransactions} />

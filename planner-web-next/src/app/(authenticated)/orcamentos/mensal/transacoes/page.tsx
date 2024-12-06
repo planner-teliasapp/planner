@@ -1,7 +1,7 @@
 "use client"
 
 import { H1 } from "@/components/ui/typography"
-import { convertIntToMonth, validatedMonth, validatedYear } from "@/lib/utils"
+import { convertHumanIntToMonth, validatedMonth, validatedYear } from "@/lib/utils"
 import TransactionsTable from "./_partials/transactions-table"
 import CreateTransactionButton from "../../_partials/create-transaction-button"
 import { useBudget } from "@/hooks/use-budget"
@@ -50,7 +50,7 @@ export default function OrcamentoMensalTransacoesPage({ searchParams }: Props) {
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
         <div className="w-full flex justify-start items-center sm:gap-2">
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
-          <H1 className="text-start w-full">Transações de {convertIntToMonth(month)} de {year}</H1>
+          <H1 className="text-start w-full">Transações de {convertHumanIntToMonth(month)} de {year}</H1>
         </div>
         <CreateTransactionButton onSubmit={onSubmit} isLoading={isCreatingTransaction} />
       </div>
