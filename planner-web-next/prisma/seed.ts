@@ -319,8 +319,8 @@ const ticker = [
     name: "XP Malls",
     type: "REIT",
     price: 100,
-    change: 1,
-    changePercent: 0.01,
+    change: -1,
+    changePercent: -0.01,
   }
 ]
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { HouseIcon, ListChecksIcon, WalletIcon } from "lucide-react"
+import { HouseIcon, LandmarkIcon, ListChecksIcon, WalletIcon } from "lucide-react"
 
 import {
   Sidebar,
@@ -31,6 +31,11 @@ const items = [
     title: "Orçamentos",
     url: "/orcamentos",
     icon: WalletIcon,
+  },
+  {
+    title: "Patrimônio",
+    url: "/patrimonio",
+    icon: LandmarkIcon,
   }
 ]
 
