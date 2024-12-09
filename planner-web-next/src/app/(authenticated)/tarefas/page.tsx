@@ -10,13 +10,20 @@ import { useMemo } from "react"
 import { TaskList } from "@/models/task-list"
 
 export default function TarefasPage() {
-  const { tasks, isLoadingTasks } = useTasks()
+  const { tasks, lists: listsDb, isLoadingTasks, isLoadingLists } = useTasks()
 
   const lists = useMemo(() => {
     if (!tasks) return []
 
-    return TaskList.fromTasks(tasks)
-  }, [tasks])
+    const listFromTasks = TaskList.fromTasks(tasks)
+    listsDb?.forEach(list => {
+      const index = listFromTasks.findIndex(l => l.id === list.id)
+      if (index === -1) listFromTasks.push(list)
+      else listFromTasks[index] = list
+    })
+
+    return listFromTasks
+  }, [tasks, listsDb])
 
   return (
     <TasksProvider>
