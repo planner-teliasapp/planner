@@ -101,3 +101,26 @@ model RecurringTransaction {
   @@index([userId, frequency, startDate, endDate])
   @@map("recurring_transactions")
 }
+
+enum TickerType {
+  STOCK
+  ETF
+  REIT
+  GOLD
+  CRYPTO
+  INTERNATIONAL
+}
+
+model Ticker {
+  id            String     @id @default(cuid())
+  symbol        String
+  name          String
+  type          TickerType
+  price         Decimal    @db.Decimal(10, 2)
+  change        Decimal    @db.Decimal(10, 2)
+  changePercent Decimal    @map("change_percent") @db.Decimal(4, 3)
+  autoUpdate    Boolean    @default(false) @map("auto_update")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  @@map("tickers")
+}

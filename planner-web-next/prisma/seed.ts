@@ -265,6 +265,65 @@ const transactions = [
   }
 ]
 
+const ticker = [
+  {
+    symbol: "PETR4",
+    name: "Petrobras",
+    type: "STOCK",
+    price: 39.03,
+    change: 0.30,
+    changePercent: 0.078,
+  },
+  {
+    symbol: "VALE3",
+    name: "Vale",
+    type: "STOCK",
+    price: 105.00,
+    change: 0.50,
+    changePercent: 0.005,
+  },
+  {
+    symbol: "IVVB11",
+    name: "S&P 500",
+    type: "INTERNATIONAL",
+    price: 200,
+    change: 1.50,
+    changePercent: 0.0075,
+  },
+  {
+    symbol: "QBTC11",
+    name: "Bitcoin",
+    type: "CRYPTO",
+    price: 200000,
+    change: 1000,
+    changePercent: 0.005,
+  },
+  {
+    symbol: "GOLD11",
+    name: "Ouro",
+    type: "GOLD",
+    price: 300,
+    change: 5,
+    changePercent: 0.02,
+  },
+  {
+    symbol: "HGLG11",
+    name: "HG Logística",
+    type: "REIT",
+    price: 150,
+    change: 2,
+    changePercent: 0.013,
+  },
+  {
+    symbol: "XPML11",
+    name: "XP Malls",
+    type: "REIT",
+    price: 100,
+    change: 1,
+    changePercent: 0.01,
+  }
+]
+
 async function seed() {
   if (!userId || userId === "") {
     throw new Error("DATABASE_SEED_USER_ID is not defined")
@@ -274,6 +333,7 @@ async function seed() {
   await prismaClient.taskList.createMany({ data: taskLists })
   await prismaClient.transaction.createMany({ data: transactions })
   await prismaClient.recurringTransaction.createMany({ data: recurringTransactions })
+  await prismaClient.ticker.createMany({ data: ticker })
 }
 
 seed()

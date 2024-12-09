@@ -79,3 +79,25 @@ Table recurring_transactions {
 }
 
 Ref: transactions.recurring_transaction_id > recurring_transactions.id
+
+Enum ticker_types {
+  STOCK
+  ETF
+  REIT
+  GOLD
+  CRYPTO
+}
+
+Table tickers {
+  id cuid [primary key]
+  symbol varchar [not null]
+  name varchar [not null]
+  type ticker_types [not null]
+  price decimal [not null]
+  change decimal [not null]
+  change_percent decimal [not null]
+  dividends decimal [null]
+  auto_update bool [default: false]
+
+  updated_at timestamp
+}
