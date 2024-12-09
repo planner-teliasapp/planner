@@ -1,4 +1,4 @@
-import { createTickerAction, getTickersAction } from "@/actions/assets"
+import { autoUpdateTickersAction, createTickerAction, getTickersAction } from "@/actions/assets"
 import { TickerAlreadyExists } from "@/errors"
 import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
@@ -31,14 +31,40 @@ export const useAssets = () => {
     }
   })
 
+  const { mutateAsync: autoUpdateTickers, isPending: isAutoUpdatingTickers } = useMutation({
+    mutationKey: ["autoUpdateTickers"],
+    mutationFn: async () => {
+      const result = await autoUpdateTickersAction()
+      const tickers = JSON.parse(result) as Ticker[]
+
+      queryClient.setQueryData(["tickers"], (curr: Ticker[]) => {
+        return tickers.reduce((acc, t) => {
+          return replaceTicker(acc, t)
+        }, curr)
+      })
+    }
+  })
+
   return {
     tickers,
     isLoadingTickers,
     createTicker,
-    isCreatingTicker
+    isCreatingTicker,
+    autoUpdateTickers,
+    isAutoUpdatingTickers
   }
 }
 
 function addCreatedTickerToTickers(tickers: Ticker[], ticker: Ticker): Ticker[] {
   return [ticker, ...tickers]
+}
+
+function replaceTicker(tickers: Ticker[], ticker: Ticker): Ticker[] {
+  return tickers.map((t) => {
+    if (t.id === ticker.id) {
+      return ticker
+    }
+
+    return t
+  })
 }

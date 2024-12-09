@@ -9,6 +9,7 @@ import { useAssets } from "@/hooks/use-assets"
 import CreateTickerButton from "../_partials/create-ticker-button"
 import { CreateTickerDto } from "@/models/assets/ticker"
 import { useToast } from "@/hooks/use-toast"
+import AutoUpdateTickersButton from "../_partials/auto-update-tickers-button"
 
 export default function TickersPage() {
   const { tickers, isLoadingTickers, createTicker, isCreatingTicker } = useAssets()
@@ -50,6 +51,7 @@ export default function TickersPage() {
           <H1 className="text-start w-full">Tickers</H1>
         </div>
         <CreateTickerButton onSubmit={onSubmit} isLoading={isCreatingTicker} />
+        <AutoUpdateTickersButton />
       </div>
       <div className='pt-6'>
         <TickersTable tickers={tickers} isLoading={isLoadingTickers} />
