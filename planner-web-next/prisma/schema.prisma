@@ -113,13 +113,13 @@ enum TickerType {
 
 model Ticker {
   id            String     @id @default(cuid())
-  symbol        String
+  symbol        String     @unique
   name          String
   type          TickerType
   price         Decimal    @db.Decimal(10, 2)
-  change        Decimal    @default(0) @db.Decimal(10, 2)
-  changePercent Decimal    @default(0) @map("change_percent") @db.Decimal(4, 3)
-  autoUpdate    Boolean    @default(false) @map("auto_update")
+  change        Decimal?   @default(0) @db.Decimal(10, 2)
+  changePercent Decimal?   @default(0) @map("change_percent") @db.Decimal(4, 3)
+  autoUpdate    Boolean?   @default(false) @map("auto_update")
   updatedAt     DateTime   @updatedAt @map("updated_at")
 
   @@map("tickers")

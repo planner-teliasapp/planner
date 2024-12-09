@@ -36,12 +36,24 @@ export class Ticker implements ITicker {
       price: Number(data.price),
       change: Number(data.change),
       changePercent: Number(data.changePercent),
-      autoUpdate: data.autoUpdate,
+      autoUpdate: !!data.autoUpdate,
       updatedAt: data.updatedAt,
     })
+  }
+
+  static fromString(data: string): Ticker {
+    return new Ticker(JSON.parse(data))
   }
 
   static fromStringArray(data: string): Ticker[] {
     return JSON.parse(data).map((item: ITicker) => new Ticker(item))
   }
+}
+
+export interface CreateTickerDto {
+  symbol: string
+  name: string
+  type: TickerType
+  price: number
+  autoUpdate?: boolean
 }

@@ -1,7 +1,8 @@
-import { getTickersAction } from "@/actions/assets"
-import { Ticker } from "@/models/assets/ticker"
+import { createTickerAction, getTickersAction } from "@/actions/assets"
+import { TickerAlreadyExists } from "@/errors"
+import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useAssets = () => {
   const queryClient = useQueryClient()
@@ -18,8 +19,26 @@ export const useAssets = () => {
     staleTime: 60_000 * 10
   })
 
+  const { mutateAsync: createTicker, isPending: isCreatingTicker } = useMutation({
+    mutationKey: ["createTicker"],
+    mutationFn: async (data: CreateTickerDto) => {
+      const result = await createTickerAction(data)
+      const ticker = Ticker.fromString(result)
+
+      queryClient.setQueryData(["tickers"], (curr: Ticker[]) => {
+        return addCreatedTickerToTickers(curr, ticker)
+      })
+    }
+  })
+
   return {
     tickers,
-    isLoadingTickers
+    isLoadingTickers,
+    createTicker,
+    isCreatingTicker
   }
+}
+
+function addCreatedTickerToTickers(tickers: Ticker[], ticker: Ticker): Ticker[] {
+  return [ticker, ...tickers]
 }

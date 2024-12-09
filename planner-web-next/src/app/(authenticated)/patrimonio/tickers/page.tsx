@@ -6,10 +6,41 @@ import { ChevronLeftIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import TickersTable from "./_partials/tickers-table"
 import { useAssets } from "@/hooks/use-assets"
+import CreateTickerButton from "../_partials/create-ticker-button"
+import { CreateTickerDto } from "@/models/assets/ticker"
+import { useToast } from "@/hooks/use-toast"
 
 export default function TickersPage() {
-  const { tickers, isLoadingTickers } = useAssets()
+  const { tickers, isLoadingTickers, createTicker, isCreatingTicker } = useAssets()
   const router = useRouter()
+  const { toast } = useToast()
+
+  async function onSubmit(data: CreateTickerDto) {
+    try {
+      await createTicker(data)
+      toast({
+        title: "Ticker cadastrado com sucesso",
+      })
+    } catch (err) {
+
+      const error = err as Error
+
+      if (error.message === "Ticker already exists") {
+        toast({
+          title: "Erro ao cadastrar ticker",
+          description: "Ticker já cadastrado",
+          variant: "destructive",
+        })
+        return
+      }
+
+      toast({
+        title: "Erro ao cadastrar ticker",
+        description: error.message,
+        variant: "destructive",
+      })
+    }
+  }
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
@@ -18,7 +49,7 @@ export default function TickersPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
           <H1 className="text-start w-full">Tickers</H1>
         </div>
-        {/* <CreateRecurringTransactionButton onSubmit={onSubmit} isLoading={isCreatingRecurringTransaction} /> */}
+        <CreateTickerButton onSubmit={onSubmit} isLoading={isCreatingTicker} />
       </div>
       <div className='pt-6'>
         <TickersTable tickers={tickers} isLoading={isLoadingTickers} />
