@@ -4,7 +4,7 @@ type TicketTypeMapper = {
   label: string
 }
 
-export const ticketTypeMapper: Record<TickerType, TicketTypeMapper> = {
+export const tickerTypeMapper: Record<TickerType, TicketTypeMapper> = {
   [TickerType.STOCK]: {
     label: "Ação"
   },

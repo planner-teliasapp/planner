@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CreateTickerDto } from "@/models/assets/ticker"
-import { ticketTypeMapper } from "../_utils"
+import { tickerTypeMapper } from "../_utils"
 import { Switch } from "@/components/ui/switch"
 
 const formSchema = z.object({
@@ -103,7 +103,7 @@ export default function CreateTickerForm({ onSubmit, isLoading }: Props) {
                 <SelectContent>
                   {tickerTypeOptions.map((option) => (
                     <SelectItem key={option} value={option}>
-                      {ticketTypeMapper[option].label}
+                      {tickerTypeMapper[option].label}
                     </SelectItem>
                   ))}
                 </SelectContent>

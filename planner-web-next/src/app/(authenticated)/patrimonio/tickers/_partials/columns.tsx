@@ -4,7 +4,7 @@ import { RecurringTransaction } from "@/models/transaction"
 import { ColumnDef } from "@tanstack/react-table"
 import { cn, convertIntToMonth, convertIntToWeekday, formatCurrency } from "@/lib/utils"
 import { Ticker } from "@/models/assets/ticker"
-import { ticketTypeMapper } from "../../_utils"
+import { tickerTypeMapper } from "../../_utils"
 import { TickerType } from "@prisma/client"
 
 export const columns: ColumnDef<Ticker>[] = [
@@ -19,7 +19,7 @@ export const columns: ColumnDef<Ticker>[] = [
   {
     accessorKey: "type",
     header: "Tipo",
-    cell: (row) => ticketTypeMapper[row.getValue() as TickerType].label,
+    cell: (row) => tickerTypeMapper[row.getValue() as TickerType].label,
   },
   {
     accessorKey: "price",
