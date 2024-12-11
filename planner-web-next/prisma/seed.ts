@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client")
-const { setDate, add, endOfMonth, startOfMonth, sub } = require("date-fns")
+const { setDate, add, endOfMonth, startOfMonth, sub, subDays } = require("date-fns")
 
 const prismaClient = new PrismaClient()
 const userId = process.env.DATABASE_SEED_USER_ID || ""
@@ -324,6 +324,36 @@ const ticker = [
   }
 ]
 
+const tickerOrders = [
+  {
+    userId,
+    ticker: "PETR4",
+    type: "BUY",
+    quantity: 100,
+    price: 40,
+    createdAt: subDays(currentDate, 30),
+    updatedAt: subDays(currentDate, 30),
+  },
+  {
+    userId,
+    ticker: "PETR4",
+    type: "BUY",
+    quantity: 100,
+    price: 44,
+    createdAt: subDays(currentDate, 25),
+    updatedAt: subDays(currentDate, 25),
+  },
+  {
+    userId,
+    ticker: "PETR4",
+    type: "SELL",
+    quantity: 50,
+    price: 48,
+    createdAt: subDays(currentDate, 20),
+    updatedAt: subDays(currentDate, 20),
+  },
+]
+
 async function seed() {
   if (!userId || userId === "") {
     throw new Error("DATABASE_SEED_USER_ID is not defined")
@@ -334,6 +364,7 @@ async function seed() {
   await prismaClient.transaction.createMany({ data: transactions })
   await prismaClient.recurringTransaction.createMany({ data: recurringTransactions })
   await prismaClient.ticker.createMany({ data: ticker })
+  await prismaClient.tickerOrder.createMany({ data: tickerOrders })
 }
 
 seed()

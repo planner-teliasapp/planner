@@ -101,3 +101,22 @@ Table tickers {
 
   updated_at timestamp
 }
+
+Enum ticker_order_types {
+  BUY
+  SELL
+}
+
+Table ticker_orders {
+  id cuid [primary key]
+  user_id uuid [not null]
+  ticker string [not null]
+  type ticker_order_types [not null]
+  quantity int [not null]
+  price decimal [not null]
+
+  created_at timestamp
+  updated_at timestamp
+}
+
+Ref: ticker_orders.ticker > tickers.symbol
