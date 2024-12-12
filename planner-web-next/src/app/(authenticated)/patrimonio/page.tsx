@@ -7,8 +7,6 @@ import Link from "next/link"
 export default function PatrimonioPage() {
   const { assets, isLoadingAssets } = useAssets()
 
-  console.log(assets)
-
   return (
     <div>
       <h1>Patrimônio</h1>
@@ -38,21 +36,6 @@ export default function PatrimonioPage() {
           Renda Variável
         </Link>
       </div>
-      {isLoadingAssets ? (
-        <div>Carregando...</div>
-      ) : (
-        <ul>
-          {assets?.variableIncome.stocks.map((stock) => (
-            <li key={stock.symbol} className="flex gap-2">
-              <p>{stock.name}</p>
-              <p>{stock.quantity}</p>
-              <p>{stock.symbol}</p>
-              <p>{stock.price}</p>
-              <p>{stock.meanPrice}</p>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   )
 }

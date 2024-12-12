@@ -39,7 +39,6 @@ export default function AutoUpdateTickersButton({ className }: Props) {
       onClick={handleAutoUpdateTickers}
     >
       <span>Atualizar Tickers</span>
-      <PlusIcon />
     </Button>
   )
 }

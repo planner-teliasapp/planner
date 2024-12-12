@@ -1,8 +1,7 @@
 "use client"
 
-import { RecurringTransaction } from "@/models/transaction"
 import { ColumnDef } from "@tanstack/react-table"
-import { cn, convertIntToMonth, convertIntToWeekday, formatCurrency } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils"
 import { Ticker } from "@/models/assets/ticker"
 import { tickerTypeMapper } from "../../_utils"
 import { TickerType } from "@prisma/client"
@@ -35,6 +34,11 @@ export const columns: ColumnDef<Ticker>[] = [
     accessorKey: "changePercent",
     header: "Variação (%)",
     cell: (row) => Number(row.getValue()).toFixed(2) + "%",
+  },
+  {
+    accessorKey: "autoUpdate",
+    header: "Atualização automática",
+    cell: (row) => row.getValue() ? "Sim" : "Não",
   },
   {
     accessorKey: "updatedAt",
