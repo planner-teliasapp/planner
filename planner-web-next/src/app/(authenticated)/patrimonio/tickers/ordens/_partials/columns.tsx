@@ -3,10 +3,10 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { formatCurrency } from "@/lib/utils"
 import { TickerType } from "@prisma/client"
-import { TickerOrderWithMeanPrice } from "@/models/assets/ticker-order"
+import { ITickerOrderWithMeanPrice } from "@/models/assets/ticker-order"
 import { tickerTypeMapper } from "../../../_utils"
 
-export const columns: ColumnDef<TickerOrderWithMeanPrice>[] = [
+export const columns: ColumnDef<ITickerOrderWithMeanPrice>[] = [
   {
     accessorKey: "ticker",
     header: "Ticker",

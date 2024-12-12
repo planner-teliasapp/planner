@@ -1,4 +1,6 @@
 import { autoUpdateTickersAction, createTickerAction, createTickerOrderAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
+import { VariableIncome } from "@/models/assets"
+import { Assets } from "@/models/assets/assets"
 import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
 import { CreateTickerOrderDto, TickerOrder } from "@/models/assets/ticker-order"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
@@ -28,6 +30,8 @@ export const useAssets = () => {
       queryClient.setQueryData(["tickers"], (curr: Ticker[]) => {
         return addCreatedTickerToTickers(curr, ticker)
       })
+
+      queryClient.invalidateQueries({ queryKey: ["assets", user?.id] })
     }
   })
 
@@ -42,6 +46,8 @@ export const useAssets = () => {
           return replaceTicker(acc, t)
         }, curr)
       })
+
+      queryClient.invalidateQueries({ queryKey: ["assets", user?.id] })
     }
   })
 
@@ -49,8 +55,9 @@ export const useAssets = () => {
     queryKey: ["tickerOrders", user?.id],
     queryFn: async () => {
       if (!user) {
-        return []
+        throw new Error("User not found")
       }
+
       const data = await getTickerOrdersAction(user?.id)
       const items = TickerOrder.fromStringArray(data)
 
@@ -72,7 +79,35 @@ export const useAssets = () => {
       queryClient.setQueryData(["tickerOrders", user?.id], (curr: TickerOrder[]) => {
         return addCreatedTickerOrderToTickerOrders(curr, ticker)
       })
-    }
+
+      queryClient.invalidateQueries({ queryKey: ["assets", user?.id] })
+    },
+  })
+
+  const { data: assets, isPending: isLoadingAssets } = useQuery({
+    queryKey: ["assets", user?.id],
+    queryFn: async () => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      let tempTickerOrders: TickerOrder[] = []
+
+      if (!tickerOrders) {
+        const data = await getTickerOrdersAction(user?.id)
+        tempTickerOrders = TickerOrder.fromStringArray(data)
+        queryClient.setQueryData(["tickerOrders", user?.id], tempTickerOrders)
+      }
+
+      const tickerOrdersWithMeanPrice = TickerOrder.includeMeanPrice(tempTickerOrders || [])
+      const variableIncome = new VariableIncome(tickers || [], tickerOrdersWithMeanPrice)
+
+
+      return new Assets({
+        variableIncome
+      })
+    },
+    staleTime: 60_000 * 10
   })
 
   return {
@@ -86,7 +121,10 @@ export const useAssets = () => {
     tickerOrders,
     isLoadingTickerOrders,
     createTickerOrder,
-    isCreatingTickerOrder
+    isCreatingTickerOrder,
+
+    assets,
+    isLoadingAssets
   }
 }
 

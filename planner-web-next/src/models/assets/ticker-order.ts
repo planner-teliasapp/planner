@@ -65,9 +65,9 @@ export class TickerOrder implements ITickerOrder {
     return orders.sort((a, b) => asc ? a.createdAt.getTime() - b.createdAt.getTime() : b.createdAt.getTime() - a.createdAt.getTime())
   }
 
-  static includeMeanPrice(orders: TickerOrder[]): TickerOrderWithMeanPrice[] {
+  static includeMeanPrice(orders: TickerOrder[]): ITickerOrderWithMeanPrice[] {
     const orderedOrders = TickerOrder.orderOrdersByDate(orders, true)
-    const ordersWithMeanPrice: TickerOrderWithMeanPrice[] = []
+    const ordersWithMeanPrice: ITickerOrderWithMeanPrice[] = []
 
     let prevData: { [key: string]: { previousMeanPrice: number, previousTotalQuantity: number } }[] = []
 
@@ -112,12 +112,29 @@ export class TickerOrder implements ITickerOrder {
   }
 }
 
-export type TickerOrderWithMeanPrice = TickerOrder & {
+export interface ITickerOrderWithMeanPrice extends ITickerOrder {
   previousMeanPrice: number
   previousTotalQuantity: number
   newMeanPrice: number
   newTotalQuantity: number
   gain?: number
+}
+
+export class TickerOrderWithMeanPrice extends TickerOrder implements ITickerOrderWithMeanPrice {
+  previousMeanPrice: number
+  previousTotalQuantity: number
+  newMeanPrice: number
+  newTotalQuantity: number
+  gain?: number
+
+  constructor(data: ITickerOrderWithMeanPrice) {
+    super(data)
+    this.previousMeanPrice = data.previousMeanPrice
+    this.previousTotalQuantity = data.previousTotalQuantity
+    this.newMeanPrice = data.newMeanPrice
+    this.newTotalQuantity = data.newTotalQuantity
+    this.gain = data.gain
+  }
 }
 
 export interface CreateTickerOrderDto {
