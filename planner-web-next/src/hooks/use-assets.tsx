@@ -1,7 +1,6 @@
-import { autoUpdateTickersAction, createTickerAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
-import { TickerAlreadyExists } from "@/errors"
+import { autoUpdateTickersAction, createTickerAction, createTickerOrderAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
 import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
-import { TickerOrder } from "@/models/assets/ticker-order"
+import { CreateTickerOrderDto, TickerOrder } from "@/models/assets/ticker-order"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -60,6 +59,22 @@ export const useAssets = () => {
     staleTime: 60_000 * 10
   })
 
+  const { mutateAsync: createTickerOrder, isPending: isCreatingTickerOrder } = useMutation({
+    mutationKey: ["createTickerOrder"],
+    mutationFn: async (data: CreateTickerOrderDto) => {
+      if (!user) {
+        return []
+      }
+
+      const result = await createTickerOrderAction(data, user?.id)
+      const ticker = TickerOrder.fromString(result)
+
+      queryClient.setQueryData(["tickerOrders", user?.id], (curr: TickerOrder[]) => {
+        return addCreatedTickerOrderToTickerOrders(curr, ticker)
+      })
+    }
+  })
+
   return {
     tickers,
     isLoadingTickers,
@@ -69,7 +84,9 @@ export const useAssets = () => {
     isAutoUpdatingTickers,
 
     tickerOrders,
-    isLoadingTickerOrders
+    isLoadingTickerOrders,
+    createTickerOrder,
+    isCreatingTickerOrder
   }
 }
 
@@ -85,4 +102,8 @@ function replaceTicker(tickers: Ticker[], ticker: Ticker): Ticker[] {
 
     return t
   })
+}
+
+function addCreatedTickerOrderToTickerOrders(tickerOrders: TickerOrder[], tickerOrder: TickerOrder): TickerOrder[] {
+  return [tickerOrder, ...tickerOrders]
 }

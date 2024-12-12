@@ -28,8 +28,6 @@ export async function getUpdatedTicker(ticker: Ticker): Promise<Ticker | null> {
       return null
     }
 
-    console.log(response.data)
-
     return new Ticker({
       ...ticker,
       price: parseFloat(response.data["Global Quote"]["05. price"]),

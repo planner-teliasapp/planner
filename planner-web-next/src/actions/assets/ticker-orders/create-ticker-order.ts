@@ -1,26 +1,28 @@
 "use server"
 
-import { TickerAlreadyExists } from "@/errors"
 import { prismaClient } from "@/lib/prisma-client"
-import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
+import { CreateTickerOrderDto, TickerOrder } from "@/models/assets/ticker-order"
 
-export async function createTickerAction(data: CreateTickerDto): Promise<string> {
-  try {
-    const ticker = await prismaClient.ticker.create({
-      data: {
-        ...data,
-        symbol: data.symbol.toUpperCase()
+export async function createTickerOrderAction(data: CreateTickerOrderDto, userId: string): Promise<string> {
+  const ticker = await prismaClient.tickerOrder.create({
+    data: {
+      userId,
+      ticker: data.ticker,
+      type: data.type,
+      quantity: data.quantity,
+      price: data.price,
+      createdAt: data.date
+    },
+    include: {
+      Ticker: {
+        select: {
+          symbol: true,
+          name: true,
+          type: true
+        }
       }
-    })
-
-    return JSON.stringify(Ticker.fromPrisma(ticker))
-
-  } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      throw new TickerAlreadyExists()
     }
+  })
 
-    throw error
-  }
+  return JSON.stringify(TickerOrder.fromPrisma(ticker))
 }

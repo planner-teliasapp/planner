@@ -4,8 +4,6 @@ import { prismaClient } from "@/lib/prisma-client"
 import { CreateTaskDto, Task } from "@/models/task"
 
 export async function createTaskAction(data: CreateTaskDto, userId: string) {
-  console.log(data)
-
   const task = await prismaClient.task.create({
     data: {
       title: data.title,

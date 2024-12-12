@@ -24,7 +24,6 @@ export default function EntrarPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values)
       form.reset()
     } catch (error) {
       throw error

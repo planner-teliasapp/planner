@@ -77,9 +77,6 @@ export class TickerOrder implements ITickerOrder {
       const previousMeanPrice = prevData[prevDataIndex]?.[order.ticker]?.previousMeanPrice || 0
       const previousTotalQuantity = prevData[prevDataIndex]?.[order.ticker]?.previousTotalQuantity || 0
 
-      console.log(prevData)
-      console.log(order, previousMeanPrice, previousTotalQuantity)
-
       const newTotalQuantity = previousTotalQuantity + (order.quantity * (order.orderType === TickerOrderType.BUY ? 1 : -1))
 
       const newMeanPrice = order.orderType === TickerOrderType.BUY ? ((previousMeanPrice * previousTotalQuantity) + (order.price * order.quantity)) / newTotalQuantity : previousMeanPrice
@@ -121,4 +118,12 @@ export type TickerOrderWithMeanPrice = TickerOrder & {
   newMeanPrice: number
   newTotalQuantity: number
   gain?: number
+}
+
+export interface CreateTickerOrderDto {
+  ticker: string
+  type: TickerOrderType
+  quantity: number
+  price: number
+  date?: Date
 }

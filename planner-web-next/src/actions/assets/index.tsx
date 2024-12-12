@@ -1,3 +1,4 @@
+import { createTickerOrderAction } from "./ticker-orders/create-ticker-order"
 import { getTickerOrdersAction } from "./ticker-orders/get-ticker-orders"
 import { autoUpdateTickersAction } from "./tickers/auto-update-tickers"
 import { createTickerAction } from "./tickers/create-ticker"
@@ -8,5 +9,6 @@ export {
   getTickersAction,
   createTickerAction,
   autoUpdateTickersAction,
-  getTickerOrdersAction
+  getTickerOrdersAction,
+  createTickerOrderAction
 }

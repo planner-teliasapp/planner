@@ -7,11 +7,31 @@ import { ChevronLeftIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import TickerOrdersTable from "./_partials/ticker-orders-table"
 import { useAssets } from "@/hooks/use-assets"
+import CreateTickerOrderButton from "../../_partials/create-ticker-order-button"
+import { CreateTickerOrderDto } from "@/models/assets/ticker-order"
 
 export default function TickerOrdensPage() {
-  const { tickerOrders, isLoadingTickerOrders } = useAssets()
+  const { tickerOrders, isLoadingTickerOrders, createTickerOrder, isCreatingTickerOrder } = useAssets()
   const router = useRouter()
   const { toast } = useToast()
+
+  async function onSubmit(data: CreateTickerOrderDto) {
+    try {
+      await createTickerOrder(data)
+      toast({
+        title: "Ordem cadastrada com sucesso",
+      })
+    } catch (err) {
+
+      const error = err as Error
+
+      toast({
+        title: "Erro ao cadastrar ordem",
+        description: error.message,
+        variant: "destructive",
+      })
+    }
+  }
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
@@ -20,7 +40,7 @@ export default function TickerOrdensPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
           <H1 className="text-start w-full">Ordens</H1>
         </div>
-        {/* <CreateTickerButton onSubmit={onSubmit} isLoading={isCreatingTicker} /> */}
+        <CreateTickerOrderButton onSubmit={onSubmit} isLoading={isCreatingTickerOrder} />
       </div>
       <div className='pt-6'>
         <TickerOrdersTable orders={tickerOrders} isLoading={isLoadingTickerOrders} />

@@ -96,7 +96,6 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading, cl
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
     onSubmit && onSubmit(values)
-    // console.log(values)
   }
 
   return (
