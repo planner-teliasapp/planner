@@ -3,10 +3,10 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { formatCurrency } from "@/lib/utils"
 import { TickerType } from "@prisma/client"
-import { TickerOrder } from "@/models/assets/ticker-order"
+import { TickerOrderWithMeanPrice } from "@/models/assets/ticker-order"
 import { tickerTypeMapper } from "../../../_utils"
 
-export const columns: ColumnDef<TickerOrder>[] = [
+export const columns: ColumnDef<TickerOrderWithMeanPrice>[] = [
   {
     accessorKey: "ticker",
     header: "Ticker",
@@ -38,5 +38,25 @@ export const columns: ColumnDef<TickerOrder>[] = [
     accessorKey: "createdAt",
     header: "Data",
     cell: (row) => new Date(row.getValue() as string).toLocaleDateString(),
+  },
+  {
+    accessorKey: "previousMeanPrice",
+    header: "Preço Médio Anterior",
+    cell: (row) => formatCurrency(row.getValue() as number),
+  },
+  {
+    accessorKey: "newMeanPrice",
+    header: "Novo Preço Médio",
+    cell: (row) => formatCurrency(row.getValue() as number),
+  },
+  {
+    accessorKey: "newTotalQuantity",
+    header: "Quantidade Atual",
+    cell: (row) => Number(row.getValue() as number),
+  },
+  {
+    accessorKey: "gain",
+    header: "Ganhos",
+    cell: (row) => formatCurrency(row.getValue() as number),
   }
 ]
