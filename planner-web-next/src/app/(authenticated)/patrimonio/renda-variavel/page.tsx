@@ -10,6 +10,7 @@ import StocksTable from "./_partials/stocks-table"
 import { tickerTypeMapper } from "../_utils"
 import { TickerType } from "@prisma/client"
 import { useMemo } from "react"
+import { formatCurrency } from "@/lib/utils"
 
 export default function RendaVariavelPage() {
   const { assets, isLoadingAssets } = useAssets()
@@ -27,7 +28,7 @@ export default function RendaVariavelPage() {
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
         <div className="w-full flex justify-start items-center sm:gap-2">
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
-          <H1 className="text-start w-full">Renda Variável</H1>
+          <H1 className="text-start w-full">Renda Variável - {formatCurrency(assets?.variableIncome.summary.totalAmount)}</H1>
         </div>
         <AutoUpdateTickersButton />
       </div>
@@ -39,37 +40,37 @@ export default function RendaVariavelPage() {
         <div className='pt-6 space-y-8'>
           {(stocks?.length || 0) > 0 && (
             <div className="space-y-2">
-              <H2>{tickerTypeMapper[TickerType.STOCK].label}</H2>
+              <H2>{tickerTypeMapper[TickerType.STOCK].label} - {formatCurrency(assets?.variableIncome.summary.totalInStocks)}</H2>
               <StocksTable stocks={stocks} isLoading={isLoadingAssets} />
             </div>
           )}
           {(reits?.length || 0) > 0 && (
             <div className="space-y-2">
-              <H2>{tickerTypeMapper[TickerType.REIT].label}</H2>
+              <H2>{tickerTypeMapper[TickerType.REIT].label} - {formatCurrency(assets?.variableIncome.summary.totalInReits)}</H2>
               <StocksTable stocks={reits} isLoading={isLoadingAssets} />
             </div>
           )}
           {(internationalStocks?.length || 0) > 0 && (
             <div className="space-y-2">
-              <H2>{tickerTypeMapper[TickerType.INTERNATIONAL].label}</H2>
+              <H2>{tickerTypeMapper[TickerType.INTERNATIONAL].label} - {formatCurrency(assets?.variableIncome.summary.totalInInternationalStocks)}</H2>
               <StocksTable stocks={internationalStocks} isLoading={isLoadingAssets} />
             </div>
           )}
           {(cryptos?.length || 0) > 0 && (
             <div className="space-y-2">
-              <H2>{tickerTypeMapper[TickerType.CRYPTO].label}</H2>
+              <H2>{tickerTypeMapper[TickerType.CRYPTO].label} - {formatCurrency(assets?.variableIncome.summary.totalInCryptos)}</H2>
               <StocksTable stocks={cryptos} isLoading={isLoadingAssets} />
             </div>
           )}
           {(golds?.length || 0) > 0 && (
             <div className="space-y-2">
-              <H2>{tickerTypeMapper[TickerType.GOLD].label}</H2>
+              <H2>{tickerTypeMapper[TickerType.GOLD].label} - {formatCurrency(assets?.variableIncome.summary.totalInGolds)}</H2>
               <StocksTable stocks={golds} isLoading={isLoadingAssets} />
             </div>
           )}
           {(etfs?.length || 0) > 0 && (
             <div className="space-y-2">
-              <H2>{tickerTypeMapper[TickerType.ETF].label}</H2>
+              <H2>{tickerTypeMapper[TickerType.ETF].label} - {formatCurrency(assets?.variableIncome.summary.totalInEtfs)}</H2>
               <StocksTable stocks={etfs} isLoading={isLoadingAssets} />
             </div>
           )}

@@ -1,6 +1,22 @@
 import { TickerType } from "@prisma/client"
 import { Stock, Ticker, TickerOrderWithMeanPrice } from "."
 
+export interface IVariableIncomeSummary {
+  totalAmount: number
+  totalInStocks: number
+  totalInEtfs: number
+  totalInReits: number
+  totalInGolds: number
+  totalInCryptos: number
+  totalInInternationalStocks: number
+  // percentageInStocks: number
+  // percentageInEtfs: number
+  // percentageInReits: number
+  // percentageInGolds: number
+  // percentageInCryptos: number
+  // percentageInInternationalStocks: number
+}
+
 export interface IVariableIncome {
   stocks: Stock[]
   etfs: Stock[]
@@ -8,6 +24,7 @@ export interface IVariableIncome {
   golds: Stock[]
   cryptos: Stock[]
   internationalStocks: Stock[]
+  summary: IVariableIncomeSummary
 }
 
 export class VariableIncome implements IVariableIncome {
@@ -17,6 +34,7 @@ export class VariableIncome implements IVariableIncome {
   golds: Stock[]
   cryptos: Stock[]
   internationalStocks: Stock[]
+  summary: IVariableIncomeSummary
 
   constructor(tickers: Ticker[], orders: TickerOrderWithMeanPrice[]) {
     //Get last order from each ticker
@@ -40,6 +58,17 @@ export class VariableIncome implements IVariableIncome {
     this.golds = this.getStocksByType(ordersWithNomZeroQuantity, tickers, TickerType.GOLD)
     this.cryptos = this.getStocksByType(ordersWithNomZeroQuantity, tickers, TickerType.CRYPTO)
     this.internationalStocks = this.getStocksByType(ordersWithNomZeroQuantity, tickers, TickerType.INTERNATIONAL)
+
+    //Get summary
+    this.summary = {
+      totalInStocks: this.getTotalAmountFromStocks(this.stocks),
+      totalInEtfs: this.getTotalAmountFromStocks(this.etfs),
+      totalInReits: this.getTotalAmountFromStocks(this.reits),
+      totalInGolds: this.getTotalAmountFromStocks(this.golds),
+      totalInCryptos: this.getTotalAmountFromStocks(this.cryptos),
+      totalInInternationalStocks: this.getTotalAmountFromStocks(this.internationalStocks),
+      totalAmount: this.getTotalAmount(),
+    }
   }
 
   private getStocksByType(orders: TickerOrderWithMeanPrice[], tickers: Ticker[], type: TickerType): Stock[] {
@@ -49,5 +78,18 @@ export class VariableIncome implements IVariableIncome {
         tickers.find(ticker => ticker.symbol === order.ticker)!,
         order
       ))
+  }
+
+  private getTotalAmountFromStocks(stocks: Stock[]): number {
+    return stocks.reduce((acc, stock) => acc + stock.totalAmount, 0)
+  }
+
+  private getTotalAmount(): number {
+    return this.stocks.reduce((acc, stock) => acc + stock.totalAmount, 0)
+      + this.etfs.reduce((acc, etf) => acc + etf.totalAmount, 0)
+      + this.reits.reduce((acc, reit) => acc + reit.totalAmount, 0)
+      + this.golds.reduce((acc, gold) => acc + gold.totalAmount, 0)
+      + this.cryptos.reduce((acc, crypto) => acc + crypto.totalAmount, 0)
+      + this.internationalStocks.reduce((acc, internationalStock) => acc + internationalStock.totalAmount, 0)
   }
 }
