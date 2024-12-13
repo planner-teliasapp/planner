@@ -65,6 +65,10 @@ export class TickerOrder implements ITickerOrder {
     return orders.sort((a, b) => asc ? a.createdAt.getTime() - b.createdAt.getTime() : b.createdAt.getTime() - a.createdAt.getTime())
   }
 
+  static orderOrdersByTicker(orders: TickerOrder[], desc: boolean = false): TickerOrder[] {
+    return orders.sort((a, b) => desc ? a.ticker.localeCompare(b.ticker) : b.ticker.localeCompare(a.ticker))
+  }
+
   static includeMeanPrice(orders: TickerOrder[]): ITickerOrderWithMeanPrice[] {
     const orderedOrders = TickerOrder.orderOrdersByDate(orders, true)
     const ordersWithMeanPrice: ITickerOrderWithMeanPrice[] = []
