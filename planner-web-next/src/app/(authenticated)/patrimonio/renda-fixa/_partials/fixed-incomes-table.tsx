@@ -2,15 +2,15 @@
 
 import { DataTable } from "@/components/ui/data-table"
 import { columns } from "./columns"
-import { Stock } from "@/models/assets"
+import { FixedIncome } from "@/models/assets/fixed-income"
 
 interface Props {
-  stocks?: Stock[]
+  data?: FixedIncome[]
   isLoading?: boolean
 }
 
-export default function StocksTable({ stocks = [], isLoading }: Props) {
+export default function FixedIncomesTable({ data = [], isLoading }: Props) {
   return (
-    <DataTable columns={columns} data={stocks} isLoading={isLoading} />
+    <DataTable columns={columns} data={data} isLoading={isLoading} />
   )
 }

@@ -3,55 +3,41 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { formatCurrency } from "@/lib/utils"
 import { Stock } from "@/models/assets"
+import { FixedIncome } from "@/models/assets/fixed-income"
 
-export const columns: ColumnDef<Stock>[] = [
+export const columns: ColumnDef<FixedIncome>[] = [
   {
-    accessorKey: "symbol",
-    header: "Ticker",
+    accessorKey: "description",
+    header: "Descrição",
   },
   {
-    accessorKey: "name",
-    header: "Nome",
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantidade",
-    cell: (row) => Number(row.getValue() as number),
-  },
-  {
-    accessorKey: "meanPrice",
-    header: "Preço Médio",
+    accessorKey: "initialInvestment",
+    header: "Aporte",
     cell: (row) => formatCurrency(row.getValue() as number),
   },
   {
-    accessorKey: "price",
-    header: "Preço",
+    accessorKey: "currentValue",
+    header: "Saldo Atual",
     cell: (row) => formatCurrency(row.getValue() as number),
   },
   {
-    accessorKey: "totalAmount",
-    header: "Posição",
-    cell: (row) => formatCurrency(row.getValue() as number),
+    accessorKey: "date",
+    header: "Data",
+    cell: (row) => new Date(row.getValue() as string).toLocaleDateString(),
   },
   {
-    accessorKey: "change",
-    header: "Variação",
-    cell: (row) => formatCurrency(row.getValue() as number),
+    accessorKey: "dueDate",
+    header: "Vencimento",
+    cell: (row) => row.getValue() && new Date(row.getValue() as string).toLocaleDateString(),
   },
   {
-    accessorKey: "changePercent",
-    header: "Variação (%)",
+    accessorKey: "fixedRate",
+    header: "Pré (%)",
     cell: (row) => Number(row.getValue()).toFixed(2) + "%",
   },
   {
-    accessorKey: "profit",
-    header: "Rentabilidade",
-    cell: (row) => formatCurrency(row.getValue() as number),
-  },
-  {
-    accessorKey: "profitPercent",
-    header: "Rentabilidade (%)",
-    cell: (row) => Number(row.getValue()).toFixed(2) + "%",
+    accessorKey: "posFixedIndex",
+    header: "Pós",
   },
   {
     accessorKey: "updatedAt",
