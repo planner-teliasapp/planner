@@ -106,23 +106,17 @@ export const useAssets = () => {
         throw new Error("User not found")
       }
 
-      let tempTickerOrders: TickerOrder[] = []
+      const data = await getTickerOrdersAction(user?.id)
+      const tempTickerOrders: TickerOrder[] = TickerOrder.orderOrdersByTicker(TickerOrder.fromStringArray(data), true)
 
-      if (!tickerOrders) {
-        const data = await getTickerOrdersAction(user?.id)
-        tempTickerOrders = TickerOrder.fromStringArray(data)
-        queryClient.setQueryData(["tickerOrders", user?.id], tempTickerOrders)
-      }
-
+      queryClient.setQueryData(["tickerOrders", user?.id], tempTickerOrders)
       const tickerOrdersWithMeanPrice = TickerOrder.includeMeanPrice(tempTickerOrders || [])
 
       const fixedIncomeData = await getFixedIncomesAction(user?.id)
       const fixedIncomes = FixedIncome.fromStringArray(fixedIncomeData)
 
-
       const variableIncome = new VariableIncome(tickers || [], tickerOrdersWithMeanPrice)
       const fixedIncome = new FixedIncomes(fixedIncomes)
-
 
       return new Assets({
         variableIncome,
