@@ -1,4 +1,4 @@
-import { TickerOrderType, TickerType } from "@prisma/client"
+import { PosFixedIndexType, TickerOrderType, TickerType } from "@prisma/client"
 
 type TicketTypeMapper = {
   label: string
@@ -35,5 +35,30 @@ export const tickerOrderTypeMapper: Record<TickerOrderType, TickerOrderTypeMappe
   },
   [TickerOrderType.SELL]: {
     label: "Venda"
+  }
+}
+
+type PosFixedIndexTypeMapper = {
+  label: string
+}
+
+export const fixedIncomeIndexTypeMapper: Record<PosFixedIndexType, PosFixedIndexTypeMapper> = {
+  [PosFixedIndexType.CDI]: {
+    label: "CDI"
+  },
+  [PosFixedIndexType.IPCA]: {
+    label: "IPCA"
+  },
+  [PosFixedIndexType.SELIC]: {
+    label: "SELIC"
+  },
+  [PosFixedIndexType.IGPM]: {
+    label: "IGPM"
+  },
+  [PosFixedIndexType.INPC]: {
+    label: "INPC"
+  },
+  [PosFixedIndexType.NONE]: {
+    label: "Nenhum"
   }
 }

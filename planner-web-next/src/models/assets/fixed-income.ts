@@ -61,6 +61,10 @@ export class FixedIncome implements IFixedIncome {
     })
   }
 
+  static fromString(data: string): FixedIncome {
+    return new FixedIncome(JSON.parse(data))
+  }
+
   static fromStringArray(data: string): FixedIncome[] {
     return JSON.parse(data).map((item: IFixedIncome) => new FixedIncome(item))
   }
@@ -81,4 +85,14 @@ export class FixedIncomes implements IFixedIncomes {
     this.data = data
     this.currentAmount = data.reduce((acc, item) => acc + item.currentValue, 0)
   }
+}
+
+export interface ICreateFixedIncomeDto {
+  description: string
+  initialInvestment: number
+  currentValue?: number
+  date: Date
+  dueDate?: Date
+  fixedRate?: number
+  posFixedIndex: PosFixedIndexType
 }
