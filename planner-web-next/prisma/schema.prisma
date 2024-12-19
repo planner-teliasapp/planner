@@ -147,3 +147,27 @@ model TickerOrder {
   @@index([userId, ticker, type])
   @@map("ticker_orders")
 }
+
+enum PosFixedIndexType {
+  NONE
+  CDI
+  IPCA
+  IGPM
+  INPC
+  SELIC
+}
+
+model FixedIncome {
+  id                String            @id @default(cuid())
+  userId            String            @map("user_id")
+  description       String
+  initialInvestment Decimal           @map("initial_investment") @db.Decimal(10, 2)
+  currentValue      Decimal           @map("current_value") @db.Decimal(10, 2)
+  date              DateTime          @map("date")
+  dueDate           DateTime?         @map("due_date")
+  fixedRate         Decimal           @default(0) @map("fixed_rate") @db.Decimal(10, 2)
+  posFixedIndex     PosFixedIndexType @default(NONE) @map("pos_fixed_index")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+
+  @@map("fixed_incomes")
+}

@@ -120,3 +120,26 @@ Table ticker_orders {
 }
 
 Ref: ticker_orders.ticker > tickers.symbol
+
+Enum pos_fixed_index_types {
+  NONE
+  CDI
+  IPCA
+  SELIC
+  IGPM
+}
+
+Table fixed_incomes {
+  id cuid [primary key]
+  user_id uuid [not null]
+  description string [not null]
+  initial_investment decimal [not null]
+  current_value decimal [not null]
+  date timestamp [not null]
+  dueDate timestamp [not null]
+  fixed_rate decimal [not null]
+  pos_fixed_index pos_fixed_index_types [not null]
+
+  created_at timestamp
+  updated_at timestamp
+}

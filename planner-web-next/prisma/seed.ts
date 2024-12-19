@@ -408,6 +408,34 @@ const tickerOrders = [
   }
 ]
 
+const fixedIncomes = [
+  {
+    userId,
+    description: "Tesouro Selic",
+    initialInvestment: 1000,
+    currentValue: 1050,
+    date: subDays(currentDate, 55),
+    posFixedIndex: "SELIC"
+  },
+  {
+    userId,
+    description: "Tesouro IPCA 2035",
+    initialInvestment: 1000,
+    currentValue: 1100,
+    date: subDays(currentDate, 27),
+    dueDate: new Date("2035-05-15"),
+    posFixedIndex: "IPCA"
+  },
+  {
+    userId,
+    description: "Tesouro Prefixado",
+    initialInvestment: 1000,
+    currentValue: 1150,
+    date: subDays(currentDate, 43),
+    fixedRate: 0.1
+  }
+]
+
 async function seed() {
   if (!userId || userId === "") {
     throw new Error("DATABASE_SEED_USER_ID is not defined")
@@ -419,6 +447,7 @@ async function seed() {
   await prismaClient.recurringTransaction.createMany({ data: recurringTransactions })
   await prismaClient.ticker.createMany({ data: ticker })
   await prismaClient.tickerOrder.createMany({ data: tickerOrders })
+  await prismaClient.fixedIncome.createMany({ data: fixedIncomes })
 }
 
 seed()
