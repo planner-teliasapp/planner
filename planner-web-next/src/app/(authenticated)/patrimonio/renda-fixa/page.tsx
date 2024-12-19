@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation"
 export default function RendaFixaPage() {
   const { assets, isLoadingAssets } = useAssets()
 
+  console.log(assets)
+
   const router = useRouter()
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>

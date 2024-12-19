@@ -1,6 +1,7 @@
-import { autoUpdateTickersAction, createTickerAction, createTickerOrderAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
+import { autoUpdateTickersAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
 import { VariableIncome } from "@/models/assets"
 import { Assets } from "@/models/assets/assets"
+import { FixedIncome, FixedIncomes } from "@/models/assets/fixed-income"
 import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
 import { CreateTickerOrderDto, TickerOrder } from "@/models/assets/ticker-order"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
@@ -100,11 +101,18 @@ export const useAssets = () => {
       }
 
       const tickerOrdersWithMeanPrice = TickerOrder.includeMeanPrice(tempTickerOrders || [])
+
+      const fixedIncomeData = await getFixedIncomesAction(user?.id)
+      const fixedIncomes = FixedIncome.fromStringArray(fixedIncomeData)
+
+
       const variableIncome = new VariableIncome(tickers || [], tickerOrdersWithMeanPrice)
+      const fixedIncome = new FixedIncomes(fixedIncomes)
 
 
       return new Assets({
-        variableIncome
+        variableIncome,
+        fixedIncome
       })
     },
     staleTime: 60_000 * 10

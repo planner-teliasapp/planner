@@ -1,3 +1,4 @@
+import { getFixedIncomesAction } from "./fixed-income/get-fixed-incomes"
 import { createTickerOrderAction } from "./ticker-orders/create-ticker-order"
 import { getTickerOrdersAction } from "./ticker-orders/get-ticker-orders"
 import { autoUpdateTickersAction } from "./tickers/auto-update-tickers"
@@ -10,5 +11,7 @@ export {
   createTickerAction,
   autoUpdateTickersAction,
   getTickerOrdersAction,
-  createTickerOrderAction
+  createTickerOrderAction,
+
+  getFixedIncomesAction
 }
