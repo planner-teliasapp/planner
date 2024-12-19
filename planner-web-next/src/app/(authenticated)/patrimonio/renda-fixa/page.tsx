@@ -16,7 +16,7 @@ export default function RendaFixaPage() {
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
         <div className="w-full flex justify-start items-center sm:gap-2">
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
-          <H1 className="text-start w-full">Tickers</H1>
+          <H1 className="text-start w-full">Renda Fixa</H1>
         </div>
       </div>
       <div className='pt-6'>

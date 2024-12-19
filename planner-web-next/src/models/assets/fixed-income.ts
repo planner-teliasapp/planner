@@ -1,4 +1,5 @@
 import { PosFixedIndexType, Prisma } from "@prisma/client"
+import { differenceInDays } from "date-fns"
 
 export interface IFixedIncome {
   id: string
@@ -22,14 +23,28 @@ export class FixedIncome implements IFixedIncome {
   description: string
   initialInvestment: number
   currentValue: number
+  profit: number
+  profitPercentage: number
   date: Date
   dueDate?: Date
+  pastDays: number
+  remainingDays?: number
   fixedRate: number
   posFixedIndex: PosFixedIndexType
+  taxRate: number
   updatedAt: Date
 
   constructor(data: IFixedIncome) {
     Object.assign(this, data)
+
+    this.pastDays = differenceInDays(new Date(), this.date)
+    this.profit = this.currentValue - this.initialInvestment
+    this.profitPercentage = (this.profit / this.initialInvestment) * 100
+    this.taxRate = this.getTaxRateValue(this.pastDays)
+
+    if (this.dueDate) {
+      this.remainingDays = differenceInDays(this.dueDate, new Date())
+    }
   }
 
   static fromPrisma(data: Prisma.FixedIncomeGetPayload<{}>): FixedIncome {
@@ -48,6 +63,13 @@ export class FixedIncome implements IFixedIncome {
 
   static fromStringArray(data: string): FixedIncome[] {
     return JSON.parse(data).map((item: IFixedIncome) => new FixedIncome(item))
+  }
+
+  private getTaxRateValue(days: number): number {
+    if (days <= 180) return 22.5
+    if (days <= 360) return 20
+    if (days <= 720) return 17.5
+    return 15
   }
 }
 
