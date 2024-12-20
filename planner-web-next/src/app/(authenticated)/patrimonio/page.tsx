@@ -5,13 +5,14 @@ import { useAssets } from "@/hooks/use-assets"
 import Link from "next/link"
 import { otherAssetsTypeMapper } from "./_utils"
 import { OthersAssetsTypes } from "@prisma/client"
+import { formatCurrency } from "@/lib/utils"
 
 export default function PatrimonioPage() {
   const { assets, isLoadingAssets } = useAssets()
 
   return (
     <div>
-      <h1>Patrimônio</h1>
+      <h1>Patrimônio - {formatCurrency(assets?.summary.totalAmount)}</h1>
       <div className="flex gap-4">
         <Link
           href={"patrimonio/tickers"}
@@ -85,9 +86,8 @@ export default function PatrimonioPage() {
         >
           {otherAssetsTypeMapper[OthersAssetsTypes.SHARE].label}
         </Link>
-
-
       </div>
+      <pre>{JSON.stringify(assets?.summary, null, 2)}</pre>
     </div>
   )
 }

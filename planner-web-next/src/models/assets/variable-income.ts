@@ -9,12 +9,6 @@ export interface IVariableIncomeSummary {
   totalInGolds: number
   totalInCryptos: number
   totalInInternationalStocks: number
-  // percentageInStocks: number
-  // percentageInEtfs: number
-  // percentageInReits: number
-  // percentageInGolds: number
-  // percentageInCryptos: number
-  // percentageInInternationalStocks: number
 }
 
 export interface IVariableIncome {
