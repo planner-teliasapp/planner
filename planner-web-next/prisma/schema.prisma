@@ -171,3 +171,23 @@ model FixedIncome {
 
   @@map("fixed_incomes")
 }
+
+enum OthersAssetsTypes {
+  CASH_BOX
+  PENSION
+  PROPERTY
+  SHARE
+  FINANCIAL_INJECTION
+}
+
+model OtherAsset {
+  id          String            @id @default(cuid())
+  userId      String            @map("user_id")
+  description String
+  value       Decimal           @db.Decimal(10, 2)
+  type        OthersAssetsTypes @map("type")
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  @@map("other_assets")
+}

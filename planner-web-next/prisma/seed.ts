@@ -436,6 +436,33 @@ const fixedIncomes = [
   }
 ]
 
+const otherAssets = [
+  {
+    userId,
+    description: "Imóvel",
+    value: 500000,
+    type: "PROPERTY",
+  },
+  {
+    userId,
+    description: "Carro",
+    value: 30000,
+    type: "PROPERTY",
+  },
+  {
+    userId,
+    description: "Reserva de Emergência",
+    value: 10000,
+    type: "CASH_BOX",
+  },
+  {
+    userId,
+    description: "Previdência Privada",
+    value: 5000,
+    type: "PENSION",
+  }
+]
+
 async function seed() {
   if (!userId || userId === "") {
     throw new Error("DATABASE_SEED_USER_ID is not defined")
@@ -448,6 +475,7 @@ async function seed() {
   await prismaClient.ticker.createMany({ data: ticker })
   await prismaClient.tickerOrder.createMany({ data: tickerOrders })
   await prismaClient.fixedIncome.createMany({ data: fixedIncomes })
+  await prismaClient.otherAsset.createMany({ data: otherAssets })
 }
 
 seed()
