@@ -1,10 +1,12 @@
-import { autoUpdateTickersAction, createFixedIncomeAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
+import { autoUpdateTickersAction, createFixedIncomeAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
 import { VariableIncome } from "@/models/assets"
 import { Assets } from "@/models/assets/assets"
 import { FixedIncome, FixedIncomes, ICreateFixedIncomeDto } from "@/models/assets/fixed-income"
+import { OtherAsset, OtherAssets } from "@/models/assets/other-asset"
 import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
 import { CreateTickerOrderDto, TickerOrder } from "@/models/assets/ticker-order"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
+import { OthersAssetsTypes } from "@prisma/client"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useAssets = () => {
@@ -115,12 +117,33 @@ export const useAssets = () => {
       const fixedIncomeData = await getFixedIncomesAction(user?.id)
       const fixedIncomes = FixedIncome.fromStringArray(fixedIncomeData)
 
+      const otherAssetsData = await getOtherAssetsAction(user?.id)
+
       const variableIncome = new VariableIncome(tickers || [], tickerOrdersWithMeanPrice)
       const fixedIncome = new FixedIncomes(fixedIncomes)
 
+      const otherAssets = OtherAsset.fromStringArray(otherAssetsData)
+
+      const cashBoxItems = otherAssets.filter(item => item.type === OthersAssetsTypes.CASH_BOX)
+      const pensionItems = otherAssets.filter(item => item.type === OthersAssetsTypes.PENSION)
+      const propertyItems = otherAssets.filter(item => item.type === OthersAssetsTypes.PROPERTY)
+      const shareItems = otherAssets.filter(item => item.type === OthersAssetsTypes.SHARE)
+      const financialInjectionItems = otherAssets.filter(item => item.type === OthersAssetsTypes.FINANCIAL_INJECTION)
+
+      const cashBox = new OtherAssets(cashBoxItems)
+      const pension = new OtherAssets(pensionItems)
+      const property = new OtherAssets(propertyItems)
+      const share = new OtherAssets(shareItems)
+      const financialInjection = new OtherAssets(financialInjectionItems)
+
       return new Assets({
         variableIncome,
-        fixedIncome
+        fixedIncome,
+        cashBox,
+        pension,
+        property,
+        share,
+        financialInjection
       })
     },
     staleTime: 60_000 * 10

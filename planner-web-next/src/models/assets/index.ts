@@ -1,6 +1,7 @@
+import { OtherAssets } from "./other-asset"
 import { Stock } from "./stock"
 import { Ticker } from "./ticker"
-import { TickerOrder, ITickerOrderWithMeanPrice, TickerOrderWithMeanPrice } from "./ticker-order"
+import { TickerOrder, TickerOrderWithMeanPrice } from "./ticker-order"
 import { VariableIncome } from "./variable-income"
 
 
@@ -9,5 +10,6 @@ export {
   Ticker,
   TickerOrder,
   TickerOrderWithMeanPrice,
-  VariableIncome
+  VariableIncome,
+  OtherAssets
 }

@@ -43,6 +43,14 @@ export default function PatrimonioPage() {
         >
           Renda Fixa
         </Link>
+        <Link
+          href={"patrimonio/outros"}
+          className={buttonVariants({
+            className: "mt-4",
+          })}
+        >
+          Outros
+        </Link>
       </div>
     </div>
   )
