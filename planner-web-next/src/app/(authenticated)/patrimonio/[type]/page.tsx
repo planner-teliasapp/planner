@@ -8,8 +8,9 @@ import { useAssets } from "@/hooks/use-assets"
 import { useToast } from "@/hooks/use-toast"
 import { getOtherAssetsDataBySlug } from "../_utils"
 import { OtherAssets } from "@/models/assets"
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { formatCurrency } from "@/lib/utils"
+import OtherAssetsTable from "./_partials/other-assets-table"
 
 export default function OutrosPage() {
   const { assets } = useAssets()
@@ -69,8 +70,7 @@ export default function OutrosPage() {
         {/* <CreateTickerButton onSubmit={onSubmit} isLoading={isCreatingTicker} /> */}
       </div>
       <div className='pt-6'>
-        {/* <TickersTable tickers={tickers} isLoading={isLoadingTickers} /> */}
-        <pre>{JSON.stringify(asset?.items, null, 2)}</pre>
+        <OtherAssetsTable data={asset?.items} isLoading={false} />
       </div>
     </div>
   )
