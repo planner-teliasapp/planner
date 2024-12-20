@@ -3,6 +3,8 @@
 import { buttonVariants } from "@/components/ui/button"
 import { useAssets } from "@/hooks/use-assets"
 import Link from "next/link"
+import { otherAssetsTypeMapper } from "./_utils"
+import { OthersAssetsTypes } from "@prisma/client"
 
 export default function PatrimonioPage() {
   const { assets, isLoadingAssets } = useAssets()
@@ -44,13 +46,47 @@ export default function PatrimonioPage() {
           Renda Fixa
         </Link>
         <Link
-          href={"patrimonio/outros"}
+          href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.CASH_BOX].slug}`}
           className={buttonVariants({
             className: "mt-4",
           })}
         >
-          Outros
+          {otherAssetsTypeMapper[OthersAssetsTypes.CASH_BOX].label}
         </Link>
+        <Link
+          href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.FINANCIAL_INJECTION].slug}`}
+          className={buttonVariants({
+            className: "mt-4",
+          })}
+        >
+          {otherAssetsTypeMapper[OthersAssetsTypes.FINANCIAL_INJECTION].label}
+        </Link>
+        <Link
+          href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.PENSION].slug}`}
+          className={buttonVariants({
+            className: "mt-4",
+          })}
+        >
+          {otherAssetsTypeMapper[OthersAssetsTypes.PENSION].label}
+        </Link>
+        <Link
+          href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.PROPERTY].slug}`}
+          className={buttonVariants({
+            className: "mt-4",
+          })}
+        >
+          {otherAssetsTypeMapper[OthersAssetsTypes.PROPERTY].label}
+        </Link>
+        <Link
+          href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.SHARE].slug}`}
+          className={buttonVariants({
+            className: "mt-4",
+          })}
+        >
+          {otherAssetsTypeMapper[OthersAssetsTypes.SHARE].label}
+        </Link>
+
+
       </div>
     </div>
   )

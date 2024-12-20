@@ -1,4 +1,4 @@
-import { PosFixedIndexType, TickerOrderType, TickerType } from "@prisma/client"
+import { OthersAssetsTypes, PosFixedIndexType, TickerOrderType, TickerType } from "@prisma/client"
 
 type TicketTypeMapper = {
   label: string
@@ -61,4 +61,48 @@ export const fixedIncomeIndexTypeMapper: Record<PosFixedIndexType, PosFixedIndex
   [PosFixedIndexType.NONE]: {
     label: "Nenhum"
   }
+}
+
+type OtherAssetsTypeMapper = {
+  label: string
+  labelPlural: string
+  slug: string
+  assetsKey: string
+}
+
+export const otherAssetsTypeMapper: Record<OthersAssetsTypes, OtherAssetsTypeMapper> = {
+  [OthersAssetsTypes.CASH_BOX]: {
+    label: "Caixa",
+    labelPlural: "Caixas",
+    slug: "caixa",
+    assetsKey: "cashBox"
+  },
+  [OthersAssetsTypes.FINANCIAL_INJECTION]: {
+    label: "Aporte",
+    labelPlural: "Aportes",
+    slug: "aporte",
+    assetsKey: "financialInjection"
+  },
+  [OthersAssetsTypes.PENSION]: {
+    label: "Previdência",
+    labelPlural: "Previdências",
+    slug: "previdencia",
+    assetsKey: "pension"
+  },
+  [OthersAssetsTypes.PROPERTY]: {
+    label: "Propriedade",
+    labelPlural: "Propriedades",
+    slug: "propriedade",
+    assetsKey: "property"
+  },
+  [OthersAssetsTypes.SHARE]: {
+    label: "Compartilhar",
+    labelPlural: "Compartilhar",
+    slug: "compartilhar",
+    assetsKey: "share"
+  }
+}
+
+export function getOtherAssetsDataBySlug(slug: string) {
+  return Object.values(otherAssetsTypeMapper).find((type) => type.slug === slug)
 }

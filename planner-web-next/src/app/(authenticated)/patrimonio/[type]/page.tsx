@@ -3,14 +3,20 @@
 import { Button } from "@/components/ui/button"
 import { H1 } from "@/components/ui/typography"
 import { ChevronLeftIcon } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useAssets } from "@/hooks/use-assets"
 import { useToast } from "@/hooks/use-toast"
+import { getOtherAssetsDataBySlug } from "../_utils"
+import { OtherAssets } from "@/models/assets"
+import { use, useEffect, useState } from "react"
+import { formatCurrency } from "@/lib/utils"
 
 export default function OutrosPage() {
   const { assets } = useAssets()
   const router = useRouter()
   const { toast } = useToast()
+  const { type } = useParams<{ type: string }>()
+  const [asset, setAsset] = useState<OtherAssets | null>(null)
 
   // async function onSubmit(data: CreateTickerDto) {
   //   try {
@@ -39,20 +45,32 @@ export default function OutrosPage() {
   //   }
   // }
 
-  console.log(assets)
+  const slugData = getOtherAssetsDataBySlug(type)
+
+  useEffect(() => {
+    if (!assets) return
+    if (slugData) {
+      // @ts-ignore
+      setAsset(assets[slugData.assetsKey])
+    }
+  }, [assets, slugData])
+
+  if (!slugData) {
+    return <div>Não encontrado</div>
+  }
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
         <div className="w-full flex justify-start items-center sm:gap-2">
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
-          <H1 className="text-start w-full">Outros</H1>
+          <H1 className="text-start w-full">{slugData.labelPlural} - {formatCurrency(asset?.currentAmount)}</H1>
         </div>
         {/* <CreateTickerButton onSubmit={onSubmit} isLoading={isCreatingTicker} /> */}
       </div>
       <div className='pt-6'>
         {/* <TickersTable tickers={tickers} isLoading={isLoadingTickers} /> */}
-        <pre>{JSON.stringify(assets, null, 2)}</pre>
+        <pre>{JSON.stringify(asset?.items, null, 2)}</pre>
       </div>
     </div>
   )
