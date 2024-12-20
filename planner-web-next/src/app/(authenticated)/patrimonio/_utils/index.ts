@@ -68,6 +68,7 @@ type OtherAssetsTypeMapper = {
   labelPlural: string
   slug: string
   assetsKey: string
+  type: OthersAssetsTypes
 }
 
 export const otherAssetsTypeMapper: Record<OthersAssetsTypes, OtherAssetsTypeMapper> = {
@@ -75,31 +76,36 @@ export const otherAssetsTypeMapper: Record<OthersAssetsTypes, OtherAssetsTypeMap
     label: "Caixa",
     labelPlural: "Caixas",
     slug: "caixa",
-    assetsKey: "cashBox"
+    assetsKey: "cashBox",
+    type: OthersAssetsTypes.CASH_BOX
   },
   [OthersAssetsTypes.FINANCIAL_INJECTION]: {
     label: "Aporte",
     labelPlural: "Aportes",
     slug: "aporte",
-    assetsKey: "financialInjection"
+    assetsKey: "financialInjection",
+    type: OthersAssetsTypes.FINANCIAL_INJECTION
   },
   [OthersAssetsTypes.PENSION]: {
     label: "Previdência",
     labelPlural: "Previdências",
     slug: "previdencia",
-    assetsKey: "pension"
+    assetsKey: "pension",
+    type: OthersAssetsTypes.PENSION
   },
   [OthersAssetsTypes.PROPERTY]: {
     label: "Propriedade",
     labelPlural: "Propriedades",
     slug: "propriedade",
-    assetsKey: "property"
+    assetsKey: "property",
+    type: OthersAssetsTypes.PROPERTY
   },
   [OthersAssetsTypes.SHARE]: {
     label: "Compartilhar",
     labelPlural: "Compartilhar",
     slug: "compartilhar",
-    assetsKey: "share"
+    assetsKey: "share",
+    type: OthersAssetsTypes.SHARE
   }
 }
 

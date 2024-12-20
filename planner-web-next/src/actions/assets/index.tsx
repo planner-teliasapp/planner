@@ -1,5 +1,6 @@
 import { createFixedIncomeAction } from "./fixed-income/create-fixed-income"
 import { getFixedIncomesAction } from "./fixed-income/get-fixed-incomes"
+import { createOtherAssetsAction } from "./others/create-other-assets"
 import { getOtherAssetsAction } from "./others/get-other-assets"
 import { createTickerOrderAction } from "./ticker-orders/create-ticker-order"
 import { getTickerOrdersAction } from "./ticker-orders/get-ticker-orders"
@@ -18,5 +19,6 @@ export {
   getFixedIncomesAction,
   createFixedIncomeAction,
 
-  getOtherAssetsAction
+  getOtherAssetsAction,
+  createOtherAssetsAction
 }

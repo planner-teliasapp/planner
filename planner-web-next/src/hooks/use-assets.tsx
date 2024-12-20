@@ -1,8 +1,8 @@
-import { autoUpdateTickersAction, createFixedIncomeAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
+import { autoUpdateTickersAction, createFixedIncomeAction, createOtherAssetsAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
 import { VariableIncome } from "@/models/assets"
 import { Assets } from "@/models/assets/assets"
 import { FixedIncome, FixedIncomes, ICreateFixedIncomeDto } from "@/models/assets/fixed-income"
-import { OtherAsset, OtherAssets } from "@/models/assets/other-asset"
+import { ICreateOtherAssetDto, OtherAsset, OtherAssets } from "@/models/assets/other-asset"
 import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
 import { CreateTickerOrderDto, TickerOrder } from "@/models/assets/ticker-order"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
@@ -101,6 +101,20 @@ export const useAssets = () => {
     },
   })
 
+  const { mutateAsync: createOtherAssets, isPending: isCreatingOtherAssets } = useMutation({
+    mutationKey: ["createOtherAssets"],
+    mutationFn: async (data: ICreateOtherAssetDto) => {
+      if (!user) {
+        return []
+      }
+
+      const result = await createOtherAssetsAction(data, user?.id)
+      const asset = OtherAsset.fromString(result)
+
+      queryClient.invalidateQueries({ queryKey: ["assets", user?.id] })
+    },
+  })
+
   const { data: assets, isPending: isLoadingAssets } = useQuery({
     queryKey: ["assets", user?.id],
     queryFn: async () => {
@@ -164,6 +178,9 @@ export const useAssets = () => {
 
     createFixedIncome,
     isCreatingFixedIncome,
+
+    createOtherAssets,
+    isCreatingOtherAssets,
 
     assets,
     isLoadingAssets

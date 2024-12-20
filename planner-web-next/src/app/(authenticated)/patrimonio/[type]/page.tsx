@@ -11,40 +11,32 @@ import { OtherAssets } from "@/models/assets"
 import { useEffect, useState } from "react"
 import { formatCurrency } from "@/lib/utils"
 import OtherAssetsTable from "./_partials/other-assets-table"
+import CreateOtherAssetsButton from "../_partials/create-other-assets-button"
+import { ICreateOtherAssetDto } from "@/models/assets/other-asset"
 
 export default function OutrosPage() {
-  const { assets } = useAssets()
+  const { assets, isLoadingAssets, createOtherAssets, isCreatingOtherAssets } = useAssets()
   const router = useRouter()
   const { toast } = useToast()
   const { type } = useParams<{ type: string }>()
   const [asset, setAsset] = useState<OtherAssets | null>(null)
 
-  // async function onSubmit(data: CreateTickerDto) {
-  //   try {
-  //     await createTicker(data)
-  //     toast({
-  //       title: "Ticker cadastrado com sucesso",
-  //     })
-  //   } catch (err) {
+  async function onSubmit(data: ICreateOtherAssetDto) {
+    try {
+      await createOtherAssets(data)
+      toast({
+        title: "Cadastrado com sucesso",
+      })
+    } catch (err) {
+      const error = err as Error
 
-  //     const error = err as Error
-
-  //     if (error.message === "Ticker already exists") {
-  //       toast({
-  //         title: "Erro ao cadastrar ticker",
-  //         description: "Ticker já cadastrado",
-  //         variant: "destructive",
-  //       })
-  //       return
-  //     }
-
-  //     toast({
-  //       title: "Erro ao cadastrar ticker",
-  //       description: error.message,
-  //       variant: "destructive",
-  //     })
-  //   }
-  // }
+      toast({
+        title: "Erro ao cadastrar",
+        description: error.message,
+        variant: "destructive",
+      })
+    }
+  }
 
   const slugData = getOtherAssetsDataBySlug(type)
 
@@ -67,10 +59,10 @@ export default function OutrosPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
           <H1 className="text-start w-full">{slugData.labelPlural} - {formatCurrency(asset?.currentAmount)}</H1>
         </div>
-        {/* <CreateTickerButton onSubmit={onSubmit} isLoading={isCreatingTicker} /> */}
+        <CreateOtherAssetsButton onSubmit={onSubmit} isLoading={isLoadingAssets} defaultType={slugData.type} />
       </div>
       <div className='pt-6'>
-        <OtherAssetsTable data={asset?.items} isLoading={false} />
+        <OtherAssetsTable data={asset?.items} isLoading={isLoadingAssets} />
       </div>
     </div>
   )

@@ -59,3 +59,9 @@ export class OtherAssets implements IOtherAssets {
     }, 0)
   }
 }
+
+export interface ICreateOtherAssetDto {
+  description: string
+  value: number
+  type: OthersAssetsTypes
+}
