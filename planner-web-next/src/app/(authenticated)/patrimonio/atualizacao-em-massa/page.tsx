@@ -13,14 +13,14 @@ import { useEffect, useState } from "react"
 import { OthersAssetsTypes } from "@prisma/client"
 
 export default function RendaFixaPage() {
-  const { assets } = useAssets()
+  const { assets, massUpdateAssets } = useAssets()
   const router = useRouter()
   const { toast } = useToast()
   const [data, setData] = useState<MassUpdatable[]>([])
 
-  async function onSubmit(data: ICreateFixedIncomeDto) {
+  async function updateValues() {
     try {
-      console.log(data)
+      await massUpdateAssets(data)
       toast({
         title: "Atualizado com sucesso",
       })
@@ -93,10 +93,6 @@ export default function RendaFixaPage() {
     })
 
     setData(newData)
-  }
-
-  function updateValues() {
-    console.log(data)
   }
 
   return (

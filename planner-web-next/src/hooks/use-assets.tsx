@@ -1,8 +1,9 @@
-import { autoUpdateTickersAction, createFixedIncomeAction, createOtherAssetsAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
+import { autoUpdateTickersAction, createFixedIncomeAction, createOtherAssetsAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction, massUpdateAssetsAction } from "@/actions/assets"
 import { updateAssetsHistoryForCurrentMonthAction } from "@/actions/assets/history/update-assets-history-for-current-month"
 import { VariableIncome } from "@/models/assets"
 import { Assets } from "@/models/assets/assets"
 import { FixedIncome, FixedIncomes, ICreateFixedIncomeDto } from "@/models/assets/fixed-income"
+import { MassUpdatable } from "@/models/assets/mass-update"
 import { ICreateOtherAssetDto, OtherAsset, OtherAssets } from "@/models/assets/other-asset"
 import { CreateTickerDto, Ticker } from "@/models/assets/ticker"
 import { CreateTickerOrderDto, TickerOrder } from "@/models/assets/ticker-order"
@@ -161,13 +162,24 @@ export const useAssets = () => {
         financialInjection
       })
 
-      console.log("Assets To up", assets)
       await updateAssetsHistoryForCurrentMonthAction(JSON.stringify(assets), user.id)
-      console.log("Assets Updated")
 
       return assets
     },
     staleTime: 60_000 * 10
+  })
+
+  const { mutateAsync: massUpdateAssets, isPending: isMassUpdatingAssets } = useMutation({
+    mutationKey: ["massUpdateAssets"],
+    mutationFn: async (data: MassUpdatable[]) => {
+      if (!user) {
+        return []
+      }
+
+      await massUpdateAssetsAction(data)
+
+      queryClient.invalidateQueries({ queryKey: ["assets", user?.id] })
+    },
   })
 
   return {
@@ -190,7 +202,9 @@ export const useAssets = () => {
     isCreatingOtherAssets,
 
     assets,
-    isLoadingAssets
+    isLoadingAssets,
+    massUpdateAssets,
+    isMassUpdatingAssets
   }
 }
 

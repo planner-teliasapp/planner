@@ -12,10 +12,6 @@ export async function updateAssetsHistoryForCurrentMonthAction(data: string, use
   const firstMonthDay = startOfMonth(today)
   const lastMonthDay = endOfMonth(today)
 
-  console.log("First month day", firstMonthDay)
-  console.log("Last month day", lastMonthDay)
-  console.log(data)
-
   const currentMonthHistory = await prismaClient.assetHistory.findFirst({
     where: {
       userId,
