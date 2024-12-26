@@ -191,3 +191,24 @@ model OtherAsset {
 
   @@map("other_assets")
 }
+
+model AssetHistory {
+  id                       String   @id @default(cuid())
+  userId                   String   @map("user_id")
+  date                     DateTime @default(now())
+  stocksTotalValue         Decimal  @map("stocks_total_value") @db.Decimal(10, 2)
+  reitsTotalValue          Decimal  @map("reits_total_value") @db.Decimal(10, 2)
+  etfsTotalValue           Decimal  @map("etfs_total_value") @db.Decimal(10, 2)
+  internationalsTotalValue Decimal  @map("internationals_total_value") @db.Decimal(10, 2)
+  cryptosTotalValue        Decimal  @map("cryptos_total_value") @db.Decimal(10, 2)
+  goldsTotalValue          Decimal  @map("golds_total_value") @db.Decimal(10, 2)
+  cashBoxesTotalValue      Decimal  @map("cash_boxes_total_value") @db.Decimal(10, 2)
+  pensionsTotalValue       Decimal  @map("pensions_total_value") @db.Decimal(10, 2)
+  fixedIncomesTotalValue   Decimal  @map("fixed_incomes_total_value") @db.Decimal(10, 2)
+  propertiesTotalValue     Decimal  @map("properties_total_value") @db.Decimal(10, 2)
+  sharesTotalValue         Decimal  @map("shares_total_value") @db.Decimal(10, 2)
+  financialInjectionsValue Decimal  @default(0.0) @map("financial_injections_value") @db.Decimal(10, 2)
+  generalTotalValue        Decimal  @map("general_total_value") @db.Decimal(10, 2)
+
+  @@map("asset_histories")
+}

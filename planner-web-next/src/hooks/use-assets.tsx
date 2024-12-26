@@ -1,4 +1,5 @@
 import { autoUpdateTickersAction, createFixedIncomeAction, createOtherAssetsAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction } from "@/actions/assets"
+import { updateAssetsHistoryForCurrentMonthAction } from "@/actions/assets/history/update-assets-history-for-current-month"
 import { VariableIncome } from "@/models/assets"
 import { Assets } from "@/models/assets/assets"
 import { FixedIncome, FixedIncomes, ICreateFixedIncomeDto } from "@/models/assets/fixed-income"
@@ -150,7 +151,7 @@ export const useAssets = () => {
       const share = new OtherAssets(shareItems)
       const financialInjection = new OtherAssets(financialInjectionItems)
 
-      return new Assets({
+      const assets = new Assets({
         variableIncome,
         fixedIncome,
         cashBox,
@@ -159,6 +160,12 @@ export const useAssets = () => {
         share,
         financialInjection
       })
+
+      console.log("Assets To up", assets)
+      await updateAssetsHistoryForCurrentMonthAction(JSON.stringify(assets), user.id)
+      console.log("Assets Updated")
+
+      return assets
     },
     staleTime: 60_000 * 10
   })
