@@ -86,8 +86,16 @@ export default function PatrimonioPage() {
         >
           {otherAssetsTypeMapper[OthersAssetsTypes.SHARE].label}
         </Link>
+        <Link
+          href={"patrimonio/atualizacao-em-massa"}
+          className={buttonVariants({
+            className: "mt-4",
+          })}
+        >
+          Atualização em Massa
+        </Link>
       </div>
-      <pre>{JSON.stringify(assets?.summary, null, 2)}</pre>
+      <pre>{JSON.stringify(assets, null, 2)}</pre>
     </div>
   )
 }

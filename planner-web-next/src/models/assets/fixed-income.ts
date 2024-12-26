@@ -14,7 +14,7 @@ export interface IFixedIncome {
 }
 
 export interface IFixedIncomes {
-  data: FixedIncome[]
+  items: FixedIncome[]
   currentAmount: number
 }
 
@@ -78,11 +78,11 @@ export class FixedIncome implements IFixedIncome {
 }
 
 export class FixedIncomes implements IFixedIncomes {
-  data: FixedIncome[]
+  items: FixedIncome[]
   currentAmount: number
 
   constructor(data: FixedIncome[]) {
-    this.data = data
+    this.items = data
     this.currentAmount = data.reduce((acc, item) => acc + item.currentValue, 0)
   }
 }
