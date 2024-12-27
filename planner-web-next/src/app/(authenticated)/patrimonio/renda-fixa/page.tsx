@@ -46,7 +46,7 @@ export default function RendaFixaPage() {
       </div>
 
       <div className='pt-6'>
-        <FixedIncomesTable data={assets?.fixedIncome.data} isLoading={isLoadingAssets} />
+        <FixedIncomesTable data={assets?.fixedIncome.items} isLoading={isLoadingAssets} />
       </div>
     </div>
   )
