@@ -10,99 +10,13 @@ import { ChevronLeftIcon, DollarSignIcon } from "lucide-react"
 import { H1 } from "@/components/ui/typography"
 import { useRouter } from "next/navigation"
 import SummaryCard from "./_partials/summary-card"
+import AutoUpdateTickersButton from "./_partials/auto-update-tickers-button"
 
 export default function PatrimonioPage() {
   const { assets, isLoadingAssets } = useAssets()
   const router = useRouter()
 
   return (
-  // <div>
-  //   <h1>Patrimônio - {formatCurrency(assets?.summary.totalAmount)}</h1>
-  //   <div className="flex gap-4">
-  //     <Link
-  //       href={"patrimonio/tickers"}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       Tickers
-  //     </Link>
-  //     <Link
-  //       href={"patrimonio/tickers/ordens"}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       Ordens
-  //     </Link>
-  //     <Link
-  //       href={"patrimonio/renda-variavel"}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       Renda Variável
-  //     </Link>
-  //     <Link
-  //       href={"patrimonio/renda-fixa"}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       Renda Fixa
-  //     </Link>
-  //     <Link
-  //       href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.CASH_BOX].slug}`}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       {otherAssetsTypeMapper[OthersAssetsTypes.CASH_BOX].label}
-  //     </Link>
-  //     <Link
-  //       href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.FINANCIAL_INJECTION].slug}`}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       {otherAssetsTypeMapper[OthersAssetsTypes.FINANCIAL_INJECTION].label}
-  //     </Link>
-  //     <Link
-  //       href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.PENSION].slug}`}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       {otherAssetsTypeMapper[OthersAssetsTypes.PENSION].label}
-  //     </Link>
-  //     <Link
-  //       href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.PROPERTY].slug}`}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       {otherAssetsTypeMapper[OthersAssetsTypes.PROPERTY].label}
-  //     </Link>
-  //     <Link
-  //       href={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.SHARE].slug}`}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       {otherAssetsTypeMapper[OthersAssetsTypes.SHARE].label}
-  //     </Link>
-  //     <Link
-  //       href={"patrimonio/atualizacao-em-massa"}
-  //       className={buttonVariants({
-  //         className: "mt-4",
-  //       })}
-  //     >
-  //       Atualização em Massa
-  //     </Link>
-  //   </div>
-  //   {/* <pre>{JSON.stringify(assets, null, 2)}</pre> */}
-  // </div>
-
     <div className='py-4 max-w-screen-2xl mx-auto'>
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
         <div className="w-full flex justify-start items-center sm:gap-2">
@@ -127,7 +41,8 @@ export default function PatrimonioPage() {
           Icon={DollarSignIcon}
           amountTextClassName="sm:text-4xl" />
         <SummaryCard
-          title="Caixa"
+          title={otherAssetsTypeMapper[OthersAssetsTypes.CASH_BOX].label}
+          linkUrl={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.CASH_BOX].slug}`}
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.cashBoxAmount}
@@ -135,6 +50,7 @@ export default function PatrimonioPage() {
         />
         <SummaryCard
           title="Renda Fixa"
+          linkUrl="patrimonio/renda-fixa"
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.fixedIncomeAmount}
@@ -146,20 +62,23 @@ export default function PatrimonioPage() {
 
         <SummaryCard
           title="Renda Variável"
+          linkUrl="patrimonio/renda-variavel"
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.variableIncomeAmount}
           useSecondaryBackground
         />
         <SummaryCard
-          title="Previdência"
+          title={otherAssetsTypeMapper[OthersAssetsTypes.PENSION].label}
+          linkUrl={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.PENSION].slug}`}
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.pensionAmount}
           useSecondaryBackground
         />
         <SummaryCard
-          title="Posses"
+          title={otherAssetsTypeMapper[OthersAssetsTypes.PROPERTY].labelPlural}
+          linkUrl={`patrimonio/${otherAssetsTypeMapper[OthersAssetsTypes.PROPERTY].slug}`}
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.propertyAmount}
@@ -172,8 +91,24 @@ export default function PatrimonioPage() {
         <div className="sm:col-span-10 w-full h-80 flex sm:block border rounded-lg justify-center items-center">
           <p>Gráfico 2</p>
         </div>
-        <div className="sm:col-span-2 w-full flex sm:block border rounded-lg justify-center items-center">
-
+        <div className="sm:col-span-2 w-full py-4 px-2 flex flex-col gap-2 border rounded-lg justify-start items-center">
+          <Link
+            href={"patrimonio/tickers"}
+            className={buttonVariants({
+              className: "w-full",
+            })}
+          >
+            Tickers
+          </Link>
+          <Link
+            href={"patrimonio/tickers/ordens"}
+            className={buttonVariants({
+              className: "w-full",
+            })}
+          >
+            Ordens
+          </Link>
+          <AutoUpdateTickersButton className="sm:w-full" />
         </div>
       </div>
     </div >
