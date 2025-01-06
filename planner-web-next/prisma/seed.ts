@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client")
-const { setDate, add, endOfMonth, startOfMonth, sub, subDays } = require("date-fns")
+const { setDate, add, endOfMonth, startOfMonth, sub, subDays, subMonths } = require("date-fns")
 
 const prismaClient = new PrismaClient()
 const userId = process.env.DATABASE_SEED_USER_ID || ""
@@ -485,13 +485,13 @@ const otherAssets = [
   {
     userId,
     description: "Imóvel",
-    value: 500000,
+    value: 3500,
     type: "PROPERTY",
   },
   {
     userId,
     description: "Carro",
-    value: 30000,
+    value: 1000,
     type: "PROPERTY",
   },
   {
@@ -508,6 +508,26 @@ const otherAssets = [
   }
 ]
 
+const assetsHistories = [
+  {
+    userId,
+    date: subMonths(currentDate, 1),
+    stocksTotalValue: 15_000,
+    reitsTotalValue: 1_000,
+    etfsTotalValue: 500,
+    internationalsTotalValue: 2_000,
+    cryptosTotalValue: 300,
+    goldsTotalValue: 600,
+    cashBoxesTotalValue: 9_600,
+    pensionsTotalValue: 4800,
+    fixedIncomesTotalValue: 3100,
+    propertiesTotalValue: 4_000,
+    sharesTotalValue: 0,
+    financialInjectionsValue: 200,
+    generalTotalValue: 570_000
+  }
+]
+
 async function seed() {
   if (!userId || userId === "") {
     throw new Error("DATABASE_SEED_USER_ID is not defined")
@@ -521,6 +541,7 @@ async function seed() {
   await prismaClient.tickerOrder.createMany({ data: tickerOrders })
   await prismaClient.fixedIncome.createMany({ data: fixedIncomes })
   await prismaClient.otherAsset.createMany({ data: otherAssets })
+  await prismaClient.assetHistory.createMany({ data: assetsHistories })
 }
 
 seed()

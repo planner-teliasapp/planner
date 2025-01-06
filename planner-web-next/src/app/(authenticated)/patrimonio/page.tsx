@@ -11,6 +11,7 @@ import { H1 } from "@/components/ui/typography"
 import { useRouter } from "next/navigation"
 import SummaryCard from "./_partials/summary-card"
 import AutoUpdateTickersButton from "./_partials/auto-update-tickers-button"
+import AssetsSummaryChart from "./_partials/summary-chart"
 
 export default function PatrimonioPage() {
   const { assets, isLoadingAssets } = useAssets()
@@ -57,7 +58,7 @@ export default function PatrimonioPage() {
           useSecondaryBackground
         />
         <div className="sm:col-span-4 sm:col-start-9 sm:row-start-1 sm:row-span-2 w-full h-full flex sm:block border rounded-lg justify-center items-center">
-          <p>Gráfico 1</p>
+          <AssetsSummaryChart summary={assets?.summary} isLoading={isLoadingAssets} />
         </div>
 
         <SummaryCard
