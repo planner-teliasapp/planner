@@ -5,7 +5,6 @@ import { useAssets } from "@/hooks/use-assets"
 import Link from "next/link"
 import { otherAssetsTypeMapper } from "./_utils"
 import { OthersAssetsTypes } from "@prisma/client"
-import { formatCurrency } from "@/lib/utils"
 import { ChevronLeftIcon, DollarSignIcon } from "lucide-react"
 import { H1 } from "@/components/ui/typography"
 import { useRouter } from "next/navigation"
@@ -14,8 +13,10 @@ import AutoUpdateTickersButton from "./_partials/auto-update-tickers-button"
 import AssetsSummaryChart from "./_partials/summary-chart"
 
 export default function PatrimonioPage() {
-  const { assets, isLoadingAssets } = useAssets()
+  const { assets, isLoadingAssets, assetHistory } = useAssets()
   const router = useRouter()
+
+  console.log({ assetHistory })
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>

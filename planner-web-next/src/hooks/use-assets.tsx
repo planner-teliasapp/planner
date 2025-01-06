@@ -1,6 +1,7 @@
-import { autoUpdateTickersAction, createFixedIncomeAction, createOtherAssetsAction, createTickerAction, createTickerOrderAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction, massUpdateAssetsAction } from "@/actions/assets"
+import { autoUpdateTickersAction, createFixedIncomeAction, createOtherAssetsAction, createTickerAction, createTickerOrderAction, getAssetHistoryAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction, massUpdateAssetsAction } from "@/actions/assets"
 import { updateAssetsHistoryForCurrentMonthAction } from "@/actions/assets/history/update-assets-history-for-current-month"
 import { VariableIncome } from "@/models/assets"
+import { AssetHistory } from "@/models/assets/asset-history"
 import { Assets } from "@/models/assets/assets"
 import { FixedIncome, FixedIncomes, ICreateFixedIncomeDto } from "@/models/assets/fixed-income"
 import { MassUpdatable } from "@/models/assets/mass-update"
@@ -182,6 +183,21 @@ export const useAssets = () => {
     },
   })
 
+  const { data: assetHistory, isPending: isLoadingAssetHistory } = useQuery({
+    queryKey: ["assetHistory", user?.id],
+    queryFn: async () => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      const data = await getAssetHistoryAction(user?.id)
+      const items = AssetHistory.fromStringArray(data)
+
+      return items
+    },
+    staleTime: 60_000 * 10
+  })
+
   return {
     tickers,
     isLoadingTickers,
@@ -203,6 +219,8 @@ export const useAssets = () => {
 
     assets,
     isLoadingAssets,
+    assetHistory,
+    isLoadingAssetHistory,
     massUpdateAssets,
     isMassUpdatingAssets
   }
