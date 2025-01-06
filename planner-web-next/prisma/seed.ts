@@ -524,7 +524,24 @@ const assetsHistories = [
     propertiesTotalValue: 4_000,
     sharesTotalValue: 0,
     financialInjectionsValue: 200,
-    generalTotalValue: 570_000
+    generalTotalValue: 44_700
+  },
+  {
+    userId,
+    date: subMonths(currentDate, 2),
+    stocksTotalValue: 14_000,
+    reitsTotalValue: 900,
+    etfsTotalValue: 450,
+    internationalsTotalValue: 1_800,
+    cryptosTotalValue: 280,
+    goldsTotalValue: 570,
+    cashBoxesTotalValue: 9_300,
+    pensionsTotalValue: 4500,
+    fixedIncomesTotalValue: 3000,
+    propertiesTotalValue: 4_000,
+    sharesTotalValue: 0,
+    financialInjectionsValue: 200,
+    generalTotalValue: 43_000
   }
 ]
 

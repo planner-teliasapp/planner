@@ -11,12 +11,11 @@ import { useRouter } from "next/navigation"
 import SummaryCard from "./_partials/summary-card"
 import AutoUpdateTickersButton from "./_partials/auto-update-tickers-button"
 import AssetsSummaryChart from "./_partials/summary-chart"
+import AssetsHistoryChart from "./_partials/history-chart"
 
 export default function PatrimonioPage() {
   const { assets, isLoadingAssets, assetHistory } = useAssets()
   const router = useRouter()
-
-  console.log({ assetHistory })
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
@@ -91,7 +90,7 @@ export default function PatrimonioPage() {
           <p>Aporte: {assets?.summary.financialInjectionAmount}</p>
         </div>
         <div className="sm:col-span-10 w-full h-80 flex sm:block border rounded-lg justify-center items-center">
-          <p>Gráfico 2</p>
+          <AssetsHistoryChart data={assetHistory} />
         </div>
         <div className="sm:col-span-2 w-full py-4 px-2 flex flex-col gap-2 border rounded-lg justify-start items-center">
           <Link
