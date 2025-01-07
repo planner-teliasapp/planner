@@ -104,16 +104,16 @@ export default function SummaryChart({ summary, year, month, className, isLoadin
                           <tspan
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className="fill-foreground text-xl font-bold"
+                            className="fill-foreground text-lg font-bold"
                           >
-                            {formatCurrency(summary?.income)}
+                            {formatCurrency((summary?.income || 0) + (summary?.redemption || 0))}
                           </tspan>
                           <tspan
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) + 24}
                             className="fill-muted-foreground"
                           >
-                            Receitas
+                            Receita/Resgate
                           </tspan>
                         </text>
                       )

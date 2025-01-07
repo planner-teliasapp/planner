@@ -50,6 +50,7 @@ enum TransactionType {
   INVESTMENT
   PENSION
   WALLET
+  REDEMPTION
 }
 
 enum PaymentMethod {

@@ -27,6 +27,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CreateTransactionDto } from "@/models/transaction"
 import { useBudgets } from "@/hooks/use-budgets"
 import { useEffect, useMemo } from "react"
+import { transactionMapper } from "../_utils"
 
 const formSchema = z.object({
   description: z.object({
@@ -223,11 +224,15 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={TransactionType.EXPENSE}>Despesa</SelectItem>
-                  <SelectItem value={TransactionType.INCOME}>Receita</SelectItem>
-                  <SelectItem value={TransactionType.INVESTMENT}>Investimento</SelectItem>
-                  <SelectItem value={TransactionType.PENSION}>Previdência</SelectItem>
-                  <SelectItem value={TransactionType.WALLET}>Caixinha</SelectItem>
+                  {Object.keys(TransactionType).map((option, index) => {
+                    return (
+                      <SelectItem
+                        key={index}
+                        value={option as TransactionType}
+                      >{transactionMapper[option as TransactionType].label}
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
               <FormMessage />

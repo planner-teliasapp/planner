@@ -16,7 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import CreatableSelect from "react-select/creatable"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
@@ -24,9 +23,10 @@ import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CreateRecurringTransactionDto, CreateTransactionDto } from "@/models/transaction"
+import { CreateRecurringTransactionDto } from "@/models/transaction"
 import { months, weekdays } from "@/lib/constants"
 import { ClassNameValue } from "tailwind-merge"
+import { transactionMapper } from "../_utils"
 
 const formSchema = z.object({
   description: z.string().min(2).max(255),
@@ -140,11 +140,15 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading, cl
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={TransactionType.EXPENSE}>Despesa</SelectItem>
-                  <SelectItem value={TransactionType.INCOME}>Receita</SelectItem>
-                  <SelectItem value={TransactionType.INVESTMENT}>Investimento</SelectItem>
-                  <SelectItem value={TransactionType.PENSION}>Previdência</SelectItem>
-                  <SelectItem value={TransactionType.WALLET}>Caixinha</SelectItem>
+                  {Object.keys(TransactionType).map((option, index) => {
+                    return (
+                      <SelectItem
+                        key={index}
+                        value={option as TransactionType}
+                      >{transactionMapper[option as TransactionType].label}
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
               <FormMessage />

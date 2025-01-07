@@ -33,6 +33,7 @@ export interface ITransactionSummary {
   invested: number
   wallet: number
   creditCard: number
+  redemption: number
 }
 
 export class Transaction implements ITransaction {
@@ -90,8 +91,9 @@ export class Transaction implements ITransaction {
     const invested = transactions.filter(transaction => transaction.type === TransactionType.INVESTMENT || transaction.type === TransactionType.PENSION).reduce((acc, transaction) => acc + transaction.amount, 0)
     const wallet = transactions.filter(transaction => transaction.type === TransactionType.WALLET).reduce((acc, transaction) => acc + transaction.amount, 0)
     const creditCard = transactions.filter(transaction => transaction.paymentMethod === PaymentMethod.CREDIT).reduce((acc, transaction) => acc + transaction.amount, 0)
+    const redemption = transactions.filter(transaction => transaction.type === TransactionType.REDEMPTION).reduce((acc, transaction) => acc + transaction.amount, 0)
 
-    const balance = income - expense - invested - wallet
+    const balance = income - expense - invested - wallet + redemption
 
     return {
       balance,
@@ -99,7 +101,8 @@ export class Transaction implements ITransaction {
       expense,
       invested,
       wallet,
-      creditCard
+      creditCard,
+      redemption
     }
   }
 }

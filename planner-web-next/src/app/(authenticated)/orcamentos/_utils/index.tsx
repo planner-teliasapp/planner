@@ -1,5 +1,5 @@
 import { PaymentMethod, TransactionFrequency, TransactionType } from "@prisma/client"
-import { DollarSignIcon, LucideIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
+import { DollarSignIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
 
 export function transactionColorMapper(type: TransactionType | string) {
   switch (type) {
@@ -21,7 +21,7 @@ export function transactionColorMapper(type: TransactionType | string) {
 export function transactionIconMapper(type: TransactionType | string) {
   switch (type) {
     case TransactionType.INCOME:
-      return <TrendingUpIcon />
+      return <DollarSignIcon />
     case TransactionType.EXPENSE:
       return <TrendingDownIcon />
     case TransactionType.INVESTMENT:
@@ -30,7 +30,7 @@ export function transactionIconMapper(type: TransactionType | string) {
       return <PiggyBankIcon />
     case TransactionType.WALLET:
       return <WalletIcon />
-    default:
+    case TransactionType.REDEMPTION:
       return <DollarSignIcon />
   }
 }
@@ -78,6 +78,13 @@ export const transactionMapper: Record<TransactionType, TransactionMapper> = {
     bgColor: "bg-chart-4",
     label: "Caixinha",
     labelPlural: "Caixinhas",
+  },
+  [TransactionType.REDEMPTION]: {
+    icon: <WalletIcon />,
+    color: "text-chart-4",
+    bgColor: "bg-chart-4",
+    label: "Resgate",
+    labelPlural: "Resgates",
   }
 }
 

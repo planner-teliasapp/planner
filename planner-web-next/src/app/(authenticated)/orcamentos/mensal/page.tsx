@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button"
 import CreateTransactionButton from "../_partials/create-transaction-button"
 import { CreateTransactionDto } from "@/models/transaction"
 import { useToast } from "@/hooks/use-toast"
+import { transactionMapper } from "../_utils"
+import { TransactionType } from "@prisma/client"
 
 interface Props {
   searchParams: {
@@ -61,8 +63,9 @@ export default function OrcamentoMensalPage({ searchParams }: Props) {
         <SummaryCard title="Investido" amount={transactions?.summary.invested} className="sm:col-span-2" Icon={PiggyBankIcon} iconClassName="text-chart-6" useSecondaryBackground isLoading={isLoadingTransactions} />
         <SummaryCard title="Caixinhas" amount={transactions?.summary.wallet} className="sm:col-span-2" Icon={WalletIcon} iconClassName="text-chart-4" useSecondaryBackground isLoading={isLoadingTransactions} />
         <SummaryChart year={year} month={month} summary={transactions?.summary} className="sm:col-span-5" isLoading={isLoadingTransactions} />
-        <div className="col-span-3">
+        <div className="col-span-3 space-y-4">
           <SummaryCard title="Cartão de Crédito" amount={transactions?.summary.creditCard} Icon={CreditCardIcon} isLoading={isLoadingTransactions} iconClassName="text-destructive" />
+          <SummaryCard title={transactionMapper[TransactionType.REDEMPTION].labelPlural} amount={transactions?.summary.redemption} Icon={DollarSignIcon} isLoading={isLoadingTransactions} iconClassName={transactionMapper[TransactionType.REDEMPTION].color} />
         </div>
 
         <div className="sm:col-start-9 sm:col-span-4 sm:row-start-1 sm:row-span-3 w-full flex flex-col gap-2">
