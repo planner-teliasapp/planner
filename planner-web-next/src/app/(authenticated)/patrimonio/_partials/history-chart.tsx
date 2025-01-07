@@ -3,13 +3,11 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 
-import { Label, Pie, PieChart, YAxis } from "recharts"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
 import {
   ChartConfig,
@@ -32,58 +30,12 @@ interface Props {
 
 export default function AssetsHistoryChart({ data, className, isLoading }: Props) {
 
-  // Deixar o valor do fill igual ao valor do label e configurar a cor no chartConfig
-  // const chartData = [
-  //   { label: "cashBox", value: (summary?.cashBoxPercentage || 0) * 100, fill: "var(--color-cashBox)" },
-  //   { label: "fixedIncome", value: (summary?.fixedIncomePercentage || 0) * 100, fill: "var(--color-fixedIncome)" },
-  //   { label: "variableIncome", value: (summary?.variableIncomePercentage || 0) * 100, fill: "var(--color-variableIncome)" },
-  //   { label: "pension", value: (summary?.pensionPercentage || 0) * 100, fill: "var(--color-pension)" },
-  //   { label: "property", value: (summary?.propertyPercentage || 0) * 100, fill: "var(--color-property)" }
-  // ]
-
-  // const chartData = [
-  //   { month: "January", desktop: 186, mobile: 80 },
-  //   { month: "February", desktop: 305, mobile: 200 },
-  //   { month: "March", desktop: 237, mobile: 120 },
-  //   { month: "April", desktop: 73, mobile: 190 },
-  //   { month: "May", desktop: 209, mobile: 130 },
-  //   { month: "June", desktop: 214, mobile: 140 },
-  // ]
-
   const chartData = data?.map((item) => ({
     month: format(item.date, "MMM/yy"),
     cashbox: item.cashBoxesTotalValue,
     total: item.generalTotalValue,
   })) || []
 
-  console.log(chartData)
-
-  // const chartConfig = {
-  //   value: {
-  //     label: "Receitas",
-  //   },
-  //   cashBox: {
-  //     label: "Caixa",
-  //     color: "hsl(var(--chart-2))",
-  //   },
-  //   fixedIncome: {
-  //     label: "Renda Fixa",
-  //     color: "hsl(var(--chart-6))",
-  //   },
-  //   variableIncome: {
-  //     label: "Renda Variável",
-  //     color: "hsl(var(--chart-4))",
-  //   },
-  //   pension: {
-  //     label: "Previdência",
-  //     color: "hsl(var(--muted-foreground))",
-  //   },
-  //   property: {
-  //     label: "Propriedades",
-  //     color: "hsl(var(--chart-5))",
-  //   }
-
-  // } satisfies ChartConfig
   const chartConfig = {
     total: {
       label: "Total",
@@ -91,12 +43,8 @@ export default function AssetsHistoryChart({ data, className, isLoading }: Props
     }
   } satisfies ChartConfig
 
-
   return (
-    <Card className={cn("flex flex-col w-full", className)}>
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Evolução do Patrimônio</CardTitle>
-      </CardHeader>
+    <Card className={cn("flex flex-col w-full h-full bg-transparent", className)}>
       <CardContent className="flex-1 pb-0 justify-center items-center">
         {isLoading ? (
           <Skeleton className="mx-auto aspect-square max-h-[250px] mt-4" />
@@ -119,7 +67,6 @@ export default function AssetsHistoryChart({ data, className, isLoading }: Props
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-              // tickFormatter={(value) => value.slice(0, 3)}
               />
               <YAxis
                 tickLine={false}
