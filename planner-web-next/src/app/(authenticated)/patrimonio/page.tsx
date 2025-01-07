@@ -6,22 +6,17 @@ import Link from "next/link"
 import { otherAssetsTypeMapper } from "./_utils"
 import { OthersAssetsTypes } from "@prisma/client"
 import { ChevronLeftIcon, DollarSignIcon } from "lucide-react"
-import { H1 } from "@/components/ui/typography"
+import { Caption, H1, H2, P } from "@/components/ui/typography"
 import { useRouter } from "next/navigation"
 import SummaryCard from "./_partials/summary-card"
 import AutoUpdateTickersButton from "./_partials/auto-update-tickers-button"
 import AssetsSummaryChart from "./_partials/summary-chart"
-import AssetsHistoryChart from "./_partials/history-chart"
-import { AssetHistory } from "@/models/assets/asset-history"
 import HistorySection from "./_partials/history-section"
+import { formatCurrency, formatPercentage } from "@/lib/utils"
 
 export default function PatrimonioPage() {
   const { assets, isLoadingAssets, assetHistory } = useAssets()
   const router = useRouter()
-
-  if (assetHistory) {
-    console.log(AssetHistory.calculateMonthGains(assetHistory))
-  }
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
@@ -30,14 +25,6 @@ export default function PatrimonioPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
           <H1 className="text-start w-full">Patrimônio</H1>
         </div>
-        <Link
-          href={"patrimonio/atualizacao-em-massa"}
-          className={buttonVariants({
-            className: "",
-          })}
-        >
-          Atualização em Massa
-        </Link>
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-12 gap-4 pt-2'>
         <SummaryCard
@@ -91,12 +78,23 @@ export default function PatrimonioPage() {
           amount={assets?.summary.propertyAmount}
           useSecondaryBackground
         />
-        <div className="sm:col-span-2 border rounded-lg">
-          <p>Share: {assets?.summary.shareAmount}</p>
-          <p>Aporte: {assets?.summary.financialInjectionAmount}</p>
+        <div className="sm:col-span-2 border rounded-lg p-4 space-y-1">
+          <Caption className="text-muted-foreground">Disponível</Caption>
+          <P>{formatCurrency(assets?.summary.shareAmount)} - {formatPercentage(assets?.summary.sharePercentage)}</P>
+          <Caption className="text-muted-foreground">Aportes no Mês</Caption>
+          <P>{formatCurrency(assets?.summary.financialInjectionAmount)}</P>
         </div>
         <HistorySection assetHistory={assetHistory} />
         <div className="sm:col-span-2 w-full py-4 px-2 flex flex-col gap-2 border rounded-lg justify-start items-center">
+          <H2>Acesso Rápido</H2>
+          <Link
+            href={"patrimonio/atualizacao-em-massa"}
+            className={buttonVariants({
+              className: "w-full",
+            })}
+          >
+            Atualização em Massa
+          </Link>
           <Link
             href={"patrimonio/tickers"}
             className={buttonVariants({
@@ -105,6 +103,7 @@ export default function PatrimonioPage() {
           >
             Tickers
           </Link>
+          <AutoUpdateTickersButton className="sm:w-full" />
           <Link
             href={"patrimonio/tickers/ordens"}
             className={buttonVariants({
@@ -113,7 +112,14 @@ export default function PatrimonioPage() {
           >
             Ordens
           </Link>
-          <AutoUpdateTickersButton className="sm:w-full" />
+          <Link
+            href={"patrimonio/atualizacao-em-massa"}
+            className={buttonVariants({
+              className: "w-full",
+            })}
+          >
+            Balanceamento
+          </Link>
         </div>
       </div>
     </div >
