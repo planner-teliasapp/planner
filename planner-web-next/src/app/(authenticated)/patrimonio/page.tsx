@@ -113,7 +113,7 @@ export default function PatrimonioPage() {
             Ordens
           </Link>
           <Link
-            href={"patrimonio/atualizacao-em-massa"}
+            href={"patrimonio/balanceamento"}
             className={buttonVariants({
               className: "w-full",
             })}
