@@ -4,24 +4,26 @@ import { AssetHistory } from "@/models/assets/asset-history"
 import AssetsHistoryChart from "./history-chart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { H3, H4 } from "@/components/ui/typography"
-import { formatCurrency, formatPercentage } from "@/lib/utils"
+import { cn, formatCurrency, formatPercentage } from "@/lib/utils"
+import { ClassNameValue } from "tailwind-merge"
 
 interface Props {
   assetHistory: AssetHistory[] | undefined
+  className: ClassNameValue
 }
 
-export default function HistorySection({ assetHistory }: Props) {
+export default function HistorySection({ assetHistory, className }: Props) {
   const monthGains = AssetHistory.calculateMonthGains(assetHistory)
 
   return (
-    <Card className="sm:col-span-10 w-full h-fullflex sm:block justify-center items-center">
+    <Card className={cn("w-full flex flex-col justify-start items-start", className)}>
       <CardHeader>
         <CardTitle>Patrimônio ao longo do tempo</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="w-full h-full flex flex-row justify-center items-start gap-4">
-          <AssetsHistoryChart data={assetHistory} className="w-4/5" />
-          <div className="w-1/5 h-full flex flex-col justify-center items-start">
+      <CardContent className="w-full">
+        <div className="w-full sm:h-full flex flex-col sm:flex-row justify-center items-start gap-4">
+          <AssetsHistoryChart data={assetHistory} className="w-full sm:w-4/5" />
+          <div className="w-full sm:w-1/5 h-full flex flex-col justify-center items-start">
             <H3>Neste mês</H3>
             <div className="flex flex-row justify-between items-center w-full">
               <p>{formatCurrency(AssetHistory.calculateMonthGains(assetHistory).generalTotalGain)}</p>

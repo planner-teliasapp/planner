@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useMediaQuery } from "@reactuses/core"
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
@@ -21,6 +22,7 @@ import { cn } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { AssetHistory } from "@/models/assets/asset-history"
 import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 
 interface Props {
   data?: AssetHistory[]
@@ -30,8 +32,10 @@ interface Props {
 
 export default function AssetsHistoryChart({ data, className, isLoading }: Props) {
 
+  const isGreaterThanSm = useMediaQuery("(min-width: 640px)")
+
   const chartData = data?.map((item) => ({
-    month: format(item.date, "MMM/yy"),
+    month: format(item.date, "MMM/yy", { locale: ptBR }),
     cashbox: item.cashBoxesTotalValue,
     total: item.generalTotalValue,
   })) || []
@@ -69,6 +73,7 @@ export default function AssetsHistoryChart({ data, className, isLoading }: Props
                 tickMargin={8}
               />
               <YAxis
+                hide={!isGreaterThanSm}
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
@@ -77,11 +82,8 @@ export default function AssetsHistoryChart({ data, className, isLoading }: Props
                 tickFormatter={(value) => new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(value)
-                }
-
+                }).format(value)}
                 domain={["dataMin", "dataMax"]}
-
               />
               <ChartTooltip
                 cursor={false}
