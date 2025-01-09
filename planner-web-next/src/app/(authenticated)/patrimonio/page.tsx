@@ -43,6 +43,7 @@ export default function PatrimonioPage() {
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.cashBoxAmount}
+          amountTextClassName="sm:text-base 2xl:text-2xl"
           useSecondaryBackground
         />
         <SummaryCard
@@ -51,6 +52,7 @@ export default function PatrimonioPage() {
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.fixedIncomeAmount}
+          amountTextClassName="sm:text-base 2xl:text-2xl"
           useSecondaryBackground
         />
         <div className="col-span-2 sm:col-span-4 sm:col-start-9 row-start-6 sm:row-start-1 sm:row-span-2 w-full h-full flex sm:block border rounded-lg justify-center items-center">
@@ -63,6 +65,7 @@ export default function PatrimonioPage() {
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.variableIncomeAmount}
+          amountTextClassName="sm:text-base 2xl:text-2xl"
           useSecondaryBackground
         />
         <SummaryCard
@@ -71,6 +74,7 @@ export default function PatrimonioPage() {
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.pensionAmount}
+          amountTextClassName="sm:text-base 2xl:text-2xl"
           useSecondaryBackground
         />
         <SummaryCard
@@ -79,6 +83,7 @@ export default function PatrimonioPage() {
           className="sm:col-span-2"
           isLoading={isLoadingAssets}
           amount={assets?.summary.propertyAmount}
+          amountTextClassName="sm:text-base 2xl:text-2xl"
           useSecondaryBackground
         />
         <div className="col-span-2 border rounded-lg p-4 flex sm:flex-col gap-2 justify-start">

@@ -69,7 +69,7 @@ export default function AssetsSummaryChart({ summary, className, isLoading }: Pr
   } satisfies ChartConfig
 
   return (
-    <Card className={cn("flex flex-col w-full", className)}>
+    <Card className={cn("flex flex-col w-full h-full", className)}>
       <CardHeader className="items-center pb-0">
         <CardTitle>Distribuição por Classe</CardTitle>
       </CardHeader>
@@ -79,14 +79,23 @@ export default function AssetsSummaryChart({ summary, className, isLoading }: Pr
         ) : (
           <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px]"
+            className="mx-auto aspect-square max-h-[250px] w-full"
           >
             <PieChart>
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
-              <ChartLegend content={<ChartLegendContent />} />
+              <ChartLegend
+                content={
+                  <ChartLegendContent
+                    className="flex flex-col gap-2 justify-start items-start"
+                  />
+                }
+                align="right"
+                verticalAlign="middle"
+                layout="vertical"
+              />
               <Pie
                 data={chartData}
                 dataKey="value"

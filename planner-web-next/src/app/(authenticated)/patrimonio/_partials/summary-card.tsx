@@ -65,7 +65,7 @@ export default function SummaryCard({ title, amount = 0, Icon, useSecondaryBackg
             R$ 999999,99</p></Skeleton>
         ) : (
           <p className='mt-2 text-base text-muted-foreground'>
-            R$ <CountUp start={progress.previous} end={progress.current} duration={1} decimals={2} separator=" " decimal="," className={cn("text-foreground font-medium text-3xl sm:text-xl", amountTextClassName)} /></p>
+            R$ <CountUp start={progress.previous} end={progress.current} duration={1} decimals={2} separator=" " decimal="," className={cn("text-foreground font-medium text-xl sm:text-xl", amountTextClassName)} /></p>
         )}
       </CardContent>
     </Card>
