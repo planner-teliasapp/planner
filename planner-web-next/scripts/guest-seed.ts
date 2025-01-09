@@ -8,143 +8,143 @@ const guestCurrentDate = new Date()
 const guestTasks = [
   {
     title: "Estudar para a certificação",
-    userId
+    userId: guestUserId
   },
   {
     title: "Fazer o desafio de programação",
-    userId
+    userId: guestUserId
   },
   {
     title: "Estudar para a faculdade",
-    userId
+    userId: guestUserId
   },
   {
     title: "Fazer exercícios",
-    userId
+    userId: guestUserId
   },
   {
     title: "Estudar inglês",
-    userId
+    userId: guestUserId
   },
   {
     title: "Fazer teste",
-    userId
+    userId: guestUserId
   },
   {
     title: "Fazer compras",
-    userId
+    userId: guestUserId
   },
   {
     title: "Revisar o conteúdo",
-    userId
+    userId: guestUserId
   }
 ]
 
 const guestTaskLists = [
   {
     title: "Estudos",
-    userId,
+    userId: guestUserId,
   },
   {
     title: "Compras",
-    userId,
+    userId: guestUserId,
   },
   {
     title: "Trabalho",
-    userId,
+    userId: guestUserId,
   }
 ]
 
 const guestRecurringTransactions = [
   {
-    userId,
+    userId: guestUserId,
     description: "Salário Recorrente",
     referenceValue: 1999.99,
     expectedDayOfMonth: 5,
     type: "INCOME",
     paymentMethod: "TRANSFER",
     frequency: "MONTHLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       months: 3
     }))
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Aluguel Recorrente",
     referenceValue: 789.12,
     expectedDayOfMonth: 9,
     type: "EXPENSE",
     paymentMethod: "TRANSFER",
     frequency: "MONTHLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       months: 7
     }))
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Assinatura Recorrente 1",
     referenceValue: 49.99,
     expectedDayOfMonth: 7,
     type: "EXPENSE",
     paymentMethod: "CREDIT",
     frequency: "MONTHLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       months: 1
     }))
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Assinatura Recorrente 2",
     referenceValue: 35.00,
     expectedDayOfMonth: 1,
     type: "EXPENSE",
     paymentMethod: "CREDIT",
     frequency: "MONTHLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       months: 2
     })),
-    endDate: startOfMonth(add(currentDate, {
+    endDate: guestStartOfMonth(guestAdd(guestCurrentDate, {
       years: 1
     }))
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Investimento Recorrente",
     referenceValue: 1000,
     expectedDayOfMonth: 22,
     type: "INVESTMENT",
     paymentMethod: "TRANSFER",
     frequency: "MONTHLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       months: 1
     }))
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Previdência Recorrente",
     referenceValue: 299.99,
     expectedDayOfMonth: 25,
     type: "PENSION",
     paymentMethod: "PIX",
     frequency: "MONTHLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       months: 8
     }))
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Caixinha Recorrente",
     referenceValue: 199.99,
     expectedDayOfMonth: 25,
     type: "WALLET",
     paymentMethod: "PIX",
     frequency: "MONTHLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       months: 2
     }))
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Imposto Anual",
     referenceValue: 199.99,
     expectedDayOfMonth: 25,
@@ -152,7 +152,7 @@ const guestRecurringTransactions = [
     type: "EXPENSE",
     paymentMethod: "PIX",
     frequency: "YEARLY",
-    startDate: startOfMonth(sub(currentDate, {
+    startDate: guestStartOfMonth(guestSub(guestCurrentDate, {
       years: 4
     }))
   }
@@ -161,107 +161,107 @@ const guestRecurringTransactions = [
 const guestTransactions = [
   {
     amount: 5678.45,
-    date: setDate(currentDate, 5),
+    date: guestSetDate(guestCurrentDate, 5),
     description: "Salário",
     paymentMethod: "TRANSFER",
     type: "INCOME",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 254,
-    date: setDate(currentDate, 7),
+    date: guestSetDate(guestCurrentDate, 7),
     description: "Rendimentos",
     paymentMethod: "TRANSFER",
     type: "INCOME",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 56.88,
-    date: setDate(currentDate, 14),
+    date: guestSetDate(guestCurrentDate, 14),
     description: "Rendimentos",
     paymentMethod: "TRANSFER",
     type: "INCOME",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 123.45,
-    date: setDate(currentDate, 2),
+    date: guestSetDate(guestCurrentDate, 2),
     description: "Rendimentos",
     paymentMethod: "TRANSFER",
     type: "INCOME",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 183.77,
-    date: setDate(currentDate, 21),
+    date: guestSetDate(guestCurrentDate, 21),
     description: "Rendimentos",
     paymentMethod: "TRANSFER",
     type: "INCOME",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 1200,
-    date: setDate(currentDate, 7),
+    date: guestSetDate(guestCurrentDate, 7),
     description: "Aluguel",
     paymentMethod: "TRANSFER",
     type: "EXPENSE",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 200,
-    date: setDate(currentDate, 2),
+    date: guestSetDate(guestCurrentDate, 2),
     description: "Mercado",
     paymentMethod: "PIX",
     type: "EXPENSE",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 50,
-    date: setDate(currentDate, 14),
+    date: guestSetDate(guestCurrentDate, 14),
     description: "Farmácia",
     paymentMethod: "CREDIT",
     type: "EXPENSE",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 30,
-    date: setDate(currentDate, 21),
+    date: guestSetDate(guestCurrentDate, 21),
     description: "Combustível",
     paymentMethod: "DEBIT",
     type: "EXPENSE",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 2356.78,
-    date: setDate(currentDate, 8),
+    date: guestSetDate(guestCurrentDate, 8),
     description: "Aplicação",
     paymentMethod: "TRANSFER",
     type: "INVESTMENT",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 100,
-    date: setDate(currentDate, 26),
+    date: guestSetDate(guestCurrentDate, 26),
     description: "Viagens",
     paymentMethod: "TRANSFER",
     type: "WALLET",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 500,
-    date: setDate(currentDate, 26),
+    date: guestSetDate(guestCurrentDate, 26),
     description: "Presentes",
     paymentMethod: "TRANSFER",
     type: "WALLET",
-    userId,
+    userId: guestUserId,
   },
   {
     amount: 150,
-    date: setDate(currentDate, 26),
+    date: guestSetDate(guestCurrentDate, 26),
     description: "Previdência",
     paymentMethod: "TRANSFER",
     type: "PENSION",
-    userId,
+    userId: guestUserId,
   }
 ]
 
@@ -326,182 +326,182 @@ const guestTicker = [
 
 const guestTickerOrders = [
   {
-    userId,
+    userId: guestUserId,
     ticker: "PETR4",
     type: "BUY",
     quantity: 100,
     price: 40,
-    createdAt: subDays(currentDate, 30),
-    updatedAt: subDays(currentDate, 30),
+    createdAt: guestSubDays(guestCurrentDate, 30),
+    updatedAt: guestSubDays(guestCurrentDate, 30),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "PETR4",
     type: "BUY",
     quantity: 100,
     price: 44,
-    createdAt: subDays(currentDate, 25),
-    updatedAt: subDays(currentDate, 25),
+    createdAt: guestSubDays(guestCurrentDate, 25),
+    updatedAt: guestSubDays(guestCurrentDate, 25),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "PETR4",
     type: "SELL",
     quantity: 50,
     price: 48,
-    createdAt: subDays(currentDate, 20),
-    updatedAt: subDays(currentDate, 20),
+    createdAt: guestSubDays(guestCurrentDate, 20),
+    updatedAt: guestSubDays(guestCurrentDate, 20),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "PETR4",
     type: "BUY",
     quantity: 150,
     price: 36,
-    createdAt: subDays(currentDate, 17),
-    updatedAt: subDays(currentDate, 17),
+    createdAt: guestSubDays(guestCurrentDate, 17),
+    updatedAt: guestSubDays(guestCurrentDate, 17),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "VALE3",
     type: "BUY",
     quantity: 100,
     price: 100,
-    createdAt: subDays(currentDate, 30),
-    updatedAt: subDays(currentDate, 30),
+    createdAt: guestSubDays(guestCurrentDate, 30),
+    updatedAt: guestSubDays(guestCurrentDate, 30),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "VALE3",
     type: "SELL",
     quantity: 100,
     price: 112.67,
-    createdAt: subDays(currentDate, 28),
-    updatedAt: subDays(currentDate, 28),
+    createdAt: guestSubDays(guestCurrentDate, 28),
+    updatedAt: guestSubDays(guestCurrentDate, 28),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "VALE3",
     type: "BUY",
     quantity: 88,
     price: 99.88,
-    createdAt: subDays(currentDate, 12),
-    updatedAt: subDays(currentDate, 12),
+    createdAt: guestSubDays(guestCurrentDate, 12),
+    updatedAt: guestSubDays(guestCurrentDate, 12),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "VALE3",
     type: "SELL",
     quantity: 12,
     price: 102.88,
-    createdAt: subDays(currentDate, 7),
-    updatedAt: subDays(currentDate, 7),
+    createdAt: guestSubDays(guestCurrentDate, 7),
+    updatedAt: guestSubDays(guestCurrentDate, 7),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "VALE3",
     type: "BUY",
     quantity: 26,
     price: 99.88,
-    createdAt: subDays(currentDate, 3),
-    updatedAt: subDays(currentDate, 3),
+    createdAt: guestSubDays(guestCurrentDate, 3),
+    updatedAt: guestSubDays(guestCurrentDate, 3),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "GOLD11",
     type: "BUY",
     quantity: 40,
     price: 15.44,
-    createdAt: subDays(currentDate, 30),
-    updatedAt: subDays(currentDate, 30),
+    createdAt: guestSubDays(guestCurrentDate, 30),
+    updatedAt: guestSubDays(guestCurrentDate, 30),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "HGLG11",
     type: "BUY",
     quantity: 14,
     price: 75.34,
-    createdAt: subDays(currentDate, 30),
-    updatedAt: subDays(currentDate, 30),
+    createdAt: guestSubDays(guestCurrentDate, 30),
+    updatedAt: guestSubDays(guestCurrentDate, 30),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "IVVB11",
     type: "BUY",
     quantity: 8,
     price: 378.34,
-    createdAt: subDays(currentDate, 30),
-    updatedAt: subDays(currentDate, 30),
+    createdAt: guestSubDays(guestCurrentDate, 30),
+    updatedAt: guestSubDays(guestCurrentDate, 30),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "QBTC11",
     type: "BUY",
     quantity: 13,
     price: 35.36,
-    createdAt: subDays(currentDate, 30),
-    updatedAt: subDays(currentDate, 30),
+    createdAt: guestSubDays(guestCurrentDate, 30),
+    updatedAt: guestSubDays(guestCurrentDate, 30),
   },
   {
-    userId,
+    userId: guestUserId,
     ticker: "XPML11",
     type: "BUY",
     quantity: 10,
     price: 80.59,
-    createdAt: subDays(currentDate, 30),
-    updatedAt: subDays(currentDate, 30),
+    createdAt: guestSubDays(guestCurrentDate, 30),
+    updatedAt: guestSubDays(guestCurrentDate, 30),
   }
 ]
 
 const guestFixedIncomes = [
   {
-    userId,
+    userId: guestUserId,
     description: "Tesouro Selic",
     initialInvestment: 1000,
     currentValue: 1050,
-    date: subDays(currentDate, 55),
+    date: guestSubDays(guestCurrentDate, 55),
     posFixedIndex: "SELIC"
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Tesouro IPCA 2035",
     initialInvestment: 1000,
     currentValue: 1100,
-    date: subDays(currentDate, 27),
+    date: guestSubDays(guestCurrentDate, 27),
     dueDate: new Date("2035-05-15"),
     posFixedIndex: "IPCA"
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Tesouro Prefixado",
     initialInvestment: 1000,
     currentValue: 1150,
-    date: subDays(currentDate, 43),
+    date: guestSubDays(guestCurrentDate, 43),
     fixedRate: 0.1
   }
 ]
 
 const guestOtherAssets = [
   {
-    userId,
+    userId: guestUserId,
     description: "Imóvel",
     value: 3500,
     type: "PROPERTY",
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Carro",
     value: 1000,
     type: "PROPERTY",
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Reserva de Emergência",
     value: 10000,
     type: "CASH_BOX",
   },
   {
-    userId,
+    userId: guestUserId,
     description: "Previdência Privada",
     value: 5000,
     type: "PENSION",
@@ -510,8 +510,8 @@ const guestOtherAssets = [
 
 const guestAssetsHistories = [
   {
-    userId,
-    date: subMonths(currentDate, 1),
+    userId: guestUserId,
+    date: guestSubMonths(guestCurrentDate, 1),
     stocksTotalValue: 15_000,
     reitsTotalValue: 1_000,
     etfsTotalValue: 500,
@@ -527,8 +527,8 @@ const guestAssetsHistories = [
     generalTotalValue: 44_700
   },
   {
-    userId,
-    date: subMonths(currentDate, 2),
+    userId: guestUserId,
+    date: guestSubMonths(guestCurrentDate, 2),
     stocksTotalValue: 14_000,
     reitsTotalValue: 900,
     etfsTotalValue: 450,
@@ -544,8 +544,8 @@ const guestAssetsHistories = [
     generalTotalValue: 43_000
   },
   {
-    userId,
-    date: subMonths(currentDate, 3),
+    userId: guestUserId,
+    date: guestSubMonths(guestCurrentDate, 3),
     stocksTotalValue: 13_200,
     reitsTotalValue: 900,
     etfsTotalValue: 450,
@@ -561,8 +561,8 @@ const guestAssetsHistories = [
     generalTotalValue: 41_560
   },
   {
-    userId,
-    date: subMonths(currentDate, 4),
+    userId: guestUserId,
+    date: guestSubMonths(guestCurrentDate, 4),
     stocksTotalValue: 14_000,
     reitsTotalValue: 900,
     etfsTotalValue: 450,
@@ -578,8 +578,8 @@ const guestAssetsHistories = [
     generalTotalValue: 38_600
   },
   {
-    userId,
-    date: subMonths(currentDate, 5),
+    userId: guestUserId,
+    date: guestSubMonths(guestCurrentDate, 5),
     stocksTotalValue: 14_000,
     reitsTotalValue: 900,
     etfsTotalValue: 450,
@@ -628,6 +628,6 @@ guestSeed()
   })
   .catch(async (e) => {
     console.error(e)
-    await prismaClient.$disconnect()
+    await guestPrismaClient.$disconnect()
     process.exit(1)
   })

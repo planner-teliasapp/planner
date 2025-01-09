@@ -1,31 +1,31 @@
 const { PrismaClient: DeleteGuestPrismaClient } = require("@prisma/client")
 
-const deleteGuestPrismaClient = new PrismaClient()
+const deleteGuestPrismaClient = new DeleteGuestPrismaClient()
 const deleteGuestUserId = process.env.NEXT_PUBLIC_KINDE_GUEST_USER_ID || ""
 
 async function deleteGuestData() {
-  if (!userId || userId === "") {
+  if (!deleteGuestUserId || deleteGuestUserId === "") {
     throw new Error("NEXT_PUBLIC_KINDE_GUEST_USER_ID is not defined")
   }
 
-  await prismaClient.task.deleteMany({ where: { userId } })
-  await prismaClient.taskList.deleteMany({ where: { userId } })
-  await prismaClient.transaction.deleteMany({ where: { userId } })
-  await prismaClient.recurringTransaction.deleteMany({ where: { userId } })
-  await prismaClient.tickerOrder.deleteMany({ where: { userId } })
-  await prismaClient.fixedIncome.deleteMany({ where: { userId } })
-  await prismaClient.otherAsset.deleteMany({ where: { userId } })
-  await prismaClient.assetHistory.deleteMany({ where: { userId } })
+  await deleteGuestPrismaClient.task.deleteMany({ where: { userId: deleteGuestUserId } })
+  await deleteGuestPrismaClient.taskList.deleteMany({ where: { userId: deleteGuestUserId } })
+  await deleteGuestPrismaClient.transaction.deleteMany({ where: { userId: deleteGuestUserId } })
+  await deleteGuestPrismaClient.recurringTransaction.deleteMany({ where: { userId: deleteGuestUserId } })
+  await deleteGuestPrismaClient.tickerOrder.deleteMany({ where: { userId: deleteGuestUserId } })
+  await deleteGuestPrismaClient.fixedIncome.deleteMany({ where: { userId: deleteGuestUserId } })
+  await deleteGuestPrismaClient.otherAsset.deleteMany({ where: { userId: deleteGuestUserId } })
+  await deleteGuestPrismaClient.assetHistory.deleteMany({ where: { userId: deleteGuestUserId } })
 }
 
 deleteGuestData()
   .then(async () => {
-    await prismaClient.$disconnect()
+    await deleteGuestPrismaClient.$disconnect()
 
     console.log("Guest Data deleted  ❌")
   })
   .catch(async (e) => {
     console.error(e)
-    await prismaClient.$disconnect()
+    await deleteGuestPrismaClient.$disconnect()
     process.exit(1)
   })
