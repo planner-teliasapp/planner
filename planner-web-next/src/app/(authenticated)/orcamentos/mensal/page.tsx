@@ -3,7 +3,7 @@
 import { H1 } from "@/components/ui/typography"
 import { convertHumanIntToMonth, validatedMonth, validatedYear } from "@/lib/utils"
 import SummaryCard from "./_partials/summary-card"
-import { ChevronLeftIcon, CreditCardIcon, DollarSignIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
+import { ChevronLeftIcon, CreditCardIcon, DollarSignIcon, LucideIcon, PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
 import SummaryChart from "./_partials/summary-chart"
 import TransactionSummary from "./_partials/transactions-summary"
 import { useBudget } from "@/hooks/use-budget"
@@ -14,6 +14,7 @@ import { CreateTransactionDto } from "@/models/transaction"
 import { useToast } from "@/hooks/use-toast"
 import { transactionMapper } from "../_utils"
 import { TransactionType } from "@prisma/client"
+import { ClassNameValue } from "tailwind-merge"
 
 interface Props {
   searchParams: {
@@ -48,27 +49,73 @@ export default function OrcamentoMensalPage({ searchParams }: Props) {
     }
   }
 
+  type CardProps = {
+    title: string
+    amount?: number | undefined | null
+    Icon?: LucideIcon
+    iconClassName?: ClassNameValue
+    useSecondaryBackground?: boolean
+  }
+
+  function SecondaryCard(props: CardProps) {
+    return (
+      <SummaryCard
+        title={props.title}
+        amount={props.amount}
+        className="col-span-1 sm:col-span-2"
+        Icon={props.Icon}
+        iconClassName={props.iconClassName}
+        isLoading={isLoadingTransactions}
+        amountTextClassName="text-xl"
+        useSecondaryBackground={props.useSecondaryBackground}
+      />
+    )
+  }
+
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
       <div className="w-full flex justify-start items-center sm:gap-2">
         <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
         <H1>Orçamento {convertHumanIntToMonth(month)} de {year}</H1>
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-12 gap-4 pt-6'>
-        <SummaryCard title="Saldo" amount={transactions?.summary.balance} className="sm:col-span-4" Icon={DollarSignIcon} amountTextClassName="sm:text-4xl" isLoading={isLoadingTransactions} />
-        <div className="col-span-4 w-full hidden sm:block border rounded-lg">
+      <div className='grid grid-cols-2 sm:grid-cols-12 gap-4 pt-6'>
+        <SummaryCard title="Saldo" amount={transactions?.summary.balance} className="col-span-2 sm:col-span-4" Icon={DollarSignIcon} amountTextClassName="sm:text-4xl" isLoading={isLoadingTransactions} />
+        <div className="col-span-2 sm:col-span-4 w-full hidden sm:block border rounded-lg">
         </div>
-        <SummaryCard title="Receitas" amount={transactions?.summary.income} className="sm:col-span-2" Icon={TrendingUpIcon} iconClassName="text-chart-2" isLoading={isLoadingTransactions} />
-        <SummaryCard title="Despesas" amount={transactions?.summary.expense} className="sm:col-span-2" Icon={TrendingDownIcon} useSecondaryBackground isLoading={isLoadingTransactions} iconClassName="text-destructive" />
-        <SummaryCard title="Investido" amount={transactions?.summary.invested} className="sm:col-span-2" Icon={PiggyBankIcon} iconClassName="text-chart-6" useSecondaryBackground isLoading={isLoadingTransactions} />
-        <SummaryCard title="Caixinhas" amount={transactions?.summary.wallet} className="sm:col-span-2" Icon={WalletIcon} iconClassName="text-chart-4" useSecondaryBackground isLoading={isLoadingTransactions} />
-        <SummaryChart year={year} month={month} summary={transactions?.summary} className="sm:col-span-5" isLoading={isLoadingTransactions} />
-        <div className="col-span-3 space-y-4">
+        <SecondaryCard
+          title="Receitas"
+          amount={transactions?.summary.income}
+          Icon={TrendingUpIcon}
+          iconClassName="text-chart-2"
+        />
+        <SecondaryCard
+          title="Despesas"
+          amount={transactions?.summary.expense}
+          Icon={TrendingDownIcon}
+          iconClassName="text-destructive"
+          useSecondaryBackground
+        />
+        <SecondaryCard
+          title="Investido"
+          amount={transactions?.summary.invested}
+          Icon={PiggyBankIcon}
+          iconClassName="text-chart-6"
+          useSecondaryBackground
+        />
+        <SecondaryCard
+          title="Caixinhas"
+          amount={transactions?.summary.wallet}
+          Icon={WalletIcon}
+          iconClassName="text-chart-4"
+          useSecondaryBackground
+        />
+        <SummaryChart year={year} month={month} summary={transactions?.summary} className="col-span-2 sm:col-span-5" isLoading={isLoadingTransactions} />
+        <div className="col-span-2 sm:col-span-3 space-y-4">
           <SummaryCard title="Cartão de Crédito" amount={transactions?.summary.creditCard} Icon={CreditCardIcon} isLoading={isLoadingTransactions} iconClassName="text-destructive" />
           <SummaryCard title={transactionMapper[TransactionType.REDEMPTION].labelPlural} amount={transactions?.summary.redemption} Icon={DollarSignIcon} isLoading={isLoadingTransactions} iconClassName={transactionMapper[TransactionType.REDEMPTION].color} />
         </div>
 
-        <div className="sm:col-start-9 sm:col-span-4 sm:row-start-1 sm:row-span-3 w-full flex flex-col gap-2">
+        <div className="sm:col-start-9 col-span-2 sm:col-span-4 sm:row-start-1 sm:row-span-3 w-full flex flex-col gap-2">
           <CreateTransactionButton onSubmit={onSubmit} isLoading={isCreatingTransaction} className="sm:w-full" />
           <TransactionSummary
             transactions={transactions?.items}
