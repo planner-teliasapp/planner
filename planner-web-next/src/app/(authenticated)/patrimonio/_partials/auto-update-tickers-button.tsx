@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function AutoUpdateTickersButton({ disabled, className }: Props) {
-  const { isGuestUser } = useUser()
+  const { isValidUser } = useUser()
   const { autoUpdateTickers, isAutoUpdatingTickers } = useAssets()
   const { toast } = useToast()
 
@@ -39,7 +39,7 @@ export default function AutoUpdateTickersButton({ disabled, className }: Props) 
       className={cn("w-full sm:w-fit", className)}
       isLoading={isAutoUpdatingTickers}
       onClick={handleAutoUpdateTickers}
-      disabled={isGuestUser || disabled}
+      disabled={!isValidUser || disabled}
     >
       <span>Atualizar Tickers</span>
     </Button>

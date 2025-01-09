@@ -17,7 +17,7 @@ import CountUp from "react-countup"
 import { useUser } from "@/hooks/use-user"
 
 export default function PatrimonioPage() {
-  const { isGuestUser } = useUser()
+  const { isValidUser } = useUser()
   const { assets, isLoadingAssets, assetHistory } = useAssets()
   const router = useRouter()
 
@@ -117,7 +117,7 @@ export default function PatrimonioPage() {
           >
             Tickers
           </Link>
-          <AutoUpdateTickersButton disabled={isGuestUser} className="sm:w-full" />
+          <AutoUpdateTickersButton disabled={!isValidUser} className="sm:w-full" />
           <Link
             href={"patrimonio/tickers/ordens"}
             className={buttonVariants({

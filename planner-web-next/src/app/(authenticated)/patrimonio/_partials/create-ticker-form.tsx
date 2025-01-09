@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CreateTickerDto } from "@/models/assets/ticker"
 import { tickerTypeMapper } from "../_utils"
 import { Switch } from "@/components/ui/switch"
+import { useUser } from "@/hooks/use-user"
 
 const formSchema = z.object({
   symbol: z.string().min(1, { message: "O campo é obrigatório" }),
@@ -40,6 +41,7 @@ interface Props {
 }
 
 export default function CreateTickerForm({ onSubmit, isLoading }: Props) {
+  const { isValidUser } = useUser()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -143,7 +145,7 @@ export default function CreateTickerForm({ onSubmit, isLoading }: Props) {
           )}
         />
 
-        <Button className="w-full" type="submit" isLoading={isLoading}>Adicionar</Button>
+        <Button className="w-full" type="submit" isLoading={isLoading} disabled={!isValidUser}>Adicionar</Button>
       </form>
     </Form>
   )
