@@ -29,7 +29,7 @@ export default function PatrimonioPage() {
           <H1 className="text-start w-full">Patrimônio</H1>
         </div>
       </div>
-      <div className='grid grid-cols-2 sm:grid-cols-12 gap-4 pt-2'>
+      <div className='grid grid-cols-2 sm:grid-cols-8 lg:grid-cols-12 gap-4 pt-2'>
         <SummaryCard
           title="Saldo"
           className="sm:col-span-4"
@@ -55,7 +55,7 @@ export default function PatrimonioPage() {
           amountTextClassName="sm:text-base 2xl:text-2xl"
           useSecondaryBackground
         />
-        <div className="col-span-2 sm:col-span-4 sm:col-start-9 row-start-6 sm:row-start-1 sm:row-span-2 w-full h-full flex sm:block border rounded-lg justify-center items-center">
+        <div className="col-span-2 sm:col-span-4 sm:col-start-5 lg:col-start-9 row-start-6 sm:row-start-1 sm:row-span-2 w-full h-full flex sm:block border rounded-lg justify-center items-center">
           <AssetsSummaryChart summary={assets?.summary} isLoading={isLoadingAssets} />
         </div>
 
@@ -102,9 +102,9 @@ export default function PatrimonioPage() {
         </div>
         <HistorySection
           assetHistory={assetHistory}
-          className="col-span-2 sm:col-span-10 w-full h-full"
+          className="col-span-2 sm:col-span-8 lg:col-span-10 w-full h-full"
         />
-        <div className="col-span-2 row-start-1 sm:row-auto w-full py-4 px-2 grid grid-cols-2 sm:grid-cols-1 gap-2 border rounded-lg justify-start items-center">
+        <div className="col-span-2 sm:col-span-4 lg:col-span-2 sm:row-span-2 row-start-1 sm:col-start-5 lg:col-start-auto sm:row-start-3 lg:row-auto w-full py-4 px-2 grid grid-cols-2 sm:grid-cols-1 gap-2 border rounded-lg justify-start items-center">
           <H2 className="col-span-2 sm:col-auto">Acesso Rápido</H2>
           <Link
             href={"patrimonio/atualizacao-em-massa"}
