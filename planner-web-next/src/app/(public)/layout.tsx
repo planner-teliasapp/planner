@@ -10,8 +10,8 @@ export default async function PublicLayout({ children }: PropsWithChildren) {
   if (isLoggedIn) { redirect("/dashboard") }
 
   return (
-    <main className='flex flex-row max-w-screen-2xl w-full h-screen p-10'>
-      <div className='hidden sm:block w-3/5 relative rounded-2xl'>
+    <main className='flex flex-row w-full h-screen px-10'>
+      <div className='hidden sm:block w-1/2 relative rounded-2xl'>
         <Image
           src="/background/entrar-bg-image.webp"
           layout='fill'

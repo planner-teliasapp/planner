@@ -5,16 +5,19 @@ import { Input } from "@/components/ui/input"
 import { z } from "@/lib/pt-zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import GitHubButton from "./_components/github_button"
 import GoogleButton from "./_components/google_button"
 import Image from "next/image"
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs"
+import { useState } from "react"
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z.string().min(3),
 })
 
 export default function EntrarPage() {
+  const [input, setInput] = useState("")
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,24 +49,22 @@ export default function EntrarPage() {
         <span className='uppercase text-muted-foreground text-xs'>ou continue com</span>
         <div className='h-[1px] bg-muted-foreground flex-1'></div>
       </div>
-
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className=''>
-                <FormControl>
-                  <Input type='email' placeholder='Digite seu email' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type='submit' className='w-full mt-4'>Entrar com Email</Button>
-        </form>
-      </Form>
+      <Input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder='Digite seu email ou nome de usuário' />
+      <LoginLink
+        className={buttonVariants({
+          variant: "default",
+          size: "lg",
+          className: "w-full mt-2",
+        })}
+        authUrlParams={{
+          lang: "pt-BR",
+          connection_id: process.env.KINDE_USERNAME_AND_PASSWORD_CONNECTION_ID || "",
+          login_hint: input,
+        }}
+      >Continuar com Email ou Usuário</LoginLink>
 
       <div>
         <p className='text-muted-foreground text-center text-sm'>Ao continuar você concorda com nossos Termos de Serviço e Política de Privacidade</p>

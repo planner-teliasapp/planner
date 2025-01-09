@@ -1,23 +1,32 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs"
 import Image from "next/image"
 
 export default function GitHubButton() {
   return (
-    <Button
-      variant="secondary"
-    // onClick={async () => await signIn('github', { callbackUrl: "/home" })}
+    <LoginLink
+      className={buttonVariants({
+        variant: "secondary",
+        size: "lg",
+        className: "w-full",
+      })}
+      authUrlParams={{
+        lang: "pt-BR",
+        connection_id: process.env.KINDE_GITHUB_CONNECTION_ID || "",
+      }}
     >
+
       <Image
         aria-hidden={true}
         src="/icons/github-white.svg"
         width={24}
         height={24}
         alt="github logo"
-        className='fill-slate-100 stroke-slate-100 text-slate-100'
       />
-      <span>GitHub</span>
-    </Button>
+      <span>Github</span>
+
+    </LoginLink>
   )
 }

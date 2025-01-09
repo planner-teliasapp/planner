@@ -14,6 +14,7 @@ export default function GoogleButton() {
       })}
       authUrlParams={{
         lang: "pt-BR",
+        connection_id: process.env.KINDE_GOOGLE_CONNECTION_ID || "",
       }}
     >
 
@@ -22,7 +23,7 @@ export default function GoogleButton() {
         src="/icons/google.svg"
         width={24}
         height={24}
-        alt="github logo"
+        alt="google logo"
       />
       <span>Google</span>
 
