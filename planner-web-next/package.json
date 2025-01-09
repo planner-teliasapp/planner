@@ -12,7 +12,10 @@
     "reset": "prisma migrate reset --force",
     "prepare": "npx prisma migrate deploy && npx prisma generate",
     "studio": "npx prisma studio",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "guest:delete": "ts-node ./scripts/delete-guest-data.ts",
+    "guest:seed": "ts-node ./scripts/guest-seed.ts",
+    "guest:refresh": "npm run guest:delete && npm run guest:seed"
   },
   "prisma": {
     "seed": "ts-node ./prisma/seed.ts"

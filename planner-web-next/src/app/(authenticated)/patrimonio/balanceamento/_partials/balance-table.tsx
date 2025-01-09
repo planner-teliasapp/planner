@@ -77,6 +77,7 @@ export default function AssetBalanceTable({ data, isLoading }: Props) {
         correction: plannedPercentage.properties * (data?.totalAmount || 0) - (data?.propertyAmount || 0)
       }
     ]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   const variableIncomeData: BalanceColumn[] = useMemo(() => {
@@ -122,6 +123,7 @@ export default function AssetBalanceTable({ data, isLoading }: Props) {
         correction: plannedPercentage.crypto * (data?.totalAmount || 0) - (data?.variableIncomeSummary.cryptosAmount || 0)
       }
     ]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   return (

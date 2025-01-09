@@ -113,6 +113,7 @@ Bem-vindo ao **Planner**, uma aplicação personalizada de planejamento pessoal 
 #### Configuração
 
 1. Clone do repositório
+   `https://github.com/planner-teliasapp/planner`
 1. Navegue até o diretório  
    `planner-web-next`
 1. Renomear o arquivo `.env.example` para `.env` e preencher as informações de conexão do banco de dados, Kinde e Alpha Vantage
