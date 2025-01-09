@@ -1,17 +1,19 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { PlusIcon } from "lucide-react"
 import { ClassNameValue } from "tailwind-merge"
 import { cn } from "@/lib/utils"
 import { useAssets } from "@/hooks/use-assets"
 import { useToast } from "@/hooks/use-toast"
+import { useUser } from "@/hooks/use-user"
 
 interface Props {
+  disabled?: boolean
   className?: ClassNameValue
 }
 
-export default function AutoUpdateTickersButton({ className }: Props) {
+export default function AutoUpdateTickersButton({ disabled, className }: Props) {
+  const { isGuestUser } = useUser()
   const { autoUpdateTickers, isAutoUpdatingTickers } = useAssets()
   const { toast } = useToast()
 
@@ -37,6 +39,7 @@ export default function AutoUpdateTickersButton({ className }: Props) {
       className={cn("w-full sm:w-fit", className)}
       isLoading={isAutoUpdatingTickers}
       onClick={handleAutoUpdateTickers}
+      disabled={isGuestUser || disabled}
     >
       <span>Atualizar Tickers</span>
     </Button>

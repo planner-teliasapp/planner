@@ -14,8 +14,10 @@ import AssetsSummaryChart from "./_partials/summary-chart"
 import HistorySection from "./_partials/history-section"
 import { cn } from "@/lib/utils"
 import CountUp from "react-countup"
+import { useUser } from "@/hooks/use-user"
 
 export default function PatrimonioPage() {
+  const { isGuestUser } = useUser()
   const { assets, isLoadingAssets, assetHistory } = useAssets()
   const router = useRouter()
 
@@ -115,7 +117,7 @@ export default function PatrimonioPage() {
           >
             Tickers
           </Link>
-          <AutoUpdateTickersButton className="sm:w-full" />
+          <AutoUpdateTickersButton disabled={isGuestUser} className="sm:w-full" />
           <Link
             href={"patrimonio/tickers/ordens"}
             className={buttonVariants({

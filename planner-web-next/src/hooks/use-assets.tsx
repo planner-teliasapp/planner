@@ -44,6 +44,10 @@ export const useAssets = () => {
   const { mutateAsync: autoUpdateTickers, isPending: isAutoUpdatingTickers } = useMutation({
     mutationKey: ["autoUpdateTickers"],
     mutationFn: async () => {
+      if (!user || user?.id === process.env.NEXT_PUBLIC_KINDE_GUEST_USER_ID) {
+        throw new Error("Usuário não autorizado")
+      }
+
       const result = await autoUpdateTickersAction()
       const tickers = JSON.parse(result) as Ticker[]
 
