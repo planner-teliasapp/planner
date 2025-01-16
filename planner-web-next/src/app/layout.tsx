@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import localFont from "next/font/local"
+import { Analytics } from "@vercel/analytics/react"
 import "./globals.css"
 import QueryContext from "@/contexts/query-context"
 import { Mulish } from "next/font/google"
@@ -24,6 +24,7 @@ export default function RootLayout({
       <body
         className={`${mulish.className} antialiased`}
       >
+        <Analytics />
         <QueryContext>
           {children}
           <Toaster />
