@@ -117,7 +117,7 @@ export default function PatrimonioPage() {
           <Link
             href={"patrimonio/tickers"}
             className={buttonVariants({
-              className: "w-full",
+              className: { "w-full": isValidUser, "hidden": !isValidUser },
             })}
           >
             Tickers

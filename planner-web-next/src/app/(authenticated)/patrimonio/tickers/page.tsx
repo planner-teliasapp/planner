@@ -10,6 +10,7 @@ import CreateTickerButton from "../_partials/create-ticker-button"
 import { CreateTickerDto } from "@/models/assets/ticker"
 import { useToast } from "@/hooks/use-toast"
 import AutoUpdateTickersButton from "../_partials/auto-update-tickers-button"
+import { useUser } from "@/hooks/use-user"
 
 export default function TickersPage() {
   const { tickers, isLoadingTickers, createTicker, isCreatingTicker } = useAssets()
@@ -41,6 +42,16 @@ export default function TickersPage() {
         variant: "destructive",
       })
     }
+  }
+
+  const { isValidUser } = useUser()
+
+  if (!isValidUser) {
+    return (
+      <div className='py-4 max-w-screen-2xl mx-auto'>
+        <H1>Você não tem permissão para acessar essa página</H1>
+      </div>
+    )
   }
 
   return (
