@@ -45,7 +45,7 @@ export default function OrcamentosPage() {
             className: "mt-4",
           })}
         >
-          Transações recorrentes
+          Transações Cadastradas
         </Link>
       </section>
     </div>

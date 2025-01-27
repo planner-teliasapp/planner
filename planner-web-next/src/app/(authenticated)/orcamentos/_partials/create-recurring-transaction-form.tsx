@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CreateRecurringTransactionDto } from "@/models/transaction"
 import { months, weekdays } from "@/lib/constants"
 import { ClassNameValue } from "tailwind-merge"
-import { transactionMapper } from "../_utils"
+import { paymentFrequencyMapper, transactionMapper } from "../_utils"
 
 const formSchema = z.object({
   description: z.string().min(2).max(255),
@@ -90,7 +90,7 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading, cl
       type: TransactionType.EXPENSE,
       paymentMethod: PaymentMethod.TRANSFER,
       startDate: new Date(),
-      frequency: TransactionFrequency.MONTHLY
+      frequency: TransactionFrequency.DAILY
     },
   })
 
@@ -180,82 +180,6 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading, cl
         />
         <FormField
           control={form.control}
-          name="startDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Inicia em</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full px-4 font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP", { locale: ptBR })
-                      ) : (
-                        <span>Selecione uma data</span>
-                      )}
-                      <CalendarIcon className="h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    locale={ptBR}
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="endDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Finaliza em (opcional)</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full px-4 font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP", { locale: ptBR })
-                      ) : (
-                        <span>Selecione uma data</span>
-                      )}
-                      <CalendarIcon className="h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    locale={ptBR}
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="frequency"
           render={({ field }) => (
             <FormItem>
@@ -263,20 +187,100 @@ export default function CreateRecurringTransactionForm({ onSubmit, isLoading, cl
               <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue defaultValue={TransactionFrequency.MONTHLY} />
+                    <SelectValue defaultValue={TransactionFrequency.DAILY} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={TransactionFrequency.DAILY}>Diária</SelectItem>
-                  <SelectItem value={TransactionFrequency.WEEKLY}>Semanal</SelectItem>
-                  <SelectItem value={TransactionFrequency.MONTHLY}>Mensal</SelectItem>
-                  <SelectItem value={TransactionFrequency.YEARLY}>Anual</SelectItem>
+                  <SelectItem value={TransactionFrequency.DAILY}>{paymentFrequencyMapper.DAILY.label}</SelectItem>
+                  <SelectItem value={TransactionFrequency.WEEKLY}>{paymentFrequencyMapper.WEEKLY.label}</SelectItem>
+                  <SelectItem value={TransactionFrequency.MONTHLY}>{paymentFrequencyMapper.MONTHLY.label}</SelectItem>
+                  <SelectItem value={TransactionFrequency.YEARLY}>{paymentFrequencyMapper.YEARLY.label}</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
+        {form.watch("frequency") !== TransactionFrequency.DAILY && (
+          <FormField
+            control={form.control}
+            name="startDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Inicia em</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full px-4 font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP", { locale: ptBR })
+                        ) : (
+                          <span>Selecione uma data</span>
+                        )}
+                        <CalendarIcon className="h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      locale={ptBR}
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {form.watch("frequency") !== TransactionFrequency.DAILY && (
+          <FormField
+            control={form.control}
+            name="endDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Finaliza em (opcional)</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full px-4 font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP", { locale: ptBR })
+                        ) : (
+                          <span>Selecione uma data</span>
+                        )}
+                        <CalendarIcon className="h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      locale={ptBR}
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         {form.watch("frequency") === TransactionFrequency.WEEKLY && (
           <FormField
             control={form.control}

@@ -24,9 +24,9 @@ import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CreateTransactionDto } from "@/models/transaction"
+import { CreateTransactionDto, RecurringTransaction } from "@/models/transaction"
 import { useBudgets } from "@/hooks/use-budgets"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { transactionMapper } from "../_utils"
 
 const formSchema = z.object({
@@ -71,7 +71,9 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
     },
   })
 
-  const { recurringTransactions, isLoadingRecurringTransactions } = useBudgets()
+  const [createdRecurringTransaction, setCreatedRecurringTransaction] = useState<RecurringTransaction | null>(null)
+
+  const { recurringTransactions, isLoadingRecurringTransactions, createRecurringTransaction, isCreatingRecurringTransaction } = useBudgets()
 
   const recurringTransactionsOptions = useMemo(() => {
     return recurringTransactions?.items.map((transaction) => ({
@@ -80,6 +82,24 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
       __isNew__: false,
     }))
   }, [recurringTransactions])
+
+  async function onCreateRecurringTransaction(description: string) {
+    const result = await createRecurringTransaction({
+      description,
+      referenceValue: 100,
+      type: form.getValues("type"),
+      frequency: "DAILY",
+      paymentMethod: form.getValues("paymentMethod"),
+      startDate: new Date(),
+    })
+
+    setCreatedRecurringTransaction(result)
+    form.setValue("description", {
+      label: result.description,
+      value: result.id,
+      __isNew__: false,
+    })
+  }
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
     onSubmit && onSubmit({
@@ -100,6 +120,8 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
     form.setValue("type", recurringTransaction.type)
     form.setValue("paymentMethod", recurringTransaction.paymentMethod)
 
+    setCreatedRecurringTransaction(recurringTransaction)
+
   }, [recurringTransactions?.items, form.watch().description])
 
   return (
@@ -119,6 +141,14 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
                   options={recurringTransactionsOptions}
                   formatCreateLabel={(inputValue) => `Criar "${inputValue}"`}
                   placeholder=""
+                  onCreateOption={(inputValue) => {
+                    onCreateRecurringTransaction(inputValue)
+                    return {
+                      label: inputValue,
+                      value: inputValue,
+                      __isNew__: false,
+                    }
+                  }}
                   styles={{
                     control: (provided) => ({
                       ...provided,

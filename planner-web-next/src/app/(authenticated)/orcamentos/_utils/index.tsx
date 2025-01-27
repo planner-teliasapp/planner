@@ -113,7 +113,7 @@ type PaymentFrequencyMapper = {
 
 export const paymentFrequencyMapper: Record<TransactionFrequency, PaymentFrequencyMapper> = {
   [TransactionFrequency.DAILY]: {
-    label: "Diário"
+    label: "Ocasional"
   },
   [TransactionFrequency.WEEKLY]: {
     label: "Semanal"

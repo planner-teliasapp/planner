@@ -94,6 +94,8 @@ export const useBudgets = () => {
           items: addCreatedRecurringTransactionToTransactions(data.items, transaction)
         }
       })
+
+      return transaction
     }
   })
 
