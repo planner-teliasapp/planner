@@ -1,7 +1,8 @@
 import { createTransactionsAction, deleteTransactionAction, getTransactionsAction } from "@/actions/budgets"
 import { createRecurringTransactionsAction } from "@/actions/budgets/create-recurring-transaction"
 import { getRecurringTransactionsAction } from "@/actions/budgets/get-recurring-transactions"
-import { CreateRecurringTransactionDto, CreateTransactionDto, ITransactionSummary, RecurringTransaction, Transaction } from "@/models/transaction"
+import { updateRecurringTransactionsAction } from "@/actions/budgets/update-recurring-transaction"
+import { CreateRecurringTransactionDto, CreateTransactionDto, ITransactionSummary, RecurringTransaction, Transaction, UpdateRecurringTransactionDto } from "@/models/transaction"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -99,6 +100,26 @@ export const useBudgets = () => {
     }
   })
 
+  const { mutateAsync: updateRecurringTransaction, isPending: isUpdatingRecurringTransaction } = useMutation({
+    mutationKey: ["updateRecurringTransaction"],
+    mutationFn: async (data: UpdateRecurringTransactionDto) => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      const result = await updateRecurringTransactionsAction(data)
+      const transaction = RecurringTransaction.fromString(result)
+
+      queryClient.setQueryData(["recurringTransactions"], (data: { items: RecurringTransaction[] }) => {
+        return {
+          items: updateRecurringTransactionToTransactions(data.items, transaction)
+        }
+      })
+
+      return transaction
+    }
+  })
+
   return {
     transactions,
     isLoadingTransactions,
@@ -109,7 +130,9 @@ export const useBudgets = () => {
     recurringTransactions,
     isLoadingRecurringTransactions,
     createRecurringTransaction,
-    isCreatingRecurringTransaction
+    isCreatingRecurringTransaction,
+    updateRecurringTransaction,
+    isUpdatingRecurringTransaction
   }
 }
 
@@ -119,6 +142,10 @@ function addCreatedTransactionToTransactions(transactions: Transaction[], transa
 
 function addCreatedRecurringTransactionToTransactions(transactions: RecurringTransaction[], transaction: RecurringTransaction): RecurringTransaction[] {
   return [...transactions, transaction]
+}
+
+function updateRecurringTransactionToTransactions(transactions: RecurringTransaction[], transaction: RecurringTransaction): RecurringTransaction[] {
+  return transactions.map(t => t.id === transaction.id ? transaction : t)
 }
 
 function removeDeletedTransactionFromTransactions(transactions: Transaction[], transactionId: string): Transaction[] {

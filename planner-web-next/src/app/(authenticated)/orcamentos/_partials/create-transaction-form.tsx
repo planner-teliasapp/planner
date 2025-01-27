@@ -72,8 +72,11 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
   })
 
   const [createdRecurringTransaction, setCreatedRecurringTransaction] = useState<RecurringTransaction | null>(null)
+  const [isNewTransaction, setIsNewTransaction] = useState(false)
 
-  const { recurringTransactions, isLoadingRecurringTransactions, createRecurringTransaction, isCreatingRecurringTransaction } = useBudgets()
+  const { recurringTransactions, isLoadingRecurringTransactions, createRecurringTransaction, isCreatingRecurringTransaction,
+    updateRecurringTransaction, isUpdatingRecurringTransaction
+  } = useBudgets()
 
   const recurringTransactionsOptions = useMemo(() => {
     return recurringTransactions?.items.map((transaction) => ({
@@ -99,9 +102,18 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
       value: result.id,
       __isNew__: false,
     })
+
+    setIsNewTransaction(true)
   }
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
+    updateRecurringTransaction({
+      id: createdRecurringTransaction?.id || "",
+      referenceValue: values.amount,
+      type: values.type,
+      paymentMethod: values.paymentMethod
+    })
+
     onSubmit && onSubmit({
       ...values,
       description: values.description.label,
@@ -247,7 +259,12 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
+                disabled={!isNewTransaction}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue defaultValue={TransactionType.EXPENSE} />
@@ -276,7 +293,12 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Método de Pagamento</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
+                disabled={!isNewTransaction}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue defaultValue={PaymentMethod.TRANSFER} />
@@ -294,7 +316,11 @@ export default function CreateTransactionForm({ onSubmit, isLoading }: Props) {
           )}
         />
 
-        <Button className="w-full" type="submit" isLoading={isLoading}>Adicionar</Button>
+        <Button
+          className="w-full"
+          type="submit"
+          isLoading={isLoading || isCreatingRecurringTransaction || isUpdatingRecurringTransaction}
+        >Adicionar</Button>
       </form>
     </Form>
   )

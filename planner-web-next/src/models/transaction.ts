@@ -190,3 +190,7 @@ export interface CreateRecurringTransactionDto {
   expectedDayOfWeek?: number
   expectedMonthOfYear?: number
 }
+
+export interface UpdateRecurringTransactionDto extends Partial<CreateRecurringTransactionDto> {
+  id: string
+}
