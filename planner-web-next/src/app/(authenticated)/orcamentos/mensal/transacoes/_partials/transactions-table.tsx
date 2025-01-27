@@ -11,6 +11,10 @@ interface Props {
 
 export default function TransactionsTable({ transactions = [], isLoading }: Props) {
   return (
-    <DataTable columns={columns} data={transactions} isLoading={isLoading} />
+    <DataTable
+      columns={columns}
+      data={transactions}
+      isLoading={isLoading}
+    />
   )
 }

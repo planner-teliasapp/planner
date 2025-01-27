@@ -24,6 +24,7 @@ import { useState } from "react"
 import UpdateTransactionForm from "../../_partials/update-transaction-form"
 import { useBudget } from "@/hooks/use-budget"
 import { useToast } from "@/hooks/use-toast"
+import { useBudgets } from "@/hooks/use-budgets"
 
 interface Props {
   year: number
@@ -38,11 +39,18 @@ export default function TransactionSummary({ transactions = [], searchParams, cl
   const [isOpen, setIsOpen] = useState(false)
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | undefined>(undefined)
   const { updateTransaction, isUpdatingTransaction, deleteTransaction, isDeletingTransaction } = useBudget({ year, month })
+  const { updateRecurringTransaction, isUpdatingRecurringTransaction } = useBudgets()
   const { toast } = useToast()
 
   async function handleUpdate(data: UpdateTransactionDto) {
     try {
+      console.log(selectedTransaction)
+
       await updateTransaction(data)
+      await updateRecurringTransaction({
+        id: selectedTransaction?.recurringTransactionId || "",
+        referenceValue: data.amount || 0,
+      })
       setIsOpen(false)
       toast({
         title: "Transação atualizada",

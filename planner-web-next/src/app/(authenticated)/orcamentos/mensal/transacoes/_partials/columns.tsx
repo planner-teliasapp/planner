@@ -6,6 +6,8 @@ import DeleteTransactionButton from "../../../_partials/delele-transaction-butto
 import { cn, formatCurrency } from "@/lib/utils"
 import { paymentMethodMapper, transactionMapper } from "../../../_utils"
 import { PaymentMethod, TransactionType } from "@prisma/client"
+import { Edit2Icon } from "lucide-react"
+import EditTransactionButton from "../../../_partials/edit-transaction-button"
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -40,6 +42,11 @@ export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "id",
     header: "Ações",
-    cell: (row) => <DeleteTransactionButton transactionId={row.getValue() as string} />,
+    cell: (row) => (
+      <div className="flex justify-start items-center gap-1">
+        <EditTransactionButton transactionId={row.getValue() as string} />
+        <DeleteTransactionButton transactionId={row.getValue() as string} />
+      </div>
+    ),
   },
 ]

@@ -8,6 +8,7 @@ export interface ITransaction {
   date: Date
   type: TransactionType
   paymentMethod: PaymentMethod
+  recurringTransactionId?: string | null
 }
 
 export interface IRecurringTransaction {
@@ -44,6 +45,7 @@ export class Transaction implements ITransaction {
   public date: Date
   public type: TransactionType
   public paymentMethod: PaymentMethod
+  public recurringTransactionId?: string | undefined
 
   constructor(data: ITransaction) {
     Object.assign(this, data)
@@ -59,7 +61,8 @@ export class Transaction implements ITransaction {
       amount: Number(data.amount),
       date: data.date,
       type: data.type,
-      paymentMethod: data.paymentMethod
+      paymentMethod: data.paymentMethod,
+      recurringTransactionId: data.recurringTransactionId
     })
   }
 
