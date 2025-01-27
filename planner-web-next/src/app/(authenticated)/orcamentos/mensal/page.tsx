@@ -118,6 +118,8 @@ export default function OrcamentoMensalPage({ searchParams }: Props) {
         <div className="sm:col-start-9 col-span-2 sm:col-span-4 sm:row-start-1 sm:row-span-3 w-full flex flex-col gap-2">
           <CreateTransactionButton onSubmit={onSubmit} isLoading={isCreatingTransaction} className="sm:w-full" />
           <TransactionSummary
+            year={year}
+            month={month}
             transactions={transactions?.items}
             searchParams={`?ano=${year}&mes=${month}`}
             isLoading={isLoadingTransactions}

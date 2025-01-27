@@ -178,6 +178,10 @@ export interface CreateTransactionDto {
   recurringTransactionId?: string
 }
 
+export interface UpdateTransactionDto extends Partial<CreateTransactionDto> {
+  id: string
+}
+
 export interface CreateRecurringTransactionDto {
   description: string
   referenceValue: number

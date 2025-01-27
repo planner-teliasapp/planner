@@ -1,5 +1,6 @@
 import { createTransactionsAction, deleteTransactionAction, getTransactionsAction } from "@/actions/budgets"
-import { CreateTransactionDto, ITransactionSummary, Transaction } from "@/models/transaction"
+import { updateTransactionsAction } from "@/actions/budgets/update-transaction"
+import { CreateTransactionDto, ITransactionSummary, Transaction, UpdateTransactionDto } from "@/models/transaction"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -54,6 +55,25 @@ export const useBudget = ({ month, year }: Props) => {
     }
   })
 
+  const { mutateAsync: updateTransaction, isPending: isUpdatingTransaction } = useMutation({
+    mutationKey: ["updateTransaction"],
+    mutationFn: async (data: UpdateTransactionDto) => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      const result = await updateTransactionsAction(data)
+      const transaction = Transaction.fromString(result)
+
+      queryClient.setQueryData(["transactions", user?.id, year, month], (data: { items: Transaction[]; summary: ITransactionSummary }) => {
+        return {
+          items: Transaction.orderByDate(updateTransactionToTransactions(data.items, transaction)),
+          summary: Transaction.getSummary(updateTransactionToTransactions(data.items, transaction))
+        }
+      })
+    }
+  })
+
   const { mutateAsync: deleteTransaction, isPending: isDeletingTransaction } = useMutation({
     mutationKey: ["deleteTransaction"],
     mutationFn: async (transactionId: string) => {
@@ -62,12 +82,12 @@ export const useBudget = ({ month, year }: Props) => {
 
       queryClient.setQueryData(["transactions", user?.id, year, month], (data: { items: Transaction[]; summary: ITransactionSummary }) => {
         return {
-          items: Transaction.orderByDate(removeDeletedTransactionFromTransactions(data.items, transactionId)),
-          summary: Transaction.getSummary(removeDeletedTransactionFromTransactions(data.items, transactionId))
+          items: Transaction.orderByDate(removeDeletedTransactionFromTransactions(data?.items, transactionId)),
+          summary: Transaction.getSummary(removeDeletedTransactionFromTransactions(data?.items, transactionId))
         }
       })
 
-      // queryClient.invalidateQueries({ queryKey: ["transactions"] })
+      queryClient.invalidateQueries({ queryKey: ["transactions"] })
     }
   })
 
@@ -76,6 +96,8 @@ export const useBudget = ({ month, year }: Props) => {
     isLoadingTransactions,
     createTransaction,
     isCreatingTransaction,
+    updateTransaction,
+    isUpdatingTransaction,
     deleteTransaction,
     isDeletingTransaction
   }
@@ -83,6 +105,10 @@ export const useBudget = ({ month, year }: Props) => {
 
 function addCreatedTransactionToTransactions(transactions: Transaction[], transaction: Transaction): Transaction[] {
   return [...transactions, transaction]
+}
+
+function updateTransactionToTransactions(transactions: Transaction[], transaction: Transaction): Transaction[] {
+  return transactions.map(t => t.id === transaction.id ? transaction : t)
 }
 
 function removeDeletedTransactionFromTransactions(transactions: Transaction[], transactionId: string): Transaction[] {

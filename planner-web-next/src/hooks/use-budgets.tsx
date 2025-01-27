@@ -2,7 +2,8 @@ import { createTransactionsAction, deleteTransactionAction, getTransactionsActio
 import { createRecurringTransactionsAction } from "@/actions/budgets/create-recurring-transaction"
 import { getRecurringTransactionsAction } from "@/actions/budgets/get-recurring-transactions"
 import { updateRecurringTransactionsAction } from "@/actions/budgets/update-recurring-transaction"
-import { CreateRecurringTransactionDto, CreateTransactionDto, ITransactionSummary, RecurringTransaction, Transaction, UpdateRecurringTransactionDto } from "@/models/transaction"
+import { updateTransactionsAction } from "@/actions/budgets/update-transaction"
+import { CreateRecurringTransactionDto, CreateTransactionDto, ITransactionSummary, RecurringTransaction, Transaction, UpdateRecurringTransactionDto, UpdateTransactionDto } from "@/models/transaction"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -42,6 +43,25 @@ export const useBudgets = () => {
         return {
           items: Transaction.orderByDate(addCreatedTransactionToTransactions(data.items, transaction)),
           summary: Transaction.getSummary(addCreatedTransactionToTransactions(data.items, transaction))
+        }
+      })
+    }
+  })
+
+  const { mutateAsync: updateTransaction, isPending: isUpdatingTransaction } = useMutation({
+    mutationKey: ["updateTransaction"],
+    mutationFn: async (data: UpdateTransactionDto) => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      const result = await updateTransactionsAction(data)
+      const transaction = Transaction.fromString(result)
+
+      queryClient.setQueryData(["transactions"], (data: { items: Transaction[]; summary: ITransactionSummary }) => {
+        return {
+          items: Transaction.orderByDate(updateTransactionToTransactions(data.items, transaction)),
+          summary: Transaction.getSummary(updateTransactionToTransactions(data.items, transaction))
         }
       })
     }
@@ -125,6 +145,8 @@ export const useBudgets = () => {
     isLoadingTransactions,
     createTransaction,
     isCreatingTransaction,
+    updateTransaction,
+    isUpdatingTransaction,
     deleteTransaction,
     isDeletingTransaction,
     recurringTransactions,
@@ -138,6 +160,10 @@ export const useBudgets = () => {
 
 function addCreatedTransactionToTransactions(transactions: Transaction[], transaction: Transaction): Transaction[] {
   return [...transactions, transaction]
+}
+
+function updateTransactionToTransactions(transactions: Transaction[], transaction: Transaction): Transaction[] {
+  return transactions.map(t => t.id === transaction.id ? transaction : t)
 }
 
 function addCreatedRecurringTransactionToTransactions(transactions: RecurringTransaction[], transaction: RecurringTransaction): RecurringTransaction[] {
