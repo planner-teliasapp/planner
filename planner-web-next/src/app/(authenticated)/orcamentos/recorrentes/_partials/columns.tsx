@@ -5,6 +5,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { cn, convertIntToMonth, convertIntToWeekday, formatCurrency } from "@/lib/utils"
 import { PaymentMethod, TransactionFrequency, TransactionType } from "@prisma/client"
 import { paymentFrequencyMapper, paymentMethodMapper, transactionMapper } from "../../_utils"
+import { Button } from "@/components/ui/button"
+import { Edit2Icon } from "lucide-react"
+import EditRecurringTransactionButton from "../../_partials/edit-recurring-transaction-button"
 
 export const columns: ColumnDef<RecurringTransaction>[] = [
   {
@@ -60,10 +63,16 @@ export const columns: ColumnDef<RecurringTransaction>[] = [
     accessorKey: "expectedMonthOfYear",
     header: "Mês do ano",
     cell: (row) => typeof row.getValue() === "number" ? convertIntToMonth(row.getValue() as number) : "-",
-  }
-  // {
-  //   accessorKey: "id",
-  //   header: "Ações",
-  //   cell: (row) => <DeleteTransactionButton transactionId={row.getValue() as string} />,
-  // },
+  },
+  {
+    accessorKey: "id",
+    header: "Ações",
+    cell: (row) => (
+      <div>
+        <EditRecurringTransactionButton
+          transactionId={row.getValue() as string}
+        />
+      </div>
+    ),
+  },
 ]
