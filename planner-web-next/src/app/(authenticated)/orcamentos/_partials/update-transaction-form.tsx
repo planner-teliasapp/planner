@@ -93,7 +93,7 @@ export default function UpdateTransactionForm({ handleUpdate, handleDelete, isLo
   return (
     <Form {...form}>
       <ScrollArea className="h-[98%] pr-4">
-        <form onSubmit={form.handleSubmit(onFormSubmit)} className="space-y-4 py-4">
+        <form onSubmit={form.handleSubmit(onFormSubmit)} className="space-y-4 py-4 px-1">
           <FormField
             control={form.control}
             name="description"

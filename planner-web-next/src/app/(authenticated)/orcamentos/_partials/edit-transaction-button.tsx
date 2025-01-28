@@ -96,8 +96,8 @@ export default function EditTransactionButton({ transactionId, className }: Prop
           <Edit2Icon />
         </Button>
       </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
+      <SheetContent className="px-5">
+        <SheetHeader className="px-1">
           <SheetTitle>Atualizar transação</SheetTitle>
         </SheetHeader>
         <UpdateTransactionForm

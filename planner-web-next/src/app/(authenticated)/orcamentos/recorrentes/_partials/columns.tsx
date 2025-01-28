@@ -5,8 +5,6 @@ import { ColumnDef } from "@tanstack/react-table"
 import { cn, convertIntToMonth, convertIntToWeekday, formatCurrency } from "@/lib/utils"
 import { PaymentMethod, TransactionFrequency, TransactionType } from "@prisma/client"
 import { paymentFrequencyMapper, paymentMethodMapper, transactionMapper } from "../../_utils"
-import { Button } from "@/components/ui/button"
-import { Edit2Icon } from "lucide-react"
 import EditRecurringTransactionButton from "../../_partials/edit-recurring-transaction-button"
 
 export const columns: ColumnDef<RecurringTransaction>[] = [
@@ -16,12 +14,12 @@ export const columns: ColumnDef<RecurringTransaction>[] = [
   },
   {
     accessorKey: "referenceValue",
-    header: "Valor",
+    header: () => <p className="text-center">Valor</p>,
     cell: (row) => formatCurrency(row.getValue() as number),
   },
   {
     accessorKey: "type",
-    header: "Tipo",
+    header: () => <p className="text-center">Tipo</p>,
     cell: (row) => (
       <div className="flex justify-start items-center gap-2">
         <div className={cn("size-2 rounded-full", transactionMapper[row.getValue() as TransactionType].bgColor)}></div>
@@ -36,39 +34,39 @@ export const columns: ColumnDef<RecurringTransaction>[] = [
   },
   {
     accessorKey: "frequency",
-    header: "Recorrência",
-    cell: (row) => paymentFrequencyMapper[row.getValue() as TransactionFrequency].label,
+    header: () => <p className="text-center">Recorrência</p>,
+    cell: (row) => <p className="text-center">{paymentFrequencyMapper[row.getValue() as TransactionFrequency].label}</p>,
   },
   {
     accessorKey: "startDate",
-    header: "Inicia em",
-    cell: (row) => new Date(row.getValue() as string).toLocaleDateString(),
+    header: () => <p className="text-center">Inicia em</p>,
+    cell: (row) => <p className="text-center">{new Date(row.getValue() as string).toLocaleDateString()}</p>,
   },
   {
     accessorKey: "endDate",
-    header: "Finaliza em",
-    cell: (row) => (row.getValue() ? new Date(row.getValue() as string).toLocaleDateString() : "-"),
+    header: () => <p className="text-center">Finaliza em</p>,
+    cell: (row) => <p className="text-center">{(row.getValue() ? new Date(row.getValue() as string).toLocaleDateString() : "-")}</p>,
   },
   {
     accessorKey: "expectedDayOfWeek",
-    header: "Dia da semana",
-    cell: (row) => row.getValue() ? convertIntToWeekday(row.getValue() as number) : "-",
+    header: () => <p className="text-center">Dia da semana</p>,
+    cell: (row) => <p className="text-center">{row.getValue() ? convertIntToWeekday(row.getValue() as number) : "-"}</p>,
   },
   {
     accessorKey: "expectedDayOfMonth",
-    header: "Dia do mês",
-    cell: (row) => row.getValue() ? row.getValue() as number : "-",
+    header: () => <p className="text-center">Dia do mês</p>,
+    cell: (row) => <p className="text-center">{row.getValue() ? row.getValue() as number : "-"}</p>,
   },
   {
     accessorKey: "expectedMonthOfYear",
-    header: "Mês do ano",
-    cell: (row) => typeof row.getValue() === "number" ? convertIntToMonth(row.getValue() as number) : "-",
+    header: () => <p className="text-center">Mês do ano</p>,
+    cell: (row) => <p className="text-center">{typeof row.getValue() === "number" ? convertIntToMonth(row.getValue() as number) : "-"}</p>,
   },
   {
     accessorKey: "id",
-    header: "Ações",
+    header: () => <p className="text-center">Ações</p>,
     cell: (row) => (
-      <div>
+      <div className="flex justify-center items-center gap-1">
         <EditRecurringTransactionButton
           transactionId={row.getValue() as string}
         />

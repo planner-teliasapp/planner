@@ -358,7 +358,7 @@ export default function UpdateRecurringTransactionForm({ transaction, handleUpda
             )}
           />
         )}
-        <Button className="w-full" type="submit" isLoading={isLoading}>Adicionar</Button>
+        <Button className="w-full" type="submit" isLoading={isLoading}>Atualizar</Button>
       </form>
     </Form>
   )

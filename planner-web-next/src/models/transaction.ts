@@ -52,12 +52,18 @@ export class Transaction implements ITransaction {
   }
 
   static fromPrisma(data: Prisma.TransactionGetPayload<{
-
+    include: {
+      RecurringTransaction: {
+        select: {
+          description: true
+        }
+      }
+    }
   }>): Transaction {
     return new Transaction({
       id: data.id,
       userId: data.userId,
-      description: data.description,
+      description: data.RecurringTransaction?.description || data.description,
       amount: Number(data.amount),
       date: data.date,
       type: data.type,

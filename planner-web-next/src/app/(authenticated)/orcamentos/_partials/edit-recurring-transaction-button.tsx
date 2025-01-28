@@ -63,14 +63,15 @@ export default function EditRecurringTransactionButton({ transactionId, classNam
           <Edit2Icon />
         </Button>
       </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
+      <SheetContent className="px-5">
+        <SheetHeader className="px-1">
           <SheetTitle>Atualizar transação</SheetTitle>
         </SheetHeader>
         <ScrollArea className="h-[95%] pr-6">
           <UpdateRecurringTransactionForm
             transaction={transaction}
             handleUpdate={handleUpdate}
+            className="px-1 mt-4"
           />
         </ScrollArea>
       </SheetContent>

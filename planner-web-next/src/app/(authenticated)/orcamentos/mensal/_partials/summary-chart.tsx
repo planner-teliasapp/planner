@@ -23,6 +23,7 @@ import { ClassNameValue } from "tailwind-merge"
 import { cn, convertHumanIntToMonth, formatCurrency } from "@/lib/utils"
 import { ITransactionSummary } from "@/models/transaction"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Loader2Icon } from "lucide-react"
 
 interface Props {
   summary?: ITransactionSummary
@@ -72,7 +73,9 @@ export default function SummaryChart({ summary, year, month, className, isLoadin
       </CardHeader>
       <CardContent className="flex-1 pb-0 justify-center items-center">
         {isLoading ? (
-          <Skeleton className="mx-auto aspect-square max-h-[250px] mt-4" />
+          <div className="flex justify-center items-center w-full h-full">
+            <Loader2Icon className="size-24 animate-spin text-muted-foreground" />
+          </div>
         ) : (
           <ChartContainer
             config={chartConfig}

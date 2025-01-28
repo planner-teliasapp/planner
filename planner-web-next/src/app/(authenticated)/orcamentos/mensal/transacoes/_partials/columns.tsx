@@ -36,14 +36,14 @@ export const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "date",
-    header: "Data",
-    cell: (row) => new Date(row.getValue() as string).toLocaleDateString(),
+    header: () => <p className="text-center">Data</p>,
+    cell: (row) => <p className="text-center">{new Date(row.getValue() as string).toLocaleDateString()}</p>,
   },
   {
     accessorKey: "id",
-    header: "Ações",
+    header: () => <p className="text-center">Ações</p>,
     cell: (row) => (
-      <div className="flex justify-start items-center gap-1">
+      <div className="flex justify-center items-center gap-1">
         <EditTransactionButton transactionId={row.getValue() as string} />
         <DeleteTransactionButton transactionId={row.getValue() as string} />
       </div>

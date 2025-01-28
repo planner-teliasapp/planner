@@ -17,6 +17,13 @@ export async function getTransactionsAction(userId: string, year?: number, month
     },
     orderBy: {
       date: "desc"
+    },
+    include: {
+      RecurringTransaction: {
+        select: {
+          description: true,
+        }
+      }
     }
   })
 
