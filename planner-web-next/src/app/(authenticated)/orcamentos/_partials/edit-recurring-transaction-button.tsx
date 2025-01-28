@@ -1,11 +1,8 @@
 "use client"
 
-import { useBudget } from "@/hooks/use-budget"
 import { useToast } from "@/hooks/use-toast"
-import { validatedMonth, validatedYear } from "@/lib/utils"
 import { Edit2Icon } from "lucide-react"
 import { ClassNameValue } from "tailwind-merge"
-import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -15,8 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { useMemo, useState } from "react"
-import UpdateTransactionForm from "./update-transaction-form"
-import { UpdateRecurringTransactionDto, UpdateTransactionDto } from "@/models/transaction"
+import { UpdateRecurringTransactionDto } from "@/models/transaction"
 import { useBudgets } from "@/hooks/use-budgets"
 import UpdateRecurringTransactionForm from "./update-recurring-transaction-form"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -58,7 +54,7 @@ export default function EditRecurringTransactionButton({ transactionId, classNam
       <SheetTrigger asChild>
         <Button
           size="icon"
-          variant="default"
+          variant="outline"
         >
           <Edit2Icon />
         </Button>

@@ -90,3 +90,7 @@ body {
     @apply bg-background text-foreground tracking-wide sm:tracking-wider;
   }
 }
+
+.custom-month-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
