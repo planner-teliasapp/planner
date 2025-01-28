@@ -66,37 +66,38 @@ export default function Page({ params }: Props) {
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
           <H1 className="text-start w-full">{recurringTransaction?.description}</H1>
         </div>
-        {/* <CreateTransactionButton onSubmit={onSubmit} isLoading={isCreatingTransaction} /> */}
       </div>
       <div className='grid grid-cols-2 sm:grid-cols-12 gap-4 pt-6'>
-        <SummaryCard title="Total" amount={transactionSummary.total} className="col-span-2 sm:col-span-3 max-h-40" Icon={DollarSignIcon} amountTextClassName="sm:text-4xl" isLoading={isLoadingTransactions} />
+        <SummaryCard title="Total" amount={transactionSummary.total} className="col-span-2 sm:col-span-3 max-h-40" Icon={DollarSignIcon} amountTextClassName="sm:text-4xl" isLoading={isLoadingTransactions || isLoadingRecurringTransactions} />
         <div className="col-span-2 sm:col-span-3 border rounded-lg max-h-40">
           <div className="h-full flex flex-col justify-between items-start p-6">
             <H2>{transactionMapper[recurringTransaction?.type as TransactionType]?.label}</H2>
             <Caption className="text-muted-foreground">{paymentFrequencyMapper[recurringTransaction?.frequency as TransactionFrequency]?.label}</Caption>
-            <p className="self-center">{new Date(transactionSummary.first?.date || "").toLocaleDateString()} - {new Date(transactionSummary.last?.date || "").toLocaleDateString()}</p>
+            {transactionSummary.first?.date && <p className="self-center">{new Date(transactionSummary.first?.date).toLocaleDateString()} - {new Date(transactionSummary.last?.date || "").toLocaleDateString()}</p>}
           </div>
         </div>
         <div className="col-span-2 border rounded-lg min-h-24 px-6 py-4 flex flex-col justify-between items-start gap-1 max-h-32">
           <p className="text-muted-foreground text-sm">Maior Valor</p>
           <p className='mt-2 text-base text-muted-foreground self-center'>
             R$ <CountUp start={0} end={transactionSummary.greatestAmountTransaction?.amount || 0} duration={1} decimals={2} separator=" " decimal="," className={cn("text-foreground font-medium text-3xl sm:text-2xl")} /></p>
-          <p className="text-xs text-muted-foreground">em {new Date(transactionSummary.greatestAmountTransaction?.date || "").toLocaleDateString()}</p>
+          {transactionSummary.greatestAmountTransaction?.date && <p className="text-xs text-muted-foreground">em {new Date(transactionSummary.greatestAmountTransaction?.date).toLocaleDateString()}</p>}
         </div>
         <div className="col-span-2 border rounded-lg min-h-24 px-6 py-4 flex flex-col justify-between items-start gap-1 max-h-32">
           <p className="text-muted-foreground text-sm">Menor Valor</p>
           <p className='mt-2 text-base text-muted-foreground self-center'>
             R$ <CountUp start={0} end={transactionSummary.smallestAmountTransaction?.amount || 0} duration={1} decimals={2} separator=" " decimal="," className={cn("text-foreground font-medium text-3xl sm:text-2xl")} /></p>
-          <p className="text-xs text-muted-foreground">em {new Date(transactionSummary.smallestAmountTransaction?.date || "").toLocaleDateString()}</p>
+          {transactionSummary.smallestAmountTransaction?.date && <p className="text-xs text-muted-foreground">em {new Date(transactionSummary.smallestAmountTransaction?.date).toLocaleDateString()}</p>}
         </div>
         <div className="col-span-2 border rounded-lg min-h-24 px-6 py-4 flex flex-col justify-between items-start gap-1 max-h-32">
           <p className="text-muted-foreground text-sm">Recorrências</p>
           <p className='mt-2 text-base text-muted-foreground self-center'>
             <CountUp start={0} end={transactionSummary.count || 0} duration={1} decimals={0} separator=" " decimal="," className={cn("text-foreground font-medium text-3xl sm:text-2xl")} /></p>
-          <p className="text-xs text-muted-foreground">{new Date(transactionSummary.first?.date || "").toLocaleDateString()} - {new Date(transactionSummary.last?.date || "").toLocaleDateString()}</p>
+          {transactionSummary.first?.date && <p className="text-xs text-muted-foreground">{new Date(transactionSummary.first?.date).toLocaleDateString()} - {new Date(transactionSummary.last?.date || "").toLocaleDateString()}</p>}
         </div>
         <div className="col-span-6 row-span-1 border rounded-lg">
-          <TransactionHistoryChart chartData={transactionSummary.chartData} />
+          <TransactionHistoryChart
+            isLoading={isLoadingTransactions || isLoadingRecurringTransactions}
+            chartData={transactionSummary.chartData} />
         </div>
         <section className='h-full col-span-6 row-span-3 row-start-1 col-start-7'>
           <ScrollArea className="h-[740px]">
