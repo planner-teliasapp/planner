@@ -8,6 +8,13 @@ export async function createTransactionsAction(data: CreateTransactionDto, userI
     data: {
       ...data,
       userId
+    },
+    include: {
+      RecurringTransaction: {
+        select: {
+          description: true
+        }
+      }
     }
   })
 

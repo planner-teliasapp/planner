@@ -6,7 +6,14 @@ import { Transaction, UpdateTransactionDto } from "@/models/transaction"
 export async function updateTransactionsAction({ id, ...rest }: UpdateTransactionDto): Promise<string> {
   const transaction = await prismaClient.transaction.update({
     where: { id },
-    data: { ...rest }
+    data: { ...rest },
+    include: {
+      RecurringTransaction: {
+        select: {
+          description: true
+        }
+      }
+    }
   })
 
   return JSON.stringify(Transaction.fromPrisma(transaction))
