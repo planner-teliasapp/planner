@@ -44,8 +44,6 @@ export default function TransactionSummary({ transactions = [], searchParams, cl
 
   async function handleUpdate(data: UpdateTransactionDto) {
     try {
-      console.log(selectedTransaction)
-
       await updateTransaction(data)
       await updateRecurringTransaction({
         id: selectedTransaction?.recurringTransactionId || "",
