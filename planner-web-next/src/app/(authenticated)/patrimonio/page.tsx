@@ -26,10 +26,10 @@ export default function PatrimonioPage() {
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
         <div className="w-full flex justify-start items-center sm:gap-2">
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
-          <H1 className="text-start w-full">Patrimônio</H1>
+          <H1 className="text-center sm:text-start w-full">Patrimônio</H1>
         </div>
       </div>
-      <div className='grid grid-cols-2 sm:grid-cols-8 lg:grid-cols-12 gap-4 pt-2'>
+      <div className='grid grid-cols-2 sm:grid-cols-8 lg:grid-cols-12 gap-2 sm:gap-4 pt-2'>
         <SummaryCard
           title="Saldo"
           className="sm:col-span-4"

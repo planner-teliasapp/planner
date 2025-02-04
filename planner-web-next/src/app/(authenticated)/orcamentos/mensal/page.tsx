@@ -76,9 +76,9 @@ export default function OrcamentoMensalPage({ searchParams }: Props) {
     <div className='py-4 max-w-screen-2xl mx-auto'>
       <div className="w-full flex justify-start items-center sm:gap-2">
         <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
-        <H1>Orçamento {convertHumanIntToMonth(month)} de {year}</H1>
+        <H1 className="text-center sm:text-start">Orçamento {convertHumanIntToMonth(month)} de {year}</H1>
       </div>
-      <div className='grid grid-cols-2 sm:grid-cols-12 gap-4 pt-6'>
+      <div className='grid grid-cols-2 sm:grid-cols-12 gap-2 sm:gap-4 pt-6'>
         <SummaryCard title="Saldo" amount={transactions?.summary.balance} className="col-span-2 sm:col-span-4" Icon={DollarSignIcon} amountTextClassName="sm:text-4xl" isLoading={isLoadingTransactions} />
         <div className="col-span-2 sm:col-span-4 w-full hidden sm:block border rounded-lg">
         </div>
