@@ -26,7 +26,7 @@ export default function TransactionSummaryItem({ transaction, ...rest }: Props) 
             <h3 className="font-semibold line-clamp-1 text-start">{transaction.description}</h3>
             <div className="w-full flex justify-between items-center">
               <p className="text-sm text-muted-foreground">{format(new Date(transaction.date), "dd MMM yyyy", { locale: ptBR })}</p>
-              <p className="text-sm text-end">{formatCurrency(999999.99)}</p>
+              <p className="text-sm text-end">{formatCurrency(transaction.amount)}</p>
             </div>
           </div>
         </div>
