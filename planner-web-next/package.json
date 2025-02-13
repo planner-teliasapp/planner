@@ -7,15 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "npx eslint ./src --fix",
-    "docker": "docker compose up",
     "migrate": "prisma migrate dev",
     "reset": "prisma migrate reset --force",
     "prepare": "npx prisma migrate deploy && npx prisma generate",
     "studio": "npx prisma studio",
     "seed": "npx prisma db seed",
+    "db:push": "prisma db push",
     "guest:delete": "ts-node ./scripts/delete-guest-data.ts",
     "guest:seed": "ts-node ./scripts/guest-seed.ts",
-    "guest:refresh": "npm run guest:delete && npm run guest:seed"
+    "guest:refresh": "npm run guest:delete && npm run guest:seed",
+    "docker:dev": "docker compose -f compose.dev.yml down && docker compose -f compose.dev.yml up -d && npm run db:push && npm run seed",
+    "docker:dev:stop": "docker compose down",
+    "docker:prod": "docker compose down && docker compose up -d",
+    "docker:prod:stop": "docker compose down",
+    "docker:down": "docker compose down && docker compose -f compose.dev.yml down"
   },
   "prisma": {
     "seed": "ts-node ./prisma/seed.ts"
