@@ -87,14 +87,6 @@ export default function OrcamentosPage() {
         </div>
       </section>
       <section className="mt-8">
-        {/* <Link
-          href={"orcamentos/recorrentes"}
-          className={buttonVariants({
-            className: "mt-4",
-          })}
-        >
-          Transações Cadastradas
-        </Link> */}
         <RecurringTransactionSection />
       </section>
     </div>

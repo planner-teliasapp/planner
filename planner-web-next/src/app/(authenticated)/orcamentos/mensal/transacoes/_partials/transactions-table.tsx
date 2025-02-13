@@ -15,6 +15,7 @@ export default function TransactionsTable({ transactions = [], isLoading }: Prop
       columns={columns}
       data={transactions}
       isLoading={isLoading}
+      enablePagination
     />
   )
 }
