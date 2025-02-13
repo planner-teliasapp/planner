@@ -26,6 +26,7 @@ import { useState } from "react"
 import { Input } from "./input"
 import { cn } from "@/lib/utils"
 import { Button } from "./button"
+import { useSidebar } from "./sidebar"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -70,8 +71,10 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  const { state: sideBarState } = useSidebar()
+
   return (
-    <div className="rounded-md border">
+    <div className={cn("rounded-md border relative w-full transition-all", sideBarState === "expanded" ? "max-w-[calc(100vw-18rem)]" : "max-w-[calc(100vw-5rem)]")}>
       {filtering?.enableFiltering && (
         <div className={cn("flex items-center justify-center sm:justify-end space-x-2 px-1 py-1 mb-4 sm:w-72 lg:w-96 sm:ml-auto sm:px-4 sm:pt-2 sm:pb-0", filtering.className)}>
           <Input
@@ -83,7 +86,7 @@ export function DataTable<TData, TValue>({
           />
         </div>
       )}
-      <Table>
+      <Table className="">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
