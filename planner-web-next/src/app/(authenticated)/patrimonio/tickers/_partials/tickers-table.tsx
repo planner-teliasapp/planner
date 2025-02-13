@@ -12,6 +12,17 @@ interface Props {
 
 export default function TickersTable({ tickers = [], isLoading }: Props) {
   return (
-    <DataTable columns={columns} data={tickers} isLoading={isLoading} />
+    <DataTable
+      columns={columns}
+      data={tickers}
+      isLoading={isLoading}
+      emptyMessage="Nenhum ativo encontrado"
+      enablePagination
+      filtering={{
+        enableFiltering: true,
+        field: "symbol",
+        placeholder: "Buscar por símbolo",
+      }}
+    />
   )
 }

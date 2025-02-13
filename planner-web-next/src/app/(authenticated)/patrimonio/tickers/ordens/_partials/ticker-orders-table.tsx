@@ -15,6 +15,17 @@ export default function TickerOrdersTable({ orders = [], isLoading }: Props) {
   const ordersWithMeanPrice = useMemo(() => TickerOrder.includeMeanPrice(orders), [orders])
 
   return (
-    <DataTable columns={columns} data={ordersWithMeanPrice} isLoading={isLoading} />
+    <DataTable
+      columns={columns}
+      data={ordersWithMeanPrice}
+      isLoading={isLoading}
+      emptyMessage="Nenhum ativo encontrado"
+      enablePagination
+      filtering={{
+        enableFiltering: true,
+        field: "ticker",
+        placeholder: "Buscar por símbolo",
+      }}
+    />
   )
 }

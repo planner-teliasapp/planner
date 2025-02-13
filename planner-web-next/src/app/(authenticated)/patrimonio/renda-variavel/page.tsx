@@ -24,7 +24,7 @@ export default function RendaVariavelPage() {
   const etfs = useMemo(() => assets?.variableIncome.etfs, [assets])
 
   return (
-    <div className='py-4 max-w-screen-2xl mx-auto'>
+    <div className='py-4 w-full max-w-screen-2xl mx-auto'>
       <div className="w-full flex flex-col sm:flex-row justify-between items-baseline gap-4">
         <div className="w-full flex justify-start items-center sm:gap-2">
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
