@@ -8,10 +8,11 @@ import { useRouter } from "next/navigation"
 import AssetsBalanceChart from "../_partials/balance-chart"
 import AssetBalanceTable from "./_partials/balance-table"
 import { formatCurrency } from "@/lib/utils"
+import BalanceStrategySheet from "../_partials/balance-strategy-sheet"
 
 export default function OutrosPage() {
   const router = useRouter()
-  const { assets, isLoadingAssets } = useAssets()
+  const { assets, isLoadingAssets, balanceStrategy, isLoadingBalanceStrategy } = useAssets()
 
   return (
     <div className='py-4 max-w-screen-2xl mx-auto'>
@@ -20,11 +21,20 @@ export default function OutrosPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}><ChevronLeftIcon /></Button>
           <H1 className="text-start w-full">Balanceamento de Patrimônio</H1>
         </div>
+        <BalanceStrategySheet />
       </div>
       <div className='pt-6 space-y-6'>
         <H2>Saldo Atual {formatCurrency(assets?.summary.totalAmount)}</H2>
-        <AssetsBalanceChart summary={assets?.summary} isLoading={isLoadingAssets} />
-        <AssetBalanceTable data={assets?.summary} isLoading={isLoadingAssets} />
+        <AssetsBalanceChart
+          summary={assets?.summary}
+          isLoading={isLoadingAssets || isLoadingBalanceStrategy}
+          strategy={balanceStrategy}
+        />
+        <AssetBalanceTable
+          data={assets?.summary}
+          isLoading={isLoadingAssets || isLoadingBalanceStrategy}
+          strategy={balanceStrategy}
+        />
       </div>
     </div>
   )

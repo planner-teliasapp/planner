@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investimentos Consolidados</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #34495e;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      color: #555;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .valor {
+      text-align: right;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #777;
+      font-size: 0.9em;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+
+    /* Estilos para impressão */
+    @media print {
+      body {
+        font-size: 12pt;
+      }
+
+      table {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Investimentos Consolidados</h1>
+
+  <section id="caixas">
+    <h2>Caixas - R$ 122.879,00</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nu Seleção Equilíbrio + Caixinhas</td>
+          <td class="valor">R$ 63.639,00</td>
+        </tr>
+        <tr>
+          <td>Saldo Clear</td>
+          <td class="valor">R$ 100,00</td>
+        </tr>
+        <tr>
+          <td>Saldo Rico</td>
+          <td class="valor">R$ 100,00</td>
+        </tr>
+        <tr>
+          <td>Tesouro IPCA+ 2026</td>
+          <td class="valor">R$ 1.570,00</td>
+        </tr>
+        <tr>
+          <td>Tesouro Selic 2027</td>
+          <td class="valor">R$ 57.470,00</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="renda_fixa">
+    <h2>Renda Fixa - R$ 161.248,00</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Ativo</th>
+          <th>Aporte</th>
+          <th>Saldo Atual</th>
+          <th>Lucro</th>
+          <th>Lucro (%)</th>
+          <th>Data</th>
+          <th>Vencimento</th>
+          <th>Dias Restantes</th>
+          <th>Dias Passados</th>
+          <th>Pré (%)</th>
+          <th>Pós</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CDB Banco Master</td>
+          <td class="valor">R$ 2.000,00</td>
+          <td class="valor">R$ 2.720,00</td>
+          <td class="valor">R$ 720,00</td>
+          <td>36.00%</td>
+          <td>31/03/2023</td>
+          <td>30/03/2027</td>
+          <td>769</td>
+          <td>1055</td>
+          <td>6.40%</td>
+          <td>IPCA</td>
+        </tr>
+        <tr>
+          <td>CDB Banco Pan</td>
+          <td class="valor">R$ 4.831,67</td>
+          <td class="valor">R$ 5.712,00</td>
+          <td class="valor">R$ 880,33</td>
+          <td>18.22%</td>
+          <td>30/10/2023</td>
+          <td>07/03/2025</td>
+          <td>16</td>
+          <td>477</td>
+          <td>14.33%</td>
+          <td>Nenhum</td>
+        </tr>
+        <tr>
+          <td>CDB NTN-B Selic</td>
+          <td class="valor">R$ 135.935,67</td>
+          <td class="valor">R$ 119.339,00</td>
+          <td class="valor">R$ -16.596,67</td>
+          <td>-12.21%</td>
+          <td>14/01/2024</td>
+          <td>14/05/2035</td>
+          <td>3736</td>
+          <td>401</td>
+          <td>6.79%</td>
+          <td>IPCA</td>
+        </tr>
+        <tr>
+          <td>CRA Florestal</td>
+          <td class="valor">R$ 37.000,00</td>
+          <td class="valor">R$ 33.477,00</td>
+          <td class="valor">R$ -3.523,00</td>
+          <td>-9.52%</td>
+          <td>30/06/2024</td>
+          <td>14/06/2030</td>
+          <td>1941</td>
+          <td>233</td>
+          <td>14.14%</td>
+          <td>Nenhum</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="renda_variavel">
+    <h2>Renda Variável - R$ 177.417,36</h2>
+
+    <h3>Ações - R$ 20.406,53</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Nome</th>
+          <th>Quantidade</th>
+          <th>Preço Médio</th>
+          <th>Preço</th>
+          <th>Posição</th>
+          <th>Variação</th>
+          <th>Variação (%)</th>
+          <th>Rentabilidade</th>
+          <th>Rentabilidade (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>BBAS3</td>
+          <td>Banco do Brasil</td>
+          <td>50</td>
+          <td>R$ 32,58</td>
+          <td>R$ 28,75</td>
+          <td class="valor">R$ 1.437,50</td>
+          <td class="valor">R$ 1,30</td>
+          <td>0.05%</td>
+          <td class="valor">R$ -191,60</td>
+          <td>-12.00%</td>
+        </tr>
+        <tr>
+          <td>MGLU3</td>
+          <td>Magazine Luiza</td>
+          <td>90</td>
+          <td>R$ 30,45</td>
+          <td>R$ 7,38</td>
+          <td class="valor">R$ 664,20</td>
+          <td class="valor">R$ 0,37</td>
+          <td>0.05%</td>
+          <td class="valor">R$ -2.075,88</td>
+          <td>-76.00%</td>
+        </tr>
+        <tr>
+          <td>PETR4</td>
+          <td>Petrobras</td>
+          <td>170</td>
+          <td>R$ 28,51</td>
+          <td>R$ 37,44</td>
+          <td class="valor">R$ 6.364,80</td>
+          <td class="valor">R$ 1,12</td>
+          <td>0.03%</td>
+          <td class="valor">R$ 1.517,82</td>
+          <td>31.00%</td>
+        </tr>
+        <tr>
+          <td>TASA4</td>
+          <td>Taurus</td>
+          <td>80</td>
+          <td>R$ 13,82</td>
+          <td>R$ 8,58</td>
+          <td class="valor">R$ 686,40</td>
+          <td class="valor">R$ 0,29</td>
+          <td>0.04%</td>
+          <td class="valor">R$ -419,20</td>
+          <td>-25.00%</td>
+        </tr>
+        <tr>
+          <td>VALE3</td>
+          <td>Vale</td>
+          <td>83</td>
+          <td>R$ 74,67</td>
+          <td>R$ 55,67</td>
+          <td class="valor">R$ 4.620,61</td>
+          <td class="valor">R$ 0,81</td>
+          <td>0.01%</td>
+          <td class="valor">R$ -1.576,65</td>
+          <td>-25.00%</td>
+        </tr>
+        <tr>
+          <td>EQTL3</td>
+          <td>Equatorial Energia</td>
+          <td>80</td>
+          <td>R$ 23,52</td>
+          <td>R$ 31,43</td>
+          <td class="valor">R$ 2.514,40</td>
+          <td class="valor">R$ 0,85</td>
+          <td>0.03%</td>
+          <td class="valor">R$ 632,80</td>
+          <td>34.00%</td>
+        </tr>
+        <tr>
+          <td>ITSA4</td>
+          <td>Itausa</td>
+          <td>302</td>
+          <td>R$ 8,79</td>
+          <td>R$ 9,81</td>
+          <td class="valor">R$ 2.962,62</td>
+          <td class="valor">R$ 0,28</td>
+          <td>0.03%</td>
+          <td class="valor">R$ 307,12</td>
+          <td>12.00%</td>
+        </tr>
+        <tr>
+          <td>POSI3</td>
+          <td>Positivo</td>
+          <td>200</td>
+          <td>R$ 8,16</td>
+          <td>R$ 5,78</td>
+          <td class="valor">R$ 1.156,00</td>
+          <td class="valor">R$ 0,43</td>
+          <td>0.08%</td>
+          <td class="valor">R$ -476,00</td>
+          <td>-29.00%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>FII - R$ 76.346,81</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Nome</th>
+          <th>Quantidade</th>
+          <th>Preço Médio</th>
+          <th>Preço</th>
+          <th>Posição</th>
+          <th>Variação</th>
+          <th>Variação (%)</th>
+          <th>Rentabilidade</th>
+          <th>Rentabilidade (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CPTS11</td>
+          <td>Captania Securities...</td>
+          <td>2500</td>
+          <td>R$ 7,74</td>
+          <td>R$ 6,22</td>
+          <td class="valor">R$ 15.550,00</td>
+          <td class="valor">R$ 0,04</td>
+          <td>0.01%</td>
+          <td class="valor">R$ -3.790,00</td>
+          <td>-20.00%</td>
+        </tr>
+        <tr>
+          <td>HGLG11</td>
+          <td>Cshg Logística</td>
+          <td>93</td>
+          <td>R$ 162,95</td>
+          <td>R$ 149,09</td>
+          <td class="valor">R$ 13.865,37</td>
+          <td class="valor">R$ 1,26</td>
+          <td>0.01%</td>
+          <td class="valor">R$ -1.288,98</td>
+          <td>-9.00%</td>
+        </tr>
+        <tr>
+          <td>MXRF11</td>
+          <td>Maxi Renda Fii</td>
+          <td>1205</td>
+          <td>R$ 9,77</td>
+          <td>R$ 9,00</td>
+          <td class="valor">R$ 10.845,00</td>
+          <td class="valor">R$ 0,08</td>
+          <td>0.01%</td>
+          <td class="valor">R$ -927,85</td>
+          <td>-8.00%</td>
+        </tr>
+        <tr>
+          <td>XPIN11</td>
+          <td>Xp Industrial</td>
+          <td>150</td>
+          <td>R$ 95,61</td>
+          <td>R$ 63,40</td>
+          <td class="valor">R$ 9.510,00</td>
+          <td class="valor">R$ 0,35</td>
+          <td>0.01%</td>
+          <td class="valor">R$ -4.831,50</td>
+          <td>-34.00%</td>
+        </tr>
+        <tr>
+          <td>XPML11</td>
+          <td>Xp Malls Fii</td>
+          <td>150</td>
+          <td>R$ 104,49</td>
+          <td>R$ 98,10</td>
+          <td class="valor">R$ 14.715,00</td>
+          <td class="valor">R$ 0,10</td>
+          <td>0.00%</td>
+          <td class="valor">R$ -958,22</td>
+          <td>-6.00%</td>
+        </tr>
+        <tr>
+          <td>BTHF11</td>
+          <td>Pactual Real Estat...</td>
+          <td>1616</td>
+          <td>R$ 10,25</td>
+          <td>R$ 7,34</td>
+          <td class="valor">R$ 11.861,44</td>
+          <td class="valor">R$ 0,09</td>
+          <td>0.01%</td>
+          <td class="valor">R$ -4.702,56</td>
+          <td>-28.00%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section id="internacional">
+      <h2>Internacional - R$ 44.691,30</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Preço Médio</th>
+            <th>Preço</th>
+            <th>Posição</th>
+            <th>Variação</th>
+            <th>Variação (%)</th>
+            <th>Rentabilidade</th>
+            <th>Rentabilidade (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>IVVB11</td>
+            <td>I Share S&P 500</td>
+            <td>115</td>
+            <td>R$ 244,30</td>
+            <td>R$ 388,62</td>
+            <td class="valor">R$ 44.691,30</td>
+            <td class="valor">R$ -5,28</td>
+            <td>-0.01%</td>
+            <td class="valor">R$ 16.596,80</td>
+            <td>59.00%</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="criptomoedas">
+      <h2>Criptomoedas - R$ 27.564,48</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Preço Médio</th>
+            <th>Preço</th>
+            <th>Posição</th>
+            <th>Variação</th>
+            <th>Variação (%)</th>
+            <th>Rentabilidade</th>
+            <th>Rentabilidade (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>QBTC11</td>
+            <td>Trend Bitcoin</td>
+            <td>816</td>
+            <td>R$ 10,45</td>
+            <td>R$ 33,78</td>
+            <td class="valor">R$ 27.564,48</td>
+            <td class="valor">R$ -0,08</td>
+            <td>-0.00%</td>
+            <td class="valor">R$ 19.037,23</td>
+            <td>223.00%</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="ouro">
+      <h2>Ouro - R$ 8.408,24</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Preço Médio</th>
+            <th>Preço</th>
+            <th>Posição</th>
+            <th>Variação</th>
+            <th>Variação (%)</th>
+            <th>Rentabilidade</th>
+            <th>Rentabilidade (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GOLD11</td>
+            <td>Trend Gold</td>
+            <td>488</td>
+            <td>R$ 10,26</td>
+            <td>R$ 17,23</td>
+            <td class="valor">R$ 8.408,24</td>
+            <td class="valor">R$ -0,46</td>
+            <td>-0.03%</td>
+            <td class="valor">R$ 3.401,36</td>
+            <td>68.00%</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  <section id="previdencias">
+    <h2>Previdências - R$ 195.590,45</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Brasilprev PGBL</td>
+          <td class="valor">R$ 45.812,55</td>
+        </tr>
+        <tr>
+          <td>Brasilprev VGBL</td>
+          <td class="valor">R$ 73.294,35</td>
+        </tr>
+        <tr>
+          <td>Cooperativa Avibras</td>
+          <td class="valor">R$ 17.614,00</td>
+        </tr>
+        <tr>
+          <td>FGTS 1</td>
+          <td class="valor">R$ 504,00</td>
+        </tr>
+        <tr>
+          <td>FGTS 2</td>
+          <td class="valor">R$ 37.740,00</td>
+        </tr>
+        <tr>
+          <td>Fundo Tork Long Rico</td>
+          <td class="valor">R$ 5.009,00</td>
+        </tr>
+        <tr>
+          <td>Grão VGBL</td>
+          <td class="valor">R$ 4.814,55</td>
+        </tr>
+        <tr>
+          <td>Tesouro IPCA+ 2035</td>
+          <td class="valor">R$ 10.354,00</td>
+        </tr>
+        <tr>
+          <td>Tesouro IPCA+ 2045</td>
+          <td class="valor">R$ 448,00</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="footer">
+    <p>Investimentos Consolidados - Gerado ✨ em: 07/05/2024</p>
+  </footer>
+
+</body>
+
+</html>

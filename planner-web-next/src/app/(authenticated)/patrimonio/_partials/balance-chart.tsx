@@ -3,34 +3,33 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 
-import { Label, Pie, PieChart } from "recharts"
+import { Pie, PieChart } from "recharts"
 
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent
 } from "@/components/ui/chart"
 
 import { ClassNameValue } from "tailwind-merge"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { IAssetsSummary } from "@/models/assets/assets"
+import { AssetBalanceStrategy } from "@/models/assets/asset-balance-strategy"
 
 interface Props {
   summary?: IAssetsSummary
   isLoading?: boolean
   className?: ClassNameValue
+  strategy?: AssetBalanceStrategy
 }
 
-export default function AssetsBalanceChart({ summary, className, isLoading }: Props) {
+export default function AssetsBalanceChart({ strategy, summary, className, isLoading }: Props) {
 
   // Deixar o valor do fill igual ao valor do label e configurar a cor no chartConfig
   const chartData = [
@@ -42,11 +41,11 @@ export default function AssetsBalanceChart({ summary, className, isLoading }: Pr
   ]
 
   const chartData2 = [
-    { label: "cashBox", value: (0.25) * 100, fill: "var(--color-cashBox)" },
-    { label: "fixedIncome", value: (0.25) * 100, fill: "var(--color-fixedIncome)" },
-    { label: "variableIncome", value: (0.25) * 100, fill: "var(--color-variableIncome)" },
-    { label: "pension", value: (0.15) * 100, fill: "var(--color-pension)" },
-    { label: "property", value: (0.1) * 100, fill: "var(--color-property)" }
+    { label: "cashBox", value: strategy?.cashBox || 0, fill: "var(--color-cashBox)" },
+    { label: "fixedIncome", value: strategy?.fixedIncome || 0, fill: "var(--color-fixedIncome)" },
+    { label: "variableIncome", value: strategy?.variableIncome || 0, fill: "var(--color-variableIncome)" },
+    { label: "pension", value: strategy?.pension || 0, fill: "var(--color-pension)" },
+    { label: "property", value: strategy?.property || 0, fill: "var(--color-property)" }
   ]
 
   const chartConfig = {

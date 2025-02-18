@@ -219,3 +219,21 @@ model AssetHistory {
 
   @@map("asset_histories")
 }
+
+model AssetBalanceStrategy {
+  id             String  @id @default(cuid())
+  userId         String  @unique @map("user_id")
+  notes          String?
+  cashBox        Decimal @map("cash_box") @db.Decimal(10, 2)
+  fixedIncome    Decimal @map("fixed_income") @db.Decimal(10, 2)
+  variableIncome Decimal @map("variable_income") @db.Decimal(10, 2)
+  pension        Decimal @db.Decimal(10, 2)
+  property       Decimal @db.Decimal(10, 2)
+  share          Decimal @db.Decimal(10, 2)
+  reit           Decimal @db.Decimal(10, 2)
+  international  Decimal @db.Decimal(10, 2)
+  gold           Decimal @db.Decimal(10, 2)
+  crypto         Decimal @db.Decimal(10, 2)
+
+  @@map("asset_balance_strategies")
+}

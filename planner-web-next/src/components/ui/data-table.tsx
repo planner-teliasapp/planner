@@ -71,10 +71,10 @@ export function DataTable<TData, TValue>({
     }
   })
 
-  const { state: sideBarState } = useSidebar()
+  const { state: sideBarState, isMobile } = useSidebar()
 
   return (
-    <div className={cn("rounded-md border relative w-full transition-all", sideBarState === "expanded" ? "max-w-[calc(100vw-18rem)]" : "max-w-[calc(100vw-5rem)]")}>
+    <div className={cn("rounded-md border relative w-full transition-all", isMobile ? "" : sideBarState === "expanded" ? "max-w-[calc(100vw-18rem)]" : "max-w-[calc(100vw-5rem)]")}>
       {filtering?.enableFiltering && (
         <div className={cn("flex items-center justify-center sm:justify-end space-x-2 px-1 py-1 mb-4 sm:w-72 lg:w-96 sm:ml-auto sm:px-4 sm:pt-2 sm:pb-0", filtering.className)}>
           <Input

@@ -1,6 +1,8 @@
 import { autoUpdateTickersAction, createFixedIncomeAction, createOtherAssetsAction, createTickerAction, createTickerOrderAction, getAssetHistoryAction, getFixedIncomesAction, getOtherAssetsAction, getTickerOrdersAction, getTickersAction, massUpdateAssetsAction } from "@/actions/assets"
+import { getBalanceStrategyAction, updateBalanceStrategyAction } from "@/actions/assets/balance-strategy/get-balance-strategy"
 import { updateAssetsHistoryForCurrentMonthAction } from "@/actions/assets/history/update-assets-history-for-current-month"
 import { VariableIncome } from "@/models/assets"
+import { AssetBalanceStrategy } from "@/models/assets/asset-balance-strategy"
 import { AssetHistory } from "@/models/assets/asset-history"
 import { Assets } from "@/models/assets/assets"
 import { FixedIncome, FixedIncomes, ICreateFixedIncomeDto } from "@/models/assets/fixed-income"
@@ -202,6 +204,34 @@ export const useAssets = () => {
     staleTime: 60_000 * 10
   })
 
+  const { data: balanceStrategy, isPending: isLoadingBalanceStrategy } = useQuery({
+    queryKey: ["balanceStrategy", user?.id],
+    queryFn: async () => {
+      if (!user) {
+        throw new Error("User not found")
+      }
+
+      const data = await getBalanceStrategyAction(user?.id)
+
+
+      return AssetBalanceStrategy.fromString(data)
+    },
+    staleTime: 60_000 * 10
+  })
+
+  const { mutateAsync: updateAssetStrategy, isPending: isUpdatingAssetStrategy } = useMutation({
+    mutationKey: ["updateAssetStrategy"],
+    mutationFn: async (data: Partial<AssetBalanceStrategy>) => {
+      if (!user) {
+        return []
+      }
+
+      await updateBalanceStrategyAction(data, user.id)
+
+      queryClient.invalidateQueries({ queryKey: ["balanceStrategy", user?.id] })
+    },
+  })
+
   return {
     tickers,
     isLoadingTickers,
@@ -226,7 +256,12 @@ export const useAssets = () => {
     assetHistory,
     isLoadingAssetHistory,
     massUpdateAssets,
-    isMassUpdatingAssets
+    isMassUpdatingAssets,
+
+    balanceStrategy,
+    isLoadingBalanceStrategy,
+    updateAssetStrategy,
+    isUpdatingAssetStrategy
   }
 }
 

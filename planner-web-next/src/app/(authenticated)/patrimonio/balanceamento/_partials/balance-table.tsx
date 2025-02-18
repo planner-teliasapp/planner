@@ -5,10 +5,13 @@ import { IAssetsSummary } from "@/models/assets/assets"
 import { columns } from "./columns"
 import { useMemo } from "react"
 import { H3 } from "@/components/ui/typography"
+import { AssetBalanceStrategy } from "@/models/assets/asset-balance-strategy"
+
 
 interface Props {
   data?: IAssetsSummary
   isLoading?: boolean
+  strategy?: AssetBalanceStrategy
 }
 
 export interface BalanceColumn {
@@ -20,18 +23,18 @@ export interface BalanceColumn {
   correction: number
 }
 
-export default function AssetBalanceTable({ data, isLoading }: Props) {
+export default function AssetBalanceTable({ strategy, data, isLoading }: Props) {
   const plannedPercentage = {
-    cashBox: 0.20,
-    fixedIncome: 0.25,
-    variableIncome: 0.27,
-    stocks: 0.06,
-    reits: 0.12,
-    international: 0.06,
-    gold: 0.015,
-    crypto: 0.015,
-    pension: 0.25,
-    properties: 0.03
+    cashBox: (Number(strategy?.cashBox) || 0) / 100,
+    fixedIncome: (Number(strategy?.fixedIncome) || 0) / 100,
+    variableIncome: (Number(strategy?.variableIncome) || 0) / 100,
+    stocks: (Number(strategy?.share) || 0) / 100,
+    reits: (Number(strategy?.reit) || 0) / 100,
+    international: (Number(strategy?.international) || 0) / 100,
+    gold: (Number(strategy?.gold) || 0) / 100,
+    crypto: (Number(strategy?.crypto) || 0) / 100,
+    pension: (Number(strategy?.pension) || 0) / 100,
+    properties: (Number(strategy?.property) || 0) / 100
   }
 
   const globalData: BalanceColumn[] = useMemo(() => {
