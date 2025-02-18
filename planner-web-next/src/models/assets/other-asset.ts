@@ -5,6 +5,8 @@ export interface IOtherAsset {
   description: string
   value: number
   type: OthersAssetsTypes
+  agency?: string
+  note?: string
   createdAt: Date
   updatedAt: Date
 }
@@ -19,6 +21,8 @@ export class OtherAsset implements IOtherAsset {
   description: string
   value: number
   type: OthersAssetsTypes
+  agency?: string
+  note?: string
   createdAt: Date
   updatedAt: Date
 
@@ -34,6 +38,8 @@ export class OtherAsset implements IOtherAsset {
       description: data.description,
       value: Number(data.value),
       type: data.type,
+      agency: data.agency || undefined,
+      note: data.note || undefined,
       createdAt: new Date(data.createdAt),
       updatedAt: new Date(data.updatedAt)
     })

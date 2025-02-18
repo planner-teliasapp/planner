@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { cn, formatCurrency } from "@/lib/utils"
-import { Stock } from "@/models/assets"
 import { FixedIncome } from "@/models/assets/fixed-income"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -14,6 +13,11 @@ export const columns: ColumnDef<FixedIncome>[] = [
     accessorKey: "description",
     header: () => <p className="min-w-36">Ativo</p>,
     cell: (row) => <p className="line-clamp-1">{row.getValue() as string}</p>,
+  },
+  {
+    accessorKey: "agency",
+    header: () => <p className="text-center w-28">Instituição</p>,
+    cell: (row) => <p className="text-center w-28">{row.getValue() as string}</p>,
   },
   {
     accessorKey: "initialInvestment",

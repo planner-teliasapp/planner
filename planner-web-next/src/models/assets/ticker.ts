@@ -4,6 +4,8 @@ export interface ITicker {
   id: string
   symbol: string
   name: string
+  agency?: string
+  note?: string
   type: TickerType
   price: number
   change: number
@@ -16,6 +18,8 @@ export class Ticker implements ITicker {
   public readonly id: string
   public symbol: string
   public name: string
+  public agency?: string
+  public note?: string
   public type: TickerType
   public price: number
   public change: number
@@ -33,6 +37,8 @@ export class Ticker implements ITicker {
       symbol: data.symbol,
       name: data.name,
       type: data.type,
+      agency: data.agency || undefined,
+      note: data.note || undefined,
       price: Number(data.price),
       change: Number(data.change),
       changePercent: Number(data.changePercent),

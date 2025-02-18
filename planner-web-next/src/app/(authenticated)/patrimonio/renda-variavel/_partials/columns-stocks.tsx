@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { cn, formatCurrency } from "@/lib/utils"
+import { cn, formatCurrency, formatPercentage } from "@/lib/utils"
 import { Stock } from "@/models/assets"
 import { ptBR } from "date-fns/locale"
 import { format } from "date-fns"
@@ -29,6 +29,11 @@ export const columns: ColumnDef<Stock>[] = [
     accessorKey: "name",
     header: () => <p className="text-center min-w-36">Nome</p>,
     cell: (row) => <p className="line-clamp-1">{row.getValue() as string}</p>,
+  },
+  {
+    accessorKey: "agency",
+    header: () => <p className="text-center w-28">Instituição</p>,
+    cell: (row) => <p className="text-center w-28">{row.getValue() as string}</p>,
   },
   {
     accessorKey: "quantity",
@@ -73,7 +78,7 @@ export const columns: ColumnDef<Stock>[] = [
     header: () => <p className="text-center min-w-28">Variação (%)</p>,
     cell: (row) => <p
       className={cn("text-center font-semibold", Number(row.getValue()) > 0 ? "text-success" : Number(row.getValue()) < 0 ? "text-destructive" : "")}
-    >{Number(row.getValue()).toFixed(2) + "%"}</p>,
+    >{formatPercentage(Number(row.getValue()))}</p>,
   },
   {
     accessorKey: "profit",
@@ -98,7 +103,7 @@ export const columns: ColumnDef<Stock>[] = [
     header: () => <p className="text-center min-w-36">Rentabilidade (%)</p>,
     cell: (row) => <p
       className={cn("text-center font-semibold", Number(row.getValue()) > 0 ? "text-success" : Number(row.getValue()) < 0 ? "text-destructive" : "")}
-    >{Number(row.getValue()).toFixed(2) + "%"}</p>,
+    >{formatPercentage(row.getValue() as number)}</p>,
   },
   {
     accessorKey: "updatedAt",

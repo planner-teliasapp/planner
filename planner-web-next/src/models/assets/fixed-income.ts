@@ -4,6 +4,8 @@ import { differenceInDays } from "date-fns"
 export interface IFixedIncome {
   id: string
   description: string
+  agency?: string
+  note?: string
   initialInvestment: number
   currentValue: number
   date: Date
@@ -21,6 +23,8 @@ export interface IFixedIncomes {
 export class FixedIncome implements IFixedIncome {
   id: string
   description: string
+  agency?: string
+  note?: string
   initialInvestment: number
   currentValue: number
   profit: number
@@ -51,6 +55,8 @@ export class FixedIncome implements IFixedIncome {
     return new FixedIncome({
       id: data.id,
       description: data.description,
+      agency: data.agency || undefined,
+      note: data.note || undefined,
       initialInvestment: Number(data.initialInvestment),
       currentValue: Number(data.currentValue),
       date: new Date(data.date),

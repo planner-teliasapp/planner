@@ -116,6 +116,8 @@ model Ticker {
   id            String     @id @default(cuid())
   symbol        String     @unique
   name          String
+  agency        String?
+  note          String?
   type          TickerType
   price         Decimal    @db.Decimal(10, 2)
   change        Decimal?   @default(0) @db.Decimal(10, 2)
@@ -162,6 +164,8 @@ model FixedIncome {
   id                String            @id @default(cuid())
   userId            String            @map("user_id")
   description       String
+  agency            String?
+  note              String?
   initialInvestment Decimal           @map("initial_investment") @db.Decimal(10, 2)
   currentValue      Decimal           @map("current_value") @db.Decimal(10, 2)
   date              DateTime          @map("date")
@@ -185,6 +189,8 @@ model OtherAsset {
   id          String            @id @default(cuid())
   userId      String            @map("user_id")
   description String
+  agency      String?
+  note        String?
   value       Decimal           @db.Decimal(10, 2)
   type        OthersAssetsTypes @map("type")
   createdAt   DateTime          @default(now()) @map("created_at")

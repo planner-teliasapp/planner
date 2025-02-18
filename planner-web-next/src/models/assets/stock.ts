@@ -4,6 +4,8 @@ export interface IStock {
   tickerId: string
   symbol: string
   name: string
+  agency?: string
+  note?: string
   quantity: number
   meanPrice: number
   price: number
@@ -19,6 +21,8 @@ export class Stock implements IStock {
   tickerId: string
   symbol: string
   name: string
+  agency?: string
+  note?: string
   quantity: number
   meanPrice: number
   price: number
@@ -33,6 +37,8 @@ export class Stock implements IStock {
     this.tickerId = ticker.id
     this.symbol = ticker.symbol
     this.name = ticker.name
+    this.agency = ticker.agency
+    this.note = ticker.note
     this.quantity = lastTickerOrder.newTotalQuantity
     this.meanPrice = lastTickerOrder.newMeanPrice
     this.price = ticker.price
