@@ -47,7 +47,18 @@ export const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "type",
-    header: () => <p className="text-center">Tipo</p>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="w-full"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tipo
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: (row) => (
       <div className="flex justify-start items-center gap-2">
         <div className={cn("size-2 rounded-full", transactionMapper[row.getValue() as TransactionType].bgColor)}></div>
