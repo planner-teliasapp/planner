@@ -36,18 +36,26 @@ export class FixedIncome implements IFixedIncome {
   fixedRate: number
   posFixedIndex: PosFixedIndexType
   taxRate: number
+  currentValueAfterTax: number
   updatedAt: Date
 
   constructor(data: IFixedIncome) {
     Object.assign(this, data)
 
-    this.pastDays = differenceInDays(new Date(), this.date)
     this.profit = this.currentValue - this.initialInvestment
     this.profitPercentage = (this.profit / this.initialInvestment) * 100
     this.taxRate = this.getTaxRateValue(this.pastDays)
+    this.currentValueAfterTax = this.initialInvestment + (this.profit * (1 - this.taxRate / 100))
 
     if (this.dueDate) {
-      this.remainingDays = differenceInDays(this.dueDate, new Date())
+      const remainingDays = differenceInDays(this.dueDate, new Date())
+      if (remainingDays < 0) {
+        this.remainingDays = 0
+        this.pastDays = differenceInDays(this.dueDate, this.date)
+      } else {
+        this.remainingDays = remainingDays
+        this.pastDays = differenceInDays(new Date(), this.date)
+      }
     }
   }
 
@@ -89,7 +97,7 @@ export class FixedIncomes implements IFixedIncomes {
 
   constructor(data: FixedIncome[]) {
     this.items = data
-    this.currentAmount = data.reduce((acc, item) => acc + item.currentValue, 0)
+    this.currentAmount = data.reduce((acc, item) => (item.remainingDays ?? 0) > 0 ? acc + item.currentValue : acc, 0)
   }
 }
 

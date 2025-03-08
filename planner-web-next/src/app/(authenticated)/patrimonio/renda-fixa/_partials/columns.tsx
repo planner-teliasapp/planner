@@ -85,6 +85,11 @@ export const columns: ColumnDef<FixedIncome>[] = [
     cell: (row) => <p className="text-center">{Number(row.getValue()).toFixed(2) + "%"}</p>,
   },
   {
+    accessorKey: "currentValueAfterTax",
+    header: () => <p className="text-center min-w-32">Saldo com Taxa</p>,
+    cell: (row) => <p className="text-center">{formatCurrency(row.getValue() as number)}</p>,
+  },
+  {
     accessorKey: "updatedAt",
     header: () => <p className="text-center min-w-28">Atualizado em</p>,
     cell: (row) => <p className="text-center">{format(new Date(row.getValue() as string), "dd/MM/yyyy", {
